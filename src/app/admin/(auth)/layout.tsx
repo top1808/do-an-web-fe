@@ -32,19 +32,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		</html>
 	);
 }
-
-// const AdminLoginLayout = ({ children }: { children: React.ReactNode }) => {
-// 	return (
-// 		<html lang='en'>
-// 			<body className={inter.className}>
-// 				<StyledComponentsRegistry>
-// 					<Providers>
-// 						<div className='h-screen w-screen flex justify-center items-center bg-red'>{children}</div>;
-// 					</Providers>
-// 				</StyledComponentsRegistry>
-// 			</body>
-// 		</html>
-// 	);
-// };
-
-// export default AdminLoginLayout;

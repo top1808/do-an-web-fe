@@ -15,13 +15,13 @@ import backgroundlogin from '../../../../public/images/background-login.jpg';
 type FieldType = {
 	username?: string;
 	password?: string;
-	remember?: string;
+	email?: string;
 	confirmPassword?: string;
 };
-const AdminLogin = () => {
+const AdminRegister = () => {
 	return (
 		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
-			<MTitle className='text-center'>Login</MTitle>
+			<MTitle className='text-center'>SIGN UP</MTitle>
 			<Form
 				name='basic'
 				labelCol={{ span: 8 }}
@@ -32,6 +32,14 @@ const AdminLogin = () => {
 				autoComplete='off'
 				className='m-12'
 			>
+				<Form.Item<FieldType>
+					label='Email'
+					name='email'
+					labelAlign='left'
+					rules={[{ required: true, message: 'Please input your Email!' }]}
+				>
+					<Input />
+				</Form.Item>
 				<Form.Item<FieldType>
 					label='Username'
 					name='username'
@@ -49,22 +57,14 @@ const AdminLogin = () => {
 				>
 					<Input.Password />
 				</Form.Item>
-				<div className='flex justify-between'>
-					<Form.Item<FieldType>
-						name='remember'
-						valuePropName='checked'
-						className='2xl:w-1/2 sm:w10 md:w-1/2'
-					>
-						<MCheckbox>Remember me</MCheckbox>
-					</Form.Item>
-
-					<Link
-						href={'/'}
-						className='text-blue-600 leading-8 h-8'
-					>
-						Forgot password ?
-					</Link>
-				</div>
+				<Form.Item<FieldType>
+					label='Confirm Password'
+					name='confirmPassword'
+					labelAlign='left'
+					rules={[{ required: true, message: 'Please input your Confirm Password !' }]}
+				>
+					<Input.Password />
+				</Form.Item>
 
 				<Form.Item className='flex justify-center'>
 					<MButton
@@ -72,7 +72,7 @@ const AdminLogin = () => {
 						htmlType='submit'
 						size='large'
 					>
-						Log in
+						Sign Up
 					</MButton>
 				</Form.Item>
 			</Form>
@@ -119,12 +119,12 @@ const AdminLogin = () => {
 				justify={'center'}
 			>
 				<MCol className='flex flex-col gap-3 items-center'>
-					<MTitle level={4}>Or Sign Up Using</MTitle>
+					<MTitle level={4}>If You Have Account ?</MTitle>
 					<Link
-						href={'/admin/register'}
+						href={'/admin/login'}
 						className='text-blue-600 font-bold text-xl'
 					>
-						SIGN UP
+						SIGN IN
 					</Link>
 				</MCol>
 			</MRow>
@@ -132,4 +132,4 @@ const AdminLogin = () => {
 	);
 };
 
-export default AdminLogin;
+export default AdminRegister;
