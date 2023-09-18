@@ -1,5 +1,5 @@
-import '../styles/globals.css';
-import StyledComponentsRegistry from '../lib/AntdRegistry';
+import '../../../styles/globals.css';
+import StyledComponentsRegistry from '../../../lib/AntdRegistry';
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
