@@ -121,7 +121,7 @@ const AdminLogin = () => {
 				<MCol className='flex flex-col gap-3 items-center'>
 					<MTitle level={4}>Or Sign Up Using</MTitle>
 					<Link
-						href={'/admin/register'}
+						href={'/register'}
 						className='text-blue-600 font-bold text-xl'
 					>
 						SIGN UP
