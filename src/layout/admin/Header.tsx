@@ -5,10 +5,10 @@ import { faBell, faEnvelope, faMessage, faUser } from '@fortawesome/free-regular
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Badge, Col, Drawer, Dropdown, Image, Input, Row, Tabs, TabsProps } from 'antd';
 import React, { useEffect, useState } from 'react';
-import styles from '../styles/layout.module.css';
+import styles from '../../styles/layout.module.css';
 import type { MenuProps } from 'antd';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { toggle } from '../redux/reducers/sideBarReducer';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { toggle } from '../../redux/reducers/sideBarReducer';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import MButton from '@/components/MButton';
 // import axios from 'axios';
@@ -224,7 +224,7 @@ const tabItems: TabsProps['items'] = [
 	},
 ];
 
-const Header: React.FC = () => {
+const HeaderAdmin: React.FC = () => {
 	const notificationItems: MenuProps['items'] = [
 		{
 			label: (
@@ -365,4 +365,4 @@ const Header: React.FC = () => {
 	);
 };
 
-export default Header;
+export default HeaderAdmin;

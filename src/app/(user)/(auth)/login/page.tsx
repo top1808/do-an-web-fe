@@ -1,9 +1,9 @@
 'use client';
-import AdminLogin from '@/features/admin/login/Index';
+import UserLogin from '@/features/user/login/Index';
 import React from 'react';
 
-const AdminLoginPage = () => {
-	return <AdminLogin />;
+const UserLoginPage = () => {
+	return <UserLogin />;
 };
 
-export default AdminLoginPage;
+export default UserLoginPage;

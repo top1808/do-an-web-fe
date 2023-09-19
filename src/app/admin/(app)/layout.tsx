@@ -10,7 +10,7 @@ import { Inter } from 'next/font/google';
 import { Providers } from '@/redux/provider';
 import dynamic from 'next/dynamic';
 
-const MLayout = dynamic(() => import('@/layout/MLayout'), { ssr: false });
+const MLayout = dynamic(() => import('@/layout/admin/MLayout'), { ssr: false });
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

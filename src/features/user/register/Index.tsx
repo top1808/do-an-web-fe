@@ -18,7 +18,7 @@ type FieldType = {
 	email?: string;
 	confirmPassword?: string;
 };
-const AdminRegister = () => {
+const UserRegister = () => {
 	return (
 		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
 			<MTitle className='text-center'>SIGN UP</MTitle>
@@ -132,4 +132,4 @@ const AdminRegister = () => {
 	);
 };
 
-export default AdminRegister;
+export default UserRegister;

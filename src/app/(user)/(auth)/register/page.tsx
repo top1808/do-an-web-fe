@@ -1,10 +1,10 @@
 'use client';
 
-import AdminRegister from '@/features/admin/register/Index';
+import UserRegister from '@/features/user/register/Index';
 import React from 'react';
 
-const AdminRegisterPage = () => {
-	return <AdminRegister />;
+const UserRegisterPage = () => {
+	return <UserRegister />;
 };
 
-export default AdminRegisterPage;
+export default UserRegisterPage;
