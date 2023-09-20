@@ -11,7 +11,7 @@ const menuItems = [
 	},
 	{
 		name: 'Products',
-		route: '/product',
+		route: '/products',
 	},
 	{
 		name: 'About',

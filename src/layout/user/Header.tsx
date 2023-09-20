@@ -11,7 +11,6 @@ import logo from '../../../public/images/logo.png';
 import { usePathname } from 'next/navigation';
 
 const Header = () => {
-	const path = usePathname();
 	return (
 		<header className='bg-red-300 py-2 px-8'>
 			<MRow
