@@ -76,58 +76,6 @@ const UserLogin = () => {
 					</MButton>
 				</Form.Item>
 			</Form>
-			<MTitle
-				level={4}
-				className='text-center'
-			>
-				Or Sign Up Using
-			</MTitle>
-			<MRow
-				justify={'center'}
-				gutter={12}
-				className='mt-5'
-			>
-				<MCol>
-					<MButton
-						type='primary'
-						shape='circle'
-						style={{ width: '3.6rem', height: '3.6rem' }}
-					>
-						<FontAwesomeIcon
-							icon={faFacebook}
-							color='white'
-							className='text-3xl'
-						/>
-					</MButton>
-				</MCol>
-				<MCol>
-					<MButton
-						shape='circle'
-						style={{ width: '3.6rem', height: '3.6rem', backgroundColor: 'red' }}
-					>
-						<FontAwesomeIcon
-							color='white'
-							icon={faGoogle}
-							className='text-3xl'
-						/>
-					</MButton>
-				</MCol>
-			</MRow>
-
-			<MRow
-				className='mt-12'
-				justify={'center'}
-			>
-				<MCol className='flex flex-col gap-3 items-center'>
-					<MTitle level={4}>Or Sign Up Using</MTitle>
-					<Link
-						href={'/register'}
-						className='text-blue-600 font-bold text-xl'
-					>
-						SIGN UP
-					</Link>
-				</MCol>
-			</MRow>
 		</div>
 	);
 };
