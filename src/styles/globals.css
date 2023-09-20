@@ -15,8 +15,6 @@
 
 html,
 body {
-	max-width: 100vw;
-	overflow-x: hidden;
 	margin: 0;
 	padding: 0;
 }
@@ -53,7 +51,9 @@ a {
 	background-size: cover;
 	background-position: center center;
 	height: 100vh;
-	overflow: hidden;
+	width: 100vw;
+	position: absolute;
+	z-index: -1;
 }
 
 /* @media (prefers-color-scheme: dark) {

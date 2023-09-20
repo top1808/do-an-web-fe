@@ -10,10 +10,10 @@ const persistConfig = {
 	version: 1,
 	storage,
 };
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
+
 export const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) =>
