@@ -10,8 +10,6 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
-import backgroundlogin from '../../../../public/images/background-login.jpg';
-
 type FieldType = {
 	username?: string;
 	password?: string;
@@ -20,12 +18,10 @@ type FieldType = {
 };
 const UserLogin = () => {
 	return (
-		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
+		<div className='sm:w-3/4 md:w-3/5 lg:w-2/5 xl:w-1/3 2xl:w-1/4 bg-white py-8 px-4 rounded-lg '>
 			<MTitle className='text-center'>Login</MTitle>
 			<Form
 				name='basic'
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 16 }}
 				initialValues={{ remember: true }}
 				onFinish={() => {}}
 				onFinishFailed={() => {}}
@@ -53,9 +49,9 @@ const UserLogin = () => {
 					<Form.Item<FieldType>
 						name='remember'
 						valuePropName='checked'
-						className='2xl:w-1/2 sm:w10 md:w-1/2'
+						className='w-32'
 					>
-						<MCheckbox>Remember me</MCheckbox>
+						<MCheckbox className='w-full'>Remember me</MCheckbox>
 					</Form.Item>
 
 					<Link

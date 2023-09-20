@@ -3,13 +3,13 @@
 import { faArrowRight, faArrowRightFromBracket, faBars, faEllipsis, faPen, faPlus, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faBell, faEnvelope, faMessage, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Badge, Col, Drawer, Dropdown, Image, Input, Row, Tabs, TabsProps } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Avatar, Badge, Col, Drawer, Dropdown, Image, Row, Tabs, TabsProps } from 'antd';
+import React, { useState } from 'react';
 import styles from '../../styles/layout.module.css';
 import type { MenuProps } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { toggle } from '../../redux/reducers/sideBarReducer';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+
 import MButton from '@/components/MButton';
 import { logout } from '@/redux/reducers/authReducer';
 

@@ -20,7 +20,7 @@ type FieldType = {
 };
 const UserRegister = () => {
 	return (
-		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
+		<div className='sm:w-3/4 md:w-3/5 lg:w-2/5 xl:w-1/3 2xl:w-1/4  bg-white py-8 px-0 rounded-lg '>
 			<MTitle className='text-center'>SIGN UP</MTitle>
 			<Form
 				name='basic'
@@ -121,7 +121,7 @@ const UserRegister = () => {
 				<MCol className='flex flex-col gap-3 items-center'>
 					<MTitle level={4}>If You Have Account ?</MTitle>
 					<Link
-						href={'/admin/login'}
+						href={'/login'}
 						className='text-blue-600 font-bold text-xl'
 					>
 						SIGN IN

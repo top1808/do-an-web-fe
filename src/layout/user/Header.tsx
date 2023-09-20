@@ -1,30 +1,50 @@
 'use client';
-import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MImage from '@/components/MImage';
-import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
-import MText from '@/components/MText';
+import { MSearchInput } from '@/components/MSearchInput';
 import { faCartShopping, faMagnifyingGlass, faPenToSquare, faPhone, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col } from 'antd';
 import Link from 'next/link';
 import React from 'react';
+import logo from '../../../public/images/logo.png';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
+	const path = usePathname();
 	return (
-		<header>
+		<header className='bg-red-300 py-2 px-8'>
 			<MRow
 				justify={'space-between'}
-				className='bg-red-600 h-8'
+				className='bg-red-300 py-2 px-8'
 			>
-				<MCol>
-					<MText>
-						<FontAwesomeIcon icon={faPhone} /> Hotline:0908770095
-					</MText>
+				<MCol
+					xs={4}
+					xl={8}
+					className='max-sm:w-36 sm:w-36 md:w-36 lg:w-40 xl:w-60 2xl:w-80'
+				>
+					<Link href={'/home'}>
+						<MImage
+							preview={false}
+							src={logo.src}
+						/>
+					</Link>
 				</MCol>
-				<MCol>
-					<ul>
+				<MCol
+					xs={8}
+					xl={8}
+					className='max-sm:mt-2 sm:mt-2  2xl:0'
+				>
+					<div className='h-full flex items-center w-full justify-center'>
+						<MSearchInput onSearch={() => {}} />
+					</div>
+				</MCol>
+				<MCol
+					xs={12}
+					xl={8}
+					className='max-sm:mt-2 2xl:0'
+				>
+					<ul className='flex gap-2 h-full text-lg items-center w-full justify-end'>
 						<li>
 							<Link href={'/'}>
 								<FontAwesomeIcon icon={faPenToSquare} /> Checking Your Orders
@@ -38,52 +58,11 @@ const Header = () => {
 						</li>
 						<li>
 							<Link href={'/login'}>
-								<FontAwesomeIcon icon={faUser} /> Login
+								<FontAwesomeIcon icon={faUser} /> Sign in
 							</Link>
 						</li>
 					</ul>
 				</MCol>
-			</MRow>
-			<MRow
-				justify={'space-between'}
-				className='bg-gray-400'
-			>
-				<MCol>
-					<Link href={'/'}>
-						<MImage src='../../../public/images/logo.png' />
-					</Link>
-				</MCol>
-				<MCol>
-					<MInput
-						className='pl-2 bg-white border-black text-xs h-4 '
-						placeholder='Search...'
-					></MInput>
-					<MButton className='h-4 bg-black w-6'>
-						<FontAwesomeIcon
-							color='white'
-							icon={faMagnifyingGlass}
-						/>
-					</MButton>
-				</MCol>
-			</MRow>
-			<MRow className=''>
-				<ul className='flex gap-2'>
-					<li className='p-2'>
-						<Link href={'/'}>Home</Link>
-					</li>
-					<li className='p-2'>
-						<Link href={'/products'}>Products</Link>
-					</li>
-					<li className='p-2'>
-						<Link href={'/news'}>News</Link>
-					</li>
-					<li className='p-2'>
-						<Link href={'/about'}>About</Link>
-					</li>
-					<li className='p-2'>
-						<Link href={'/contact'}>Contact</Link>
-					</li>
-				</ul>
 			</MRow>
 		</header>
 	);

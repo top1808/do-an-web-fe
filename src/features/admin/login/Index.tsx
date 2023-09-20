@@ -26,7 +26,7 @@ const AdminLogin = () => {
 	};
 
 	return (
-		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4 2xl:h-3/5 sm:h-full md:h-full lg:h4/5  bg-white p-10 rounded-lg '>
+		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4 2xl:h-3/5 sm:h-full md:h-full lg:h-4/5  bg-white p-10 rounded-lg '>
 			<MTitle className='text-center'>Login</MTitle>
 			<Form
 				name='basic'
