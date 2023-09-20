@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 
 const Header = () => {
 	return (
-		<header className='bg-red-300 py-2 px-8'>
+		<header className='bg-red-300 py-2 px-32'>
 			<MRow
 				justify={'space-between'}
 				className='bg-red-300 py-2 px-8'

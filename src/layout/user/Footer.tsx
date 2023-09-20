@@ -8,7 +8,7 @@ import React from 'react';
 import logo from '../../../public/images/logo.png';
 const Footer = () => {
 	return (
-		<footer className='mt-8 px-16 py-8 bg-blue-200'>
+		<footer className='mt-4 px-32 py-8 bg-blue-200'>
 			<MRow justify={'center'}>
 				<MCol>
 					<Link href={'/home'}>
