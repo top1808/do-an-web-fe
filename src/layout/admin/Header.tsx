@@ -11,49 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { toggle } from '../../redux/reducers/sideBarReducer';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import MButton from '@/components/MButton';
-// import axios from 'axios';
-
-const profileItems: MenuProps['items'] = [
-	{
-		label: (
-			<div className='flex items-center gap-2 w-32'>
-				<FontAwesomeIcon
-					icon={faUser}
-					color='#1EAAE8'
-				/>
-				Profile
-			</div>
-		),
-		key: '0',
-	},
-	{
-		label: (
-			<div className='flex items-center gap-2'>
-				<FontAwesomeIcon
-					icon={faEnvelope}
-					color='#2BC255'
-				/>
-				Inbox
-			</div>
-		),
-		key: '1',
-	},
-	{
-		type: 'divider',
-	},
-	{
-		label: (
-			<div className='flex items-center gap-2'>
-				<FontAwesomeIcon
-					icon={faArrowRightFromBracket}
-					color='#FF2F2E'
-				/>
-				Log out
-			</div>
-		),
-		key: '3',
-	},
-];
+import { logout } from '@/redux/reducers/authReducer';
 
 const tabItems: TabsProps['items'] = [
 	{
@@ -225,6 +183,9 @@ const tabItems: TabsProps['items'] = [
 ];
 
 const HeaderAdmin: React.FC = () => {
+	const { sideBar } = useAppSelector((state) => state);
+	const dispatch = useAppDispatch();
+
 	const notificationItems: MenuProps['items'] = [
 		{
 			label: (
@@ -252,8 +213,51 @@ const HeaderAdmin: React.FC = () => {
 			key: '0',
 		},
 	];
-	const { sideBar } = useAppSelector((state) => state);
-	const dispatch = useAppDispatch();
+
+	const profileItems: MenuProps['items'] = [
+		{
+			label: (
+				<div className='flex items-center gap-2 w-32'>
+					<FontAwesomeIcon
+						icon={faUser}
+						color='#1EAAE8'
+					/>
+					Profile
+				</div>
+			),
+			key: '0',
+		},
+		{
+			label: (
+				<div className='flex items-center gap-2'>
+					<FontAwesomeIcon
+						icon={faEnvelope}
+						color='#2BC255'
+					/>
+					Inbox
+				</div>
+			),
+			key: '1',
+		},
+		{
+			type: 'divider',
+		},
+		{
+			label: (
+				<div
+					className='flex items-center gap-2'
+					onClick={() => dispatch(logout())}
+				>
+					<FontAwesomeIcon
+						icon={faArrowRightFromBracket}
+						color='#FF2F2E'
+					/>
+					Log out
+				</div>
+			),
+			key: '3',
+		},
+	];
 
 	const [open, setOpen] = useState(false);
 
@@ -290,16 +294,6 @@ const HeaderAdmin: React.FC = () => {
 					size='large'
 					onClick={() => dispatch(toggle())}
 				/>
-				{/* <div className={styles.searchContainer}>
-					<FontAwesomeIcon
-						icon={faSearch}
-						className={styles.iconSearch}
-					/>
-					<Input
-						placeholder='Search here...'
-						className={styles.searchInput}
-					/>
-				</div> */}
 			</div>
 			<div className='flex items-center'>
 				<Dropdown
