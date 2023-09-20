@@ -1,3 +1,6 @@
+import { all } from 'redux-saga/effects';
+import { authSaga } from './authSaga';
+
 export function* rootSaga() {
-    console.log("rootSaga")
+	yield all([authSaga()]);
 }

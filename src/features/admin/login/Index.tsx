@@ -10,15 +10,21 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
-import backgroundlogin from '../../../../public/images/background-login.jpg';
+import { useAppDispatch } from '@/redux/hooks';
+import { login } from '@/redux/reducers/authReducer';
 
 type FieldType = {
 	username?: string;
 	password?: string;
 	remember?: string;
-	confirmPassword?: string;
 };
 const AdminLogin = () => {
+	const dispatch = useAppDispatch();
+
+	const handleClickLogin = (data: FieldType) => {
+		dispatch(login(data));
+	};
+
 	return (
 		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
 			<MTitle className='text-center'>Login</MTitle>
@@ -27,7 +33,7 @@ const AdminLogin = () => {
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 16 }}
 				initialValues={{ remember: true }}
-				onFinish={() => {}}
+				onFinish={handleClickLogin}
 				onFinishFailed={() => {}}
 				autoComplete='off'
 				className='m-12'
