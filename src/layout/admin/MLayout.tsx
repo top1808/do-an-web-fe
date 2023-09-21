@@ -5,7 +5,7 @@ import HeaderComponent from './Header';
 import FooterComponent from './Footer';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 

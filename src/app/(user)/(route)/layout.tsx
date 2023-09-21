@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
-const MLayout = dynamic(() => import('@/layout/admin/MLayout'), { ssr: false });
+const MLayoutUser = dynamic(() => import('@/layout/user/MLayout'), { ssr: false });
 
 export const metadata: Metadata = {
-	title: 'Admin',
-	description: 'Admin',
+	title: 'Home',
+	description: 'Home page',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-	return <MLayout>{children}</MLayout>;
+	return <MLayoutUser>{children}</MLayoutUser>;
 }

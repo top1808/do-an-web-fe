@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = () => {
+const FooterAdmin = () => {
 	return (
 		<div className='text-center text-gray-300 text-lg'>
 			Copyright © Designed & Developed by &nbsp;
@@ -9,4 +9,4 @@ const Footer = () => {
 	);
 };
 
-export default Footer;
+export default FooterAdmin;
