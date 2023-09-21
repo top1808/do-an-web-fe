@@ -6,6 +6,8 @@ import FooterComponent from './Footer';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -15,6 +17,14 @@ interface LayoutProps {
 
 const MLayout: React.FC<LayoutProps> = ({ children }) => {
 	const { sideBar } = useAppSelector((state) => state);
+	const router = useRouter();
+
+	const session = useSession({
+		required: true,
+		onUnauthenticated: () => {
+			router.push('/admin/login');
+		},
+	});
 
 	return (
 		<Layout>
@@ -53,7 +63,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 				>
 					<HeaderComponent />
 				</Header>
-				<Content style={{ marginTop: 100 }}>{children}</Content>
+				<Content style={{ marginTop: 100 }}>{session.status === 'authenticated' && children}</Content>
 				<Footer>
 					<FooterComponent />
 				</Footer>

@@ -8,10 +8,13 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons/faGoogle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, Input } from 'antd';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { login } from '@/redux/reducers/authReducer';
+import { useSession, signIn } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import { useSearchParams } from 'next/navigation';
 
 type FieldType = {
 	username?: string;
@@ -19,11 +22,23 @@ type FieldType = {
 	remember?: string;
 };
 const AdminLogin = () => {
+	const params = useSearchParams();
+	const messageError = params.get('error');
+
 	const dispatch = useAppDispatch();
 
+	const { auth } = useAppSelector((state) => state);
+
 	const handleClickLogin = (data: FieldType) => {
-		dispatch(login(data));
+		// dispatch(login(data));
+		signIn('credentials', data);
 	};
+
+	useEffect(() => {
+		if (messageError) {
+			toast.error(messageError);
+		}
+	}, [messageError]);
 
 	return (
 		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
@@ -77,6 +92,7 @@ const AdminLogin = () => {
 						type='primary'
 						htmlType='submit'
 						size='large'
+						loading={auth.logging}
 					>
 						Log in
 					</MButton>

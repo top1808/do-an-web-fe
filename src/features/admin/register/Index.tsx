@@ -1,5 +1,4 @@
 import MButton from '@/components/MButton';
-import MCheckbox from '@/components/MCheckbox';
 import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import MTitle from '@/components/MTitle';
@@ -9,8 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
-
-import backgroundlogin from '../../../../public/images/background-login.jpg';
 
 type FieldType = {
 	username?: string;

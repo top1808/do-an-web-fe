@@ -4,16 +4,13 @@ import { login, loginFailed, loginSuccess, logout } from '../reducers/authReduce
 import { PayloadAction } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
 import authApi from '@/api/authApi';
-import { AxiosResponse } from 'axios';
 
 function* handleLogin(body: FormLogin) {
 	// console.log('handle login', body);
 	try {
-		const response: AxiosResponse = yield call(authApi.login, body);
-		console.log('🚀 ~ file: authSaga.ts:13 ~ function*handleLogin ~ response:', response);
+		yield call(authApi.login, body);
 		yield put(loginSuccess(body));
-		console.log(123);
-		// window.location.replace('/admin');
+		window.location.replace('/admin');
 	} catch {
 		yield put(loginFailed());
 	}
@@ -25,19 +22,18 @@ function* handleLogout() {
 }
 
 function* watchLoginFlow() {
+	yield take(REHYDRATE);
 	while (true) {
-		yield take(REHYDRATE);
 		const { auth } = yield select((state) => state);
-		console.log('🚀 ~ file: authSaga.ts:28 ~ function*watchLoginFlow ~ auth:', auth);
 		const isLoggedIn = auth.isLoggedIn;
 
 		if (!isLoggedIn) {
 			const action: PayloadAction<FormLogin> = yield take(login.type);
 			yield fork(handleLogin, action.payload);
+		} else {
+			yield take(logout.type);
+			yield call(handleLogout);
 		}
-
-		yield take(logout.type);
-		yield call(handleLogout);
 	}
 }
 
