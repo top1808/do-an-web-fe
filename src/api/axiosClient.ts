@@ -4,8 +4,6 @@ interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
 	headers: AxiosRequestHeaders;
 }
 
-console.log('process.env.API_URL: ', process.env.API_URL);
-
 const axiosClient = axios.create({
 	baseURL: process.env.API_URL,
 	headers: {
