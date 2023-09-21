@@ -2,7 +2,7 @@ import { faServer } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useState } from 'react';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -31,7 +31,7 @@ const items: MenuItem[] = [
 	]),
 ];
 
-const SideBar: React.FC = () => {
+const SideBarAdmin: React.FC = () => {
 	const { sideBar } = useAppSelector((state) => state);
 	const onClick: MenuProps['onClick'] = (e) => {
 		console.log('click ', e);
@@ -60,4 +60,4 @@ const SideBar: React.FC = () => {
 	);
 };
 
-export default SideBar;
+export default SideBarAdmin;

@@ -3,13 +3,13 @@
 import { faArrowRight, faArrowRightFromBracket, faBars, faEllipsis, faPen, faPlus, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faBell, faEnvelope, faMessage, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Badge, Col, Drawer, Dropdown, Image, Input, Row, Tabs, TabsProps } from 'antd';
-import React, { useEffect, useState } from 'react';
-import styles from '../styles/layout.module.css';
+import { Avatar, Badge, Col, Drawer, Dropdown, Image, Row, Tabs, TabsProps } from 'antd';
+import React, { useState } from 'react';
+import styles from '../../styles/layout.module.css';
 import type { MenuProps } from 'antd';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { toggle } from '../redux/reducers/sideBarReducer';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { toggle } from '../../redux/reducers/sideBarReducer';
+
 import MButton from '@/components/MButton';
 import { logout } from '@/redux/reducers/authReducer';
 
@@ -182,7 +182,7 @@ const tabItems: TabsProps['items'] = [
 	},
 ];
 
-const Header: React.FC = () => {
+const HeaderAdmin: React.FC = () => {
 	const { sideBar } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
@@ -359,4 +359,4 @@ const Header: React.FC = () => {
 	);
 };
 
-export default Header;
+export default HeaderAdmin;

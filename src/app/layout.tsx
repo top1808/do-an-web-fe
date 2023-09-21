@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body className={inter.className}>
 				<StyledComponentsRegistry>
 					<Providers>
-						<div>{children}</div>;
+						<div>{children}</div>
 					</Providers>
 				</StyledComponentsRegistry>
 			</body>

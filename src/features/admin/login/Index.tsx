@@ -26,7 +26,7 @@ const AdminLogin = () => {
 	};
 
 	return (
-		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
+		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4 2xl:h-3/5 sm:h-full md:h-full lg:h-4/5  bg-white p-10 rounded-lg '>
 			<MTitle className='text-center'>Login</MTitle>
 			<Form
 				name='basic'
@@ -82,58 +82,6 @@ const AdminLogin = () => {
 					</MButton>
 				</Form.Item>
 			</Form>
-			<MTitle
-				level={4}
-				className='text-center'
-			>
-				Or Sign Up Using
-			</MTitle>
-			<MRow
-				justify={'center'}
-				gutter={12}
-				className='mt-5'
-			>
-				<MCol>
-					<MButton
-						type='primary'
-						shape='circle'
-						style={{ width: '3.6rem', height: '3.6rem' }}
-					>
-						<FontAwesomeIcon
-							icon={faFacebook}
-							color='white'
-							className='text-3xl'
-						/>
-					</MButton>
-				</MCol>
-				<MCol>
-					<MButton
-						shape='circle'
-						style={{ width: '3.6rem', height: '3.6rem', backgroundColor: 'red' }}
-					>
-						<FontAwesomeIcon
-							color='white'
-							icon={faGoogle}
-							className='text-3xl'
-						/>
-					</MButton>
-				</MCol>
-			</MRow>
-
-			<MRow
-				className='mt-12'
-				justify={'center'}
-			>
-				<MCol className='flex flex-col gap-3 items-center'>
-					<MTitle level={4}>Or Sign Up Using</MTitle>
-					<Link
-						href={'/admin/register'}
-						className='text-blue-600 font-bold text-xl'
-					>
-						SIGN UP
-					</Link>
-				</MCol>
-			</MRow>
 		</div>
 	);
 };

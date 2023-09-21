@@ -10,36 +10,24 @@ import { Form, Input } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
-import backgroundlogin from '../../../../public/images/background-login.jpg';
-
 type FieldType = {
 	username?: string;
 	password?: string;
-	email?: string;
+	remember?: string;
 	confirmPassword?: string;
 };
-const AdminRegister = () => {
+const UserLogin = () => {
 	return (
-		<div className='sm:w-full md:w-2/3 lg:w-1/3 2xl:w-1/4  bg-white p-10 rounded-lg '>
-			<MTitle className='text-center'>SIGN UP</MTitle>
+		<div className='sm:w-3/4 md:w-3/5 lg:w-2/5 xl:w-1/3 2xl:w-1/4 bg-white py-8 px-4 rounded-lg '>
+			<MTitle className='text-center'>Login</MTitle>
 			<Form
 				name='basic'
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 16 }}
 				initialValues={{ remember: true }}
 				onFinish={() => {}}
 				onFinishFailed={() => {}}
 				autoComplete='off'
 				className='m-12'
 			>
-				<Form.Item<FieldType>
-					label='Email'
-					name='email'
-					labelAlign='left'
-					rules={[{ required: true, message: 'Please input your Email!' }]}
-				>
-					<Input />
-				</Form.Item>
 				<Form.Item<FieldType>
 					label='Username'
 					name='username'
@@ -57,14 +45,22 @@ const AdminRegister = () => {
 				>
 					<Input.Password />
 				</Form.Item>
-				<Form.Item<FieldType>
-					label='Confirm Password'
-					name='confirmPassword'
-					labelAlign='left'
-					rules={[{ required: true, message: 'Please input your Confirm Password !' }]}
-				>
-					<Input.Password />
-				</Form.Item>
+				<div className='flex justify-between'>
+					<Form.Item<FieldType>
+						name='remember'
+						valuePropName='checked'
+						className='w-32'
+					>
+						<MCheckbox className='w-full'>Remember me</MCheckbox>
+					</Form.Item>
+
+					<Link
+						href={'/'}
+						className='text-blue-600 leading-8 h-8'
+					>
+						Forgot password ?
+					</Link>
+				</div>
 
 				<Form.Item className='flex justify-center'>
 					<MButton
@@ -72,7 +68,7 @@ const AdminRegister = () => {
 						htmlType='submit'
 						size='large'
 					>
-						Sign Up
+						Log in
 					</MButton>
 				</Form.Item>
 			</Form>
@@ -121,10 +117,10 @@ const AdminRegister = () => {
 				<MCol className='flex flex-col gap-3 items-center'>
 					<MTitle level={4}>If You Have Account ?</MTitle>
 					<Link
-						href={'/admin/login'}
+						href={'/register'}
 						className='text-blue-600 font-bold text-xl'
 					>
-						SIGN IN
+						SIGN UP
 					</Link>
 				</MCol>
 			</MRow>
@@ -132,4 +128,4 @@ const AdminRegister = () => {
 	);
 };
 
-export default AdminRegister;
+export default UserLogin;
