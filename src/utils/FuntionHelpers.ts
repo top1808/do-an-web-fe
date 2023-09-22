@@ -14,8 +14,8 @@ export function getItem(label: React.ReactNode, key: React.Key, icon?: React.Rea
 	} as MenuItem;
 }
 
-export const convertDataItems = (data: Category[]) => {
+export const convertDataItemsCategory: any = (data: Category[]) => {
 	return data.map((item) => {
-		return getItem(`${item.label}`, `${item.key}`, item.icon);
+		return getItem(`${item.label}`, `${item.key}`, item.icon, item.children ? [...convertDataItemsCategory(item.children)] : undefined);
 	});
 };

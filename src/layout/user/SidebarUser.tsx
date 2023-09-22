@@ -1,6 +1,6 @@
 'use client';
 import { Category } from '@/models/productModels';
-import { convertDataItems, getItem } from '@/utils/FuntionHelpers';
+import { convertDataItemsCategory, getItem } from '@/utils/FuntionHelpers';
 import { faServer } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
@@ -33,10 +33,7 @@ const dataItems: Category[] = [
 		icon: <FontAwesomeIcon icon={faServer} />,
 	},
 ];
-
-const items = dataItems.map((item) => {
-	return getItem(`${item.label}`, `${item.key}`, item.icon, item.children ? [...convertDataItems(item.children)] : undefined);
-});
+const items = convertDataItemsCategory(dataItems);
 const SideBarUser: React.FC = () => {
 	const onClick: MenuProps['onClick'] = (e) => {
 		console.log('click ', e);
