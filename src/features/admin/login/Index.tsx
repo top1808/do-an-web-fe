@@ -20,6 +20,7 @@ type FieldType = {
 	username?: string;
 	password?: string;
 	remember?: string;
+	login?: string;
 };
 const AdminLogin = () => {
 	const params = useSearchParams();
@@ -87,7 +88,10 @@ const AdminLogin = () => {
 					</Link>
 				</div>
 
-				<Form.Item className='flex justify-center'>
+				<Form.Item<FieldType>
+					name={'login'}
+					className='flex justify-center'
+				>
 					<MButton
 						type='primary'
 						htmlType='submit'

@@ -35,9 +35,7 @@ const Footer = () => {
 						<li>Lĩnh vực hoạt động</li>
 						<li>Liên hệ với chúng tôi</li>
 						<li>Tin tức - Sự kiện</li>
-						<li>
-							<li>Lĩnh vực hoạt động</li>
-						</li>
+						<li>Lĩnh vực hoạt động</li>
 					</ul>
 				</MCol>
 				<MCol>

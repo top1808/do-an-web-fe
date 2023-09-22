@@ -49,9 +49,8 @@ const Header = () => {
 								<FontAwesomeIcon icon={faPenToSquare} /> Checking Your Orders
 							</Link>
 						</li>
-
 						<li>
-							<Link href={'/'}>
+							<Link href={'/cart'}>
 								<FontAwesomeIcon icon={faCartShopping} /> Cart
 							</Link>
 						</li>

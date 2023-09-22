@@ -15,6 +15,7 @@ type FieldType = {
 	password?: string;
 	remember?: string;
 	confirmPassword?: string;
+	buttonLogin?: string;
 };
 const UserLogin = () => {
 	return (
@@ -62,7 +63,10 @@ const UserLogin = () => {
 					</Link>
 				</div>
 
-				<Form.Item className='flex justify-center'>
+				<Form.Item<FieldType>
+					name={'buttonLogin'}
+					className='flex justify-center'
+				>
 					<MButton
 						type='primary'
 						htmlType='submit'

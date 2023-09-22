@@ -14,6 +14,7 @@ type FieldType = {
 	password?: string;
 	email?: string;
 	confirmPassword?: string;
+	signUp?: string;
 };
 const UserRegister = () => {
 	return (
@@ -63,7 +64,10 @@ const UserRegister = () => {
 					<Input.Password />
 				</Form.Item>
 
-				<Form.Item className='flex justify-center'>
+				<Form.Item<FieldType>
+					name={'signUp'}
+					className='flex justify-center'
+				>
 					<MButton
 						type='primary'
 						htmlType='submit'

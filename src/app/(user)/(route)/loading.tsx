@@ -1,12 +1,22 @@
+'use client';
 import MSpin from '@/components/MSpin';
-import React from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
 
-const loading = () => {
+export default function RootLoading() {
+	const session = useSession();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (session.status === 'authenticated') {
+			router.push('/admin');
+		}
+	}, [session, router]);
+
 	return (
-		<div className='h-full w-full flex items-center justify-center'>
-			<MSpin size='large' />
+		<div className='w-screen h-screen flex items-center justify-center'>
+			<MSpin size='large'></MSpin>
 		</div>
 	);
-};
-
-export default loading;
+}

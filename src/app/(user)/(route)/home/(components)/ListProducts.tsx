@@ -1,12 +1,13 @@
 import MSelect from '@/components/MSelect';
 import React from 'react';
-import CardProduct, { CardType } from './CardProduct';
+import CardProduct from './CardProduct';
+import { InforProduct } from '@/models/productModels';
 
 interface ListProductProps {
-	listProducts: CardType[];
+	listProducts: InforProduct[];
 }
 
-const ListProduct: React.FC<ListProductProps> = ({ listProducts }) => {
+const ListProducts: React.FC<ListProductProps> = ({ listProducts }) => {
 	return (
 		<div>
 			<div className='flex justify-between h-14 p-2 items-center'>
@@ -38,4 +39,4 @@ const ListProduct: React.FC<ListProductProps> = ({ listProducts }) => {
 	);
 };
 
-export default ListProduct;
+export default ListProducts;
