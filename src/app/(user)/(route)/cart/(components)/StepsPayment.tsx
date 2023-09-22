@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Steps, message } from 'antd';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import PaymentPage from './PaymentPage';
 const items = [
 	{
 		title: 'Giỏ hàng của tôi',
@@ -64,6 +65,7 @@ const CustomSteps: React.FC<ChildrenProps> = ({ children }) => {
 			</Steps>
 
 			{current === 0 ? <div>{children}</div> : <></>}
+			{current === 1 ? <PaymentPage /> : <></>}
 			<div className='mt-6 flex justify-end'>
 				<MButton
 					className='mr-2 bg-red-400 text-white'
