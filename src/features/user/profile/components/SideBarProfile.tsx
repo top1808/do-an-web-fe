@@ -10,7 +10,7 @@ const SideBarProfile = () => {
 				<h3>Menu tài khoản</h3>
 				<ul>
 					<li className='py-2'>
-						<Link href={'/'}>
+						<Link href={'/profile'}>
 							<FontAwesomeIcon
 								color='blue'
 								icon={faUser}
@@ -28,12 +28,18 @@ const SideBarProfile = () => {
 						</Link>
 					</li>
 					<li className=' py-2'>
-						<Link href={'/'}>
+						<Link href={'/profile/change-password'}>
 							<FontAwesomeIcon
 								color='green'
 								icon={faKey}
 							/>
 							&nbsp;&nbsp; Đổi mật khẩu
+						</Link>
+					</li>
+					<li className='py-2'>
+						<Link href={'/profile/purchased'}>
+							<FontAwesomeIcon icon={faClockRotateLeft} />
+							&nbsp;&nbsp; Lịch sử mua hàng
 						</Link>
 					</li>
 					<li className=' py-2'>
@@ -47,7 +53,7 @@ const SideBarProfile = () => {
 					</li>
 				</ul>
 			</div>
-			<div className='mt-4'>
+			{/* <div className='mt-4'>
 				<h3>Menu giao dịch</h3>
 				<ul>
 					<li className='py-2'>
@@ -56,14 +62,9 @@ const SideBarProfile = () => {
 							&nbsp;&nbsp; Tình trạng đơn hàng
 						</Link>
 					</li>
-					<li className='py-2'>
-						<Link href={'/'}>
-							<FontAwesomeIcon icon={faClockRotateLeft} />
-							&nbsp;&nbsp; Lịch sử mua hàng
-						</Link>
-					</li>
+					
 				</ul>
-			</div>
+			</div> */}
 		</div>
 	);
 };

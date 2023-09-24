@@ -8,6 +8,8 @@ interface DataType {
 	sale: number;
 	sumary: number;
 	time: string;
+	paymentMethod: string;
+	status: string;
 }
 const dataSource = [
 	{
@@ -16,6 +18,8 @@ const dataSource = [
 		sale: 38,
 		sumary: 1400000,
 		time: '1991/1/1',
+		paymentMethod: 'Tiền mặt',
+		status: 'Đã giao hàng',
 	},
 	{
 		key: '112311',
@@ -23,6 +27,8 @@ const dataSource = [
 		sale: 38,
 		sumary: 2421423423432,
 		time: '1991/1/1',
+		paymentMethod: 'Vietcombank',
+		status: 'Chưa giao hàng',
 	},
 ];
 
@@ -48,6 +54,16 @@ const columns: ColumnsType<DataType> = [
 		dataIndex: 'time',
 		key: 'time',
 		// sorter: (a, b) => ,
+	},
+	{
+		title: 'Hình thức thanh toán',
+		dataIndex: 'paymentMethod',
+		key: 'paymentMethod',
+	},
+	{
+		title: 'Tình trạng đơn hàng',
+		dataIndex: 'status',
+		key: 'status',
 	},
 	{
 		title: 'Action',
