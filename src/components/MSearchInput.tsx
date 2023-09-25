@@ -7,6 +7,10 @@ import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 interface MSearchInputProps extends InputProps {
 	onSearch?: () => void;
 }
+type FieldType = {
+	valuesearch?: string;
+	buttonsearch?: string;
+};
 export const MSearchInput: React.FC<MSearchInputProps> = (props) => {
 	const [valueSearch, setValueSearch] = useState('');
 	return (
@@ -14,9 +18,9 @@ export const MSearchInput: React.FC<MSearchInputProps> = (props) => {
 			onFinish={props.onSearch}
 			className='flex gap-0 h-8 relative'
 		>
-			<Form.Item
+			<Form.Item<FieldType>
 				className='h-full'
-				name={'valueSearch'}
+				name={'valuesearch'}
 			>
 				<MInput
 					className='pl-4 pr-8 h-8 border-black text-lg sm:w-60 md:w-60 lg:w-80 xl:w-96 2xl:w-96 '
@@ -32,7 +36,10 @@ export const MSearchInput: React.FC<MSearchInputProps> = (props) => {
 				/>
 			</Form.Item>
 
-			<Form.Item className='h-full'>
+			<Form.Item<FieldType>
+				name={'buttonsearch'}
+				className='h-full'
+			>
 				<MButton className=' bg-black w-10'>
 					<FontAwesomeIcon
 						color='white'

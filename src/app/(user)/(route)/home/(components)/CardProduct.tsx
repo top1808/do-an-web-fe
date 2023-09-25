@@ -1,16 +1,10 @@
 import MImage from '@/components/MImage';
 import MText from '@/components/MText';
+import { InforProduct } from '@/models/productModels';
 import Link from 'next/link';
 import React from 'react';
-export interface CardType {
-	id: string;
-	name: string;
-	image: string;
-	price: number;
-	isFlashSale: boolean;
-}
 interface CardProductProps {
-	data: CardType;
+	data: InforProduct;
 }
 const CardProduct: React.FC<CardProductProps> = ({ data }) => {
 	return (

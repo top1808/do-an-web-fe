@@ -3,16 +3,26 @@ import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import MText from '@/components/MText';
 import React from 'react';
-import { CardType } from '../../home/(components)/CardProduct';
 import MButton from '@/components/MButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import MImage from '@/components/MImage';
-export interface InforItemCartProduct {
-	data: CardType;
+import MTitle from '@/components/MTitle';
+import { customMoneyView } from '../../../../../utils/FuntionHelpers';
+import MInput from '@/components/MInput';
+import { InforProduct } from '@/models/productModels';
+export interface ListCartProductProps {
+	data: InforProduct;
 	count: number;
 }
-const TableProducts = ({ data }: { data: InforItemCartProduct[] }) => {
+const TableCartProducts = ({ data }: { data: ListCartProductProps[] }) => {
+	const sum = (data: ListCartProductProps[]) => {
+		let temp = 0;
+		data.forEach((element) => {
+			temp += element.count * element.data.price;
+		});
+		return temp;
+	};
 	return (
 		<>
 			<MRow className='bg-gray-400 py-2 px-1'>
@@ -27,7 +37,7 @@ const TableProducts = ({ data }: { data: InforItemCartProduct[] }) => {
 					<MText>Tên sản phẩm</MText>
 				</MCol>
 				<MCol
-					className='text-center'
+					className='text-end'
 					span={3}
 				>
 					<MText>Giá</MText>
@@ -39,7 +49,7 @@ const TableProducts = ({ data }: { data: InforItemCartProduct[] }) => {
 					<MText>Số lượng</MText>
 				</MCol>
 				<MCol
-					className='text-center'
+					className='text-end'
 					span={6}
 				>
 					<MText>Thành tiền</MText>
@@ -49,7 +59,7 @@ const TableProducts = ({ data }: { data: InforItemCartProduct[] }) => {
 					span={2}
 				></MCol>
 			</MRow>
-			{data.map((item: InforItemCartProduct, index: number) => {
+			{data.map((item, index: number) => {
 				return (
 					<MRow
 						key={index}
@@ -74,22 +84,40 @@ const TableProducts = ({ data }: { data: InforItemCartProduct[] }) => {
 							<MText>{item.data.name}</MText>
 						</MCol>
 						<MCol
-							className='text-center'
+							className='text-end'
 							span={3}
 						>
-							<MText>{item.data.price}</MText>
+							<MText>{`${customMoneyView(item.data.price)} VND`}</MText>
 						</MCol>
 						<MCol
 							className='text-center'
 							span={3}
 						>
-							<MText>{item.count}</MText>
+							<div className='flex justify-center items-center w-full'>
+								<MButton
+									className='w-1/12 flex justify-center items-center'
+									onClick={() => {}}
+								>
+									<FontAwesomeIcon icon={faPlus} />
+								</MButton>
+								<MInput
+									className='w-1/4 text-center'
+									value={item.count}
+								/>
+								<MButton
+									onClick={() => {}}
+									color='primary'
+									className='w-1/12 flex justify-center items-center'
+								>
+									<FontAwesomeIcon icon={faMinus} />
+								</MButton>
+							</div>
 						</MCol>
 						<MCol
-							className='text-center'
+							className='text-end'
 							span={6}
 						>
-							<MText>{item.data.price * item.count}</MText>
+							<MText>{`${customMoneyView(item.data.price * item.count)} VND`}</MText>
 						</MCol>
 						<MCol span={2}>
 							<MButton className='border-none'>
@@ -102,8 +130,15 @@ const TableProducts = ({ data }: { data: InforItemCartProduct[] }) => {
 					</MRow>
 				);
 			})}
+
+			<MTitle
+				level={3}
+				className='text-end pr-2'
+			>
+				{`Tổng tiền: ${customMoneyView(sum(data))} VND`}
+			</MTitle>
 		</>
 	);
 };
 
-export default TableProducts;
+export default TableCartProducts;

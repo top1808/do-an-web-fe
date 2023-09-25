@@ -1,18 +1,20 @@
+'use client';
 import MTitle from '@/components/MTitle';
 import { faGreaterThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import React from 'react';
-import CustomSteps from './(components)/CustomSteps';
-import TableProducts, { InforItemCartProduct } from './(components)/TableProducts';
-const fakeData: InforItemCartProduct[] = [
+import React, { useState } from 'react';
+import CustomSteps from './(components)/StepsPayment';
+import TableProducts, { ListCartProductProps } from './(components)/TableCartProducts';
+import MPagination from '@/components/MPagination';
+const fakeData: ListCartProductProps[] = [
 	{
 		data: {
 			id: '12312',
 			image: 'http://runecom06.runtime.vn/Uploads/shop97/images/product/salad_thit_nuong_vi_large.jpg',
 			isFlashSale: false,
 			name: 'ga',
-			price: 2000,
+			price: 2000000,
 		},
 		count: 2,
 	},
@@ -24,10 +26,11 @@ const fakeData: InforItemCartProduct[] = [
 			name: 'ga cc',
 			price: 2000,
 		},
-		count: 2,
+		count: 5,
 	},
 ];
 const CartPage = () => {
+	const [pageCurrent, setPageCurrent] = useState(1);
 	return (
 		<div className='py-8'>
 			<div>
@@ -38,7 +41,6 @@ const CartPage = () => {
 					Home
 				</Link>
 				<span className='pl-1'>
-					{/* <FontAwesomeIcon icon={faRightLong} /> */}
 					<FontAwesomeIcon icon={faGreaterThan} />
 					<FontAwesomeIcon icon={faGreaterThan} />
 				</span>
@@ -48,6 +50,18 @@ const CartPage = () => {
 			<div>
 				<CustomSteps>
 					<TableProducts data={fakeData} />
+					<div className='text-center mt-2'>
+						<MPagination
+							defaultCurrent={1}
+							current={pageCurrent}
+							total={fakeData ? fakeData.length : 0}
+							pageSize={10}
+							onChange={(page) => {
+								window.scrollTo(0, 0);
+								setPageCurrent(page);
+							}}
+						/>
+					</div>
 				</CustomSteps>
 			</div>
 		</div>

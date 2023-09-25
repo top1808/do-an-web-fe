@@ -83,7 +83,10 @@ const AdminLogin = () => {
 					</Link>
 				</div>
 
-				<Form.Item className='flex justify-center'>
+				<Form.Item<FieldType>
+					name={'login'}
+					className='flex justify-center'
+				>
 					<MButton
 						type='primary'
 						htmlType='submit'
