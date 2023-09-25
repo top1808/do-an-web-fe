@@ -1,37 +1,31 @@
 import MButton from '@/components/MButton';
 import MCheckbox from '@/components/MCheckbox';
-import MCol from '@/components/MCol';
-import MRow from '@/components/MRow';
 import MTitle from '@/components/MTitle';
-import { faFacebook } from '@fortawesome/free-brands-svg-icons';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons/faGoogle';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, Input } from 'antd';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { login } from '@/redux/reducers/authReducer';
-import { useSession, signIn } from 'next-auth/react';
+
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
+import { FormLogin } from '@/models/authModel';
+import { useRouter } from 'next/navigation';
 
-type FieldType = {
-	username?: string;
-	password?: string;
-	remember?: string;
-};
 const AdminLogin = () => {
 	const params = useSearchParams();
 	const messageError = params.get('error');
+	const router = useRouter();
+
+	const accountUser: FormLogin = JSON.parse(localStorage.getItem('accountUser') || '');
 
 	const dispatch = useAppDispatch();
 
 	const { auth } = useAppSelector((state) => state);
 
-	const handleClickLogin = (data: FieldType) => {
-		// dispatch(login(data));
-		signIn('credentials', data);
+	const handleClickLogin = (data: FormLogin) => {
+		dispatch(login(data));
 	};
 
 	useEffect(() => {
@@ -53,25 +47,27 @@ const AdminLogin = () => {
 				autoComplete='off'
 				className='m-12'
 			>
-				<Form.Item<FieldType>
+				<Form.Item<FormLogin>
 					label='Username'
 					name='username'
 					labelAlign='left'
+					initialValue={accountUser?.username || ''}
 					rules={[{ required: true, message: 'Please input your username!' }]}
 				>
 					<Input />
 				</Form.Item>
 
-				<Form.Item<FieldType>
+				<Form.Item<FormLogin>
 					label='Password'
 					name='password'
 					labelAlign='left'
 					rules={[{ required: true, message: 'Please input your password!' }]}
+					initialValue={accountUser?.password || ''}
 				>
 					<Input.Password />
 				</Form.Item>
 				<div className='flex justify-between'>
-					<Form.Item<FieldType>
+					<Form.Item<FormLogin>
 						name='remember'
 						valuePropName='checked'
 						className='2xl:w-1/2 sm:w10 md:w-1/2'

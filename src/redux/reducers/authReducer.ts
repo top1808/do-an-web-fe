@@ -1,7 +1,7 @@
 import { FormLogin } from '@/models/authModel';
 import { User } from '@/models/userModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 interface AuthState {
 	isLoggedIn: boolean;
@@ -16,27 +16,34 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-	name: 'sideBar',
+	name: 'auth',
 	initialState: initialState,
 	reducers: {
 		login(state, action: PayloadAction<FormLogin>) {
 			state.logging = true;
+			if (action.payload.remember) {
+				const user = {
+					username: action.payload.username,
+					password: action.payload.password,
+				};
+				localStorage.setItem('accountUser', JSON.stringify(user));
+			}
 		},
-		loginSuccess(state, action: PayloadAction<FormLogin>) {
+		loginSuccess(state, action: PayloadAction<User>) {
 			state.logging = false;
 			state.isLoggedIn = true;
 			state.currentUser = action.payload;
 		},
-		loginFailed(state) {
+		loginFailed(state, action: PayloadAction<string>) {
 			state.logging = false;
 			state.isLoggedIn = false;
 			state.currentUser = null;
+			toast.error(action.payload);
 		},
 
 		logout(state) {
 			state.logging = false;
 			state.isLoggedIn = false;
-			state.currentUser = null;
 		},
 	},
 });

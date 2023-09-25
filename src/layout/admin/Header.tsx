@@ -12,7 +12,6 @@ import { toggle } from '../../redux/reducers/sideBarReducer';
 
 import MButton from '@/components/MButton';
 import { logout } from '@/redux/reducers/authReducer';
-import { signOut } from 'next-auth/react';
 
 const tabItems: TabsProps['items'] = [
 	{
@@ -247,7 +246,7 @@ const HeaderAdmin: React.FC = () => {
 			label: (
 				<div
 					className='flex items-center gap-2'
-					onClick={() => signOut()}
+					onClick={() => dispatch(logout())}
 				>
 					<FontAwesomeIcon
 						icon={faArrowRightFromBracket}
