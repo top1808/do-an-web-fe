@@ -1,22 +1,31 @@
-import MTitle from '@/components/MTitle';
 import Link from 'next/link';
 import React from 'react';
+import NotFoundImage from '../../../../public/images/not-found-admin.jpg';
+import Image from 'next/image';
+import MButton from '@/components/MButton';
 
 const PageNotFoundAdmin = () => {
 	return (
-		<div className="bg-[url('https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif')] w-screen h-screen bg-no-repeat bg-center">
-			<div className='text-center pt-32'>
-				<MTitle
-					level={1}
-					className='text-2xl '
-				>
-					404 Not Found
-				</MTitle>
+		<div className=' w-screen h-screen flex flex-col items-center '>
+			<div className='w-2/3 h-2/3 '>
+				<Image
+					src={NotFoundImage}
+					alt='404-not-found'
+					className='w-full h-full'
+				></Image>
+			</div>
+			<div className='pt-8'>
 				<Link
 					className='text-blue-700 text-xl'
 					href={'/admin'}
 				>
-					Go to admin page
+					<MButton
+						type='primary'
+						className='bg-yellow-400 text-white '
+						size='large'
+					>
+						Go to admin
+					</MButton>
 				</Link>
 			</div>
 		</div>
