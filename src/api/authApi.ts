@@ -10,6 +10,9 @@ const authApi = {
 	login(body: FormLogin) {
 		return axiosClient.post(URL + '/login', body);
 	},
+	refreshToken() {
+		return axiosClient.post(URL + '/refresh', {});
+	},
 };
 
 export default authApi;

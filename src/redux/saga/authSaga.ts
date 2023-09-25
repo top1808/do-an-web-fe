@@ -4,20 +4,19 @@ import { login, loginFailed, loginSuccess, logout } from '../reducers/authReduce
 import { PayloadAction } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
 import authApi from '@/api/authApi';
+import { AxiosResponse } from 'axios';
 
 function* handleLogin(body: FormLogin) {
-	// console.log('handle login', body);
 	try {
-		yield call(authApi.login, body);
-		yield put(loginSuccess(body));
-		window.location.replace('/admin');
-	} catch {
-		yield put(loginFailed());
+		const response: AxiosResponse = yield call(authApi.login, body);
+		yield put(loginSuccess(response.data));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		yield put(loginFailed(error.response.data.message));
 	}
 }
 
 function* handleLogout() {
-	window.location.replace('/admin/login');
 	yield put(logout());
 }
 
