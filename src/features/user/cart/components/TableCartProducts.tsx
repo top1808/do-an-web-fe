@@ -11,6 +11,7 @@ import MTitle from '@/components/MTitle';
 import MInput from '@/components/MInput';
 import { InforProduct } from '@/models/productModels';
 import { customMoney } from '@/utils/FuntionHelpers';
+import { InputNumber } from 'antd';
 export interface ListCartProductProps {
 	data: InforProduct;
 	count: number;
@@ -93,25 +94,11 @@ const TableCartProducts = ({ data }: { data: ListCartProductProps[] }) => {
 							className='text-center'
 							span={3}
 						>
-							<div className='flex justify-center items-center w-full'>
-								<MButton
-									className='w-1/12 flex justify-center items-center'
-									onClick={() => {}}
-								>
-									<FontAwesomeIcon icon={faMinus} />
-								</MButton>
-								<MInput
-									className='w-1/4 text-center'
-									value={item.count}
-								/>
-								<MButton
-									onClick={() => {}}
-									color='primary'
-									className='w-1/12 flex justify-center items-center'
-								>
-									<FontAwesomeIcon icon={faPlus} />
-								</MButton>
-							</div>
+							<InputNumber
+								defaultValue={item.count}
+								min={1}
+								max={999}
+							/>
 						</MCol>
 						<MCol
 							className='text-end'
