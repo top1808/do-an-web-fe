@@ -1,3 +1,5 @@
+import MBreadcrumb from '@/components/MBreadcrumb';
+import MCard from '@/components/MCard';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
@@ -9,5 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-	return <MLayout>{children}</MLayout>;
+	return (
+		<MLayout>
+			<div className='p-12'>{children}</div>
+		</MLayout>
+	);
 }

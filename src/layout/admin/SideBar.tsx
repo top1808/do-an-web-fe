@@ -1,8 +1,9 @@
-import { faServer } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faBoxesStacked, faServer, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useState } from 'react';
 import { useAppSelector } from '../../redux/hooks';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -17,13 +18,14 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-	getItem('Dashboard', 'dashboard', <FontAwesomeIcon icon={faServer} />),
-	getItem('Apps', 'apps', <FontAwesomeIcon icon={faServer} />),
-	getItem('Charts', 'charts', <FontAwesomeIcon icon={faServer} />),
+	getItem('Dashboard', '/admin', <FontAwesomeIcon icon={faServer} />),
+	getItem('Category', '/admin/category', <FontAwesomeIcon icon={faBoxesStacked} />),
+	getItem('Product', '/admin/product', <FontAwesomeIcon icon={faBox} />),
+	getItem('User', '/admin/user', <FontAwesomeIcon icon={faUser} />),
 
-	getItem('Navigation One', 'sub1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),
+	getItem('Navigation One', '1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),
 
-	getItem('Navigation Two', 'sub2', <FontAwesomeIcon icon={faServer} />, [
+	getItem('Navigation Two', '2', <FontAwesomeIcon icon={faServer} />, [
 		getItem('Option 9', '9'),
 		getItem('Option 10', '10'),
 
@@ -33,8 +35,11 @@ const items: MenuItem[] = [
 
 const SideBarAdmin: React.FC = () => {
 	const { sideBar } = useAppSelector((state) => state);
+	const router = useRouter();
+	const pathname = usePathname();
+
 	const onClick: MenuProps['onClick'] = (e) => {
-		console.log('click ', e);
+		router.push(e.key);
 	};
 
 	return (
@@ -50,7 +55,7 @@ const SideBarAdmin: React.FC = () => {
 				LOGO
 			</div>
 			<Menu
-				defaultSelectedKeys={['dashboard']}
+				selectedKeys={[pathname]}
 				mode='inline'
 				items={items}
 				style={{ border: 'none', paddingTop: 100 }}
