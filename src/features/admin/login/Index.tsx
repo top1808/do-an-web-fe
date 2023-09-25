@@ -18,7 +18,7 @@ const AdminLogin = () => {
 	const messageError = params.get('error');
 	const router = useRouter();
 
-	const accountUser: FormLogin = JSON.parse(localStorage.getItem('accountUser') || '');
+	const accountUser: FormLogin = JSON.parse(localStorage.getItem('accountUser') || '{}');
 
 	const dispatch = useAppDispatch();
 
@@ -83,7 +83,7 @@ const AdminLogin = () => {
 					</Link>
 				</div>
 
-				<Form.Item<FieldType>
+				<Form.Item
 					name={'login'}
 					className='flex justify-center'
 				>

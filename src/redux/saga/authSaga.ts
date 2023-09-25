@@ -12,7 +12,7 @@ function* handleLogin(body: FormLogin) {
 		yield put(loginSuccess(response.data));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
-		yield put(loginFailed(error.response.data.message));
+		yield put(loginFailed(error?.response?.data?.message || 'Error Network!'));
 	}
 }
 
