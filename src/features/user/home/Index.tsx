@@ -12,6 +12,7 @@ const data: InforProduct = {
 	image: 'http://runecom06.runtime.vn/Uploads/shop97/images/product/salad_thit_nuong_vi_large.jpg',
 	price: 3000,
 	isFlashSale: true,
+	countHeart: 12312,
 };
 const HomeUserComponent = () => {
 	const listProduct: InforProduct[] = [data, data, data, data, data, data, data];

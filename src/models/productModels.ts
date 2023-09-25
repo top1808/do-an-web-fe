@@ -7,6 +7,7 @@ export interface InforProduct {
 	image: string;
 	price: number;
 	isFlashSale: boolean;
+	countHeart: number;
 }
 export interface Category {
 	label: string;
