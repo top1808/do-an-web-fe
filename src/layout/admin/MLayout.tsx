@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import HeaderComponent from './Header';
 import FooterComponent from './Footer';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../../redux/hooks';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -16,17 +15,18 @@ interface LayoutProps {
 }
 
 const MLayout: React.FC<LayoutProps> = ({ children }) => {
-	const { sideBar } = useAppSelector((state) => state);
+	const { sideBar, auth } = useAppSelector((state) => state);
 	const router = useRouter();
 
-	const session = useSession({
-		required: true,
-		onUnauthenticated: () => {
+	useEffect(() => {
+		if (!auth.isLoggedIn) {
 			router.push('/admin/login');
-		},
-	});
+		}
+	}, [auth, router]);
 
-	return (
+	return !auth.isLoggedIn ? (
+		<></>
+	) : (
 		<Layout>
 			<Sider
 				theme='light'
@@ -63,7 +63,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 				>
 					<HeaderComponent />
 				</Header>
-				<Content style={{ marginTop: 100 }}>{session.status === 'authenticated' && children}</Content>
+				<Content style={{ marginTop: 100 }}>{children}</Content>
 				<Footer>
 					<FooterComponent />
 				</Footer>

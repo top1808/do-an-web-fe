@@ -1,6 +1,7 @@
 interface FormLogin {
 	username?: string;
 	password?: string;
+	remember?: boolean;
 }
 
 interface FormRegister extends FormLogin {
