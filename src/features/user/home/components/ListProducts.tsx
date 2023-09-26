@@ -2,6 +2,8 @@ import MSelect from '@/components/MSelect';
 import React from 'react';
 import CardProduct from './CardProduct';
 import { InforProduct } from '@/models/productModels';
+import MRow from '@/components/MRow';
+import MCol from '@/components/MCol';
 
 interface ListProductProps {
 	listProducts: InforProduct[];
@@ -25,16 +27,22 @@ const ListProducts: React.FC<ListProductProps> = ({ listProducts }) => {
 					]}
 				/>
 			</div>
-			<div className='grid grid-cols-6 w-full '>
+			<MRow gutter={16}>
 				{listProducts.map((product, index) => {
 					return (
-						<CardProduct
+						<MCol
 							key={index}
-							data={product}
-						/>
+							xs={8}
+							sm={6}
+							md={6}
+							lg={4}
+							xl={4}
+						>
+							<CardProduct data={product} />
+						</MCol>
 					);
 				})}
-			</div>
+			</MRow>
 		</div>
 	);
 };

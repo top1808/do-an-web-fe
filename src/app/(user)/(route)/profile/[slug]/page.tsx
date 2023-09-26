@@ -1,9 +1,10 @@
 'use client';
+import PageNotFoundUser from '@/app/(user)/[...not-found]/page';
 import ProfileUserComponent from '@/features/user/profile/Index';
 import ChangePass from '@/features/user/profile/components/ChangePass';
 import Notice from '@/features/user/profile/components/Notice';
 import Purchased from '@/features/user/profile/components/Purchased';
-import { usePathname } from 'next/navigation';
+import { notFound, usePathname } from 'next/navigation';
 import React from 'react';
 
 const SlugProfileUser = () => {
@@ -29,7 +30,7 @@ const SlugProfileUser = () => {
 				</ProfileUserComponent>
 			);
 		default:
-			return <div>Not found</div>;
+			notFound();
 	}
 };
 

@@ -10,7 +10,8 @@ import MImage from '@/components/MImage';
 import MTitle from '@/components/MTitle';
 import MInput from '@/components/MInput';
 import { InforProduct } from '@/models/productModels';
-import { customMoneyView } from '@/utils/FuntionHelpers';
+import { customMoney } from '@/utils/FuntionHelpers';
+import { InputNumber } from 'antd';
 export interface ListCartProductProps {
 	data: InforProduct;
 	count: number;
@@ -87,37 +88,23 @@ const TableCartProducts = ({ data }: { data: ListCartProductProps[] }) => {
 							className='text-end'
 							span={3}
 						>
-							<MText>{`${customMoneyView(item.data.price)} VND`}</MText>
+							<MText>{`${customMoney(item.data.price)}`}</MText>
 						</MCol>
 						<MCol
 							className='text-center'
 							span={3}
 						>
-							<div className='flex justify-center items-center w-full'>
-								<MButton
-									className='w-1/12 flex justify-center items-center'
-									onClick={() => {}}
-								>
-									<FontAwesomeIcon icon={faPlus} />
-								</MButton>
-								<MInput
-									className='w-1/4 text-center'
-									value={item.count}
-								/>
-								<MButton
-									onClick={() => {}}
-									color='primary'
-									className='w-1/12 flex justify-center items-center'
-								>
-									<FontAwesomeIcon icon={faMinus} />
-								</MButton>
-							</div>
+							<InputNumber
+								defaultValue={item.count}
+								min={1}
+								max={999}
+							/>
 						</MCol>
 						<MCol
 							className='text-end'
 							span={6}
 						>
-							<MText>{`${customMoneyView(item.data.price * item.count)} VND`}</MText>
+							<MText>{`${customMoney(item.data.price * item.count)}`}</MText>
 						</MCol>
 						<MCol span={2}>
 							<MButton className='border-none'>
@@ -135,7 +122,7 @@ const TableCartProducts = ({ data }: { data: ListCartProductProps[] }) => {
 				level={3}
 				className='text-end pr-2'
 			>
-				{`Tổng tiền: ${customMoneyView(sum(data))} VND`}
+				{`Tổng tiền: ${customMoney(sum(data))}`}
 			</MTitle>
 		</>
 	);

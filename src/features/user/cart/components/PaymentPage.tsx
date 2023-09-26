@@ -23,12 +23,12 @@ const PaymentPage = () => {
 				>
 					<MTitle
 						level={4}
-						className='w-full bg-red-600'
+						className='pl-2 w-full bg-red-600'
 						style={{ color: 'white' }}
 					>
 						1. ĐỊA CHỈ THANH TOÁN VÀ GIAO HÀNG
 					</MTitle>
-					<div>
+					<div className='p-4'>
 						<h4>THÔNG TIN THANH TOÁN</h4>
 						<Form.Item<DataPayment> name={'nameCustomer'}>
 							<MInput placeholder='Họ và tên' />
@@ -53,13 +53,14 @@ const PaymentPage = () => {
 				>
 					<MTitle
 						level={4}
-						className='w-full bg-red-600'
+						className='pl-2 w-full bg-red-600'
 						style={{ color: 'white' }}
 					>
 						2. THANH TOÁN VÀ VẬN CHUYỂN
 					</MTitle>
 					<Form.Item<DataPayment> name={'deliveryMethod'}>
 						<MSelect
+							className='px-2'
 							defaultValue='normal'
 							value={value}
 							onChange={(value: string) => setValue(value)}
@@ -71,7 +72,7 @@ const PaymentPage = () => {
 						/>
 					</Form.Item>
 					<Form.Item<DataPayment> name={'paymentMethod'}>
-						<Radio.Group>
+						<Radio.Group className='px-2'>
 							<Radio.Button value='Momo'>Momo</Radio.Button>
 							<Radio.Button value='VietcomBank'>VietcomBank</Radio.Button>
 							<Radio.Button value='Tiền mặt'>Tiền mặt</Radio.Button>
@@ -84,7 +85,7 @@ const PaymentPage = () => {
 				>
 					<MTitle
 						level={4}
-						className='w-full bg-red-600'
+						className='pl-2 xw-full bg-red-600'
 						style={{ color: 'white' }}
 					>
 						3. THÔNG TIN ĐƠN HÀNG
