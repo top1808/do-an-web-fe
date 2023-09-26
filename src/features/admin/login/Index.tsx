@@ -83,7 +83,7 @@ const AdminLogin = () => {
 					</Link>
 				</div>
 
-				<Form.Item<FieldType>
+				<Form.Item
 					name={'login'}
 					className='flex justify-center'
 				>
