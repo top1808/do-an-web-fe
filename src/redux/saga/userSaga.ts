@@ -1,7 +1,31 @@
-import { fork, put, call, take, takeEvery } from 'redux-saga/effects';
+import { fork, put, call, take, takeLatest } from 'redux-saga/effects';
 import userApi from '@/api/userApi';
-import { getUsersFailed, getUsersSuccess, gettingUsers } from '../reducers/userReducer';
+import { createUserFailed, createUserSuccess, creatingUser, deleteUserFailed, deleteUserSuccess, deletingUser, getUsersFailed, getUsersSuccess, gettingUsers } from '../reducers/userReducer';
 import { AxiosResponse } from 'axios';
+import { User } from '@/models/userModel';
+import { PayloadAction } from '@reduxjs/toolkit';
+
+function* onDeleteUser(id: string) {
+	try {
+		const response: AxiosResponse = yield call(userApi.deleteUser, id);
+		yield put(deleteUserSuccess({ id, message: response.data.message }));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(deleteUserFailed(error.response.data.message));
+	}
+}
+
+function* onCreateUser(body: User) {
+	try {
+		const response: AxiosResponse = yield call(userApi.createUser, body);
+		yield put(createUserSuccess(response.data.message));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(createUserFailed(error.response.data.message));
+	}
+}
 
 function* onGetUsers() {
 	try {
@@ -14,11 +38,22 @@ function* onGetUsers() {
 	}
 }
 
+function* watchDeleteUserFlow() {
+	const action: PayloadAction<string> = yield take(deletingUser.type);
+	yield fork(onDeleteUser, action.payload);
+}
+
+function* watchCreateUserFlow() {
+	const action: PayloadAction<User> = yield take(creatingUser.type);
+	yield fork(onCreateUser, action.payload);
+}
+
 function* watchGetUserFlow() {
-	yield take(gettingUsers.type);
-	yield fork(onGetUsers);
+	yield takeLatest(gettingUsers.type, onGetUsers);
 }
 
 export function* userSaga() {
 	yield fork(watchGetUserFlow);
+	yield fork(watchCreateUserFlow);
+	yield fork(watchDeleteUserFlow);
 }

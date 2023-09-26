@@ -4,11 +4,12 @@ import MButton from '@/components/MButton';
 import MCard from '@/components/MCard';
 import MRow from '@/components/MRow';
 import AdminUserComponent from '@/features/admin/user/Index';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 import { gettingUsers } from '@/redux/reducers/userReducer';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 const UserPage = () => {
@@ -22,6 +23,7 @@ const UserPage = () => {
 	];
 
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 
 	useEffect(() => {
 		dispatch(gettingUsers());
@@ -39,7 +41,7 @@ const UserPage = () => {
 						<MButton
 							type='primary'
 							icon={<FontAwesomeIcon icon={faPlus} />}
-							href='/admin'
+							link='user/create'
 						>
 							Add New
 						</MButton>

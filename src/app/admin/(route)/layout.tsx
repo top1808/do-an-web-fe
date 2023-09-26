@@ -1,5 +1,3 @@
-import MBreadcrumb from '@/components/MBreadcrumb';
-import MCard from '@/components/MCard';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
