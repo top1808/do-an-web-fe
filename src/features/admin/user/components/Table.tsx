@@ -3,17 +3,20 @@ import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { User } from '@/models/userModel';
-import { useAppSelector } from '@/redux/hooks';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { deletingUser } from '@/redux/reducers/userReducer';
+import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type DataIndex = keyof User;
 
 const UserTable = () => {
 	const { user } = useAppSelector((state) => state);
+
+	const dispatch = useAppDispatch();
 
 	const [searchText, setSearchText] = useState('');
 	const [searchedColumn, setSearchedColumn] = useState('');
@@ -117,14 +120,28 @@ const UserTable = () => {
 			width: '15%',
 			...getColumnSearchProps('username'),
 		},
+		{
+			title: 'Action',
+			key: 'operation',
+			fixed: 'right',
+			width: '15%',
+			render: (item) => (
+				<MSpace split={2}>
+					<MButton
+						type='primary'
+						onClick={() => dispatch(deletingUser(item._id))}
+					>
+						<FontAwesomeIcon icon={faTrash} />
+					</MButton>
+				</MSpace>
+			),
+		},
 	] as ColumnsType<User>;
-
-	const dataSource = user?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || [];
 
 	return (
 		<MTable
 			columns={columns}
-			dataSource={dataSource}
+			dataSource={user?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
 		/>
 	);
