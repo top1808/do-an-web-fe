@@ -10,6 +10,9 @@ const userApi = {
 	createUser(body: User) {
 		return axiosClient.post(URL + '/create', body);
 	},
+	deleteUser(id: string) {
+		return axiosClient.delete(URL + '/' + id);
+	},
 };
 
 export default userApi;

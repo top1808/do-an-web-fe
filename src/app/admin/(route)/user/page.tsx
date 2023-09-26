@@ -9,6 +9,7 @@ import { gettingUsers } from '@/redux/reducers/userReducer';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 const UserPage = () => {
@@ -22,6 +23,7 @@ const UserPage = () => {
 	];
 
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 
 	useEffect(() => {
 		dispatch(gettingUsers());
@@ -39,7 +41,7 @@ const UserPage = () => {
 						<MButton
 							type='primary'
 							icon={<FontAwesomeIcon icon={faPlus} />}
-							href='/admin/user/create'
+							link='user/create'
 						>
 							Add New
 						</MButton>
