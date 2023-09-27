@@ -7,20 +7,12 @@ interface AuthState {
 	loading: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: User[];
-	filter?: {
-		key?: string;
-		value?: string;
-	};
 }
 
 const initialState: AuthState = {
 	loading: false,
 	status: 'pending',
 	data: [],
-	filter: {
-		key: '',
-		value: '',
-	},
 };
 
 const userSlice = createSlice({
@@ -29,6 +21,7 @@ const userSlice = createSlice({
 	reducers: {
 		gettingUsers: (state) => {
 			state.loading = true;
+			state.status = 'pending';
 		},
 		getUsersSuccess: (state, action: PayloadAction<User[]>) => {
 			state.loading = false;
@@ -42,6 +35,7 @@ const userSlice = createSlice({
 
 		creatingUser: (state, action: PayloadAction<User>) => {
 			state.loading = true;
+			state.status = 'pending';
 		},
 		createUserSuccess: (state, action: PayloadAction<string>) => {
 			state.loading = false;
@@ -59,13 +53,11 @@ const userSlice = createSlice({
 		},
 		deleteUserSuccess: (state, action: PayloadAction<ReponseDeleteSuccess>) => {
 			state.loading = false;
-			state.status = 'completed';
 			state.data = state.data?.filter((item) => item._id !== action.payload.id);
 			action.payload && toast.success(action.payload.message);
 		},
 		deleteUserFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
-			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
 	},

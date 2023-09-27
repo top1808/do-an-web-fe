@@ -1,12 +1,13 @@
-import { fork, put, call, take, takeLatest } from 'redux-saga/effects';
+import { fork, put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import userApi from '@/api/userApi';
 import { createUserFailed, createUserSuccess, creatingUser, deleteUserFailed, deleteUserSuccess, deletingUser, getUsersFailed, getUsersSuccess, gettingUsers } from '../reducers/userReducer';
 import { AxiosResponse } from 'axios';
 import { User } from '@/models/userModel';
-import { PayloadAction } from '@reduxjs/toolkit';
+import { CreateAction, DeleteAction } from '@/models/actionModel';
 
-function* onDeleteUser(id: string) {
+function* onDeleteUser(action: DeleteAction) {
 	try {
+		const id = action.payload as string;
 		const response: AxiosResponse = yield call(userApi.deleteUser, id);
 		yield put(deleteUserSuccess({ id, message: response.data.message }));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,8 +17,9 @@ function* onDeleteUser(id: string) {
 	}
 }
 
-function* onCreateUser(body: User) {
+function* onCreateUser(action: CreateAction<User>) {
 	try {
+		const body: User = action.payload as User;
 		const response: AxiosResponse = yield call(userApi.createUser, body);
 		yield put(createUserSuccess(response.data.message));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,17 +41,17 @@ function* onGetUsers() {
 }
 
 function* watchDeleteUserFlow() {
-	const action: PayloadAction<string> = yield take(deletingUser.type);
-	yield fork(onDeleteUser, action.payload);
+	const type: string = deletingUser.type;
+	yield takeEvery(type, onDeleteUser);
 }
 
 function* watchCreateUserFlow() {
-	const action: PayloadAction<User> = yield take(creatingUser.type);
-	yield fork(onCreateUser, action.payload);
+	const type: string = creatingUser.type;
+	yield takeEvery(type, onCreateUser);
 }
 
 function* watchGetUserFlow() {
-	yield takeLatest(gettingUsers.type, onGetUsers);
+	yield takeEvery(gettingUsers.type, onGetUsers);
 }
 
 export function* userSaga() {
