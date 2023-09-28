@@ -16,6 +16,8 @@ const AdminCreateUserComponent = () => {
 	};
 
 	useEffect(() => {
+		console.log(user);
+
 		if (user.status === 'completed') {
 			router.push('/admin/user');
 		}
