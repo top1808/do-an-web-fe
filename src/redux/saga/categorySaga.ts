@@ -40,8 +40,6 @@ function* onCreateCategory(body: Category) {
 function* onGetCategories() {
 	try {
 		const response: AxiosResponse = yield call(CategoryApi.getCategories);
-		console.log(response.data.categories);
-
 		yield put(getCategorieSuccess(response.data.categories));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
