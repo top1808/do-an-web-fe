@@ -12,14 +12,10 @@ const AdminCreateCategoryComponent = () => {
 	const router = useRouter();
 
 	const onSubmit = (data: Category) => {
-		console.log(data);
-
 		dispatch(creatingCategory(data));
 	};
 
 	useEffect(() => {
-		console.log(category);
-
 		if (category.status === 'completed') {
 			router.push('/admin/category');
 		}
