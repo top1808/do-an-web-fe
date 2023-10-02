@@ -1,26 +1,25 @@
 'use client';
 
 import { InforProduct } from '@/models/productModels';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CarouselBanner from './components/CarouselBanner';
 import Banner from './components/Banner';
 import ListProducts from './components/ListProducts';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { gettingProduct } from '@/redux/reducers/productReducer';
 
-const data: InforProduct = {
-	id: 'asdasdas',
-	name: 'banh trung thu',
-	image: 'http://runecom06.runtime.vn/Uploads/shop97/images/product/salad_thit_nuong_vi_large.jpg',
-	price: 3000,
-	isFlashSale: true,
-	countHeart: 12312,
-};
 const HomeUserComponent = () => {
-	const listProduct: InforProduct[] = [data, data, data, data, data, data, data];
+	const { product } = useAppSelector((state) => state);
+	const dispatch = useAppDispatch();
+	// const listProduct: InforProduct[] = [data, data, data, data, data, data, data];
+	useEffect(() => {
+		dispatch(gettingProduct());
+	}, []);
 	return (
 		<div>
 			<CarouselBanner />
 			<Banner />
-			<ListProducts listProducts={listProduct} />
+			<ListProducts listProducts={product.data ? product.data : []} />
 		</div>
 	);
 };
