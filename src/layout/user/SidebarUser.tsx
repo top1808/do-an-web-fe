@@ -1,50 +1,38 @@
 'use client';
-import { Category } from '@/models/productModels';
-import { convertDataItemsCategory, getItem } from '@/utils/FuntionHelpers';
-import { faServer } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MenuItem } from '@/models/productModels';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { gettingCategory } from '@/redux/reducers/categoryReducer';
+import { getItem } from '@/utils/FuntionHelpers';
 import { Menu, type MenuProps } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const dataItems: Category[] = [
-	{
-		label: 'Món chính',
-		key: 'qqq',
-		icon: <FontAwesomeIcon icon={faServer} />,
-		children: [
-			{
-				label: 'Cơm',
-				key: 'xxx',
-			},
-			{
-				label: 'Cháo',
-				key: 'zzz',
-			},
-		],
-	},
-	{
-		label: 'Món tráng miệng',
-		key: 'abc',
-		icon: <FontAwesomeIcon icon={faServer} />,
-	},
-	{
-		label: 'Ăn vặt',
-		key: 'eeee',
-		icon: <FontAwesomeIcon icon={faServer} />,
-	},
-];
-const items = convertDataItemsCategory(dataItems);
 const SideBarUser: React.FC = () => {
+	const dispatch = useAppDispatch();
+	const { category } = useAppSelector((state) => state);
+	const [itemsCategory, setItemsCategory] = useState<MenuItem[]>([]);
+
 	const onClick: MenuProps['onClick'] = (e) => {
 		console.log('click ', e);
 	};
+	useEffect(() => {
+		dispatch(gettingCategory());
+	}, []);
+	useEffect(() => {
+		if (category.data) {
+			setItemsCategory(
+				category.data?.map((item: any) => {
+					return getItem(`${item.name}`, `${item._id}`);
+				}),
+			);
+		}
+	}, [category]);
 
 	return (
 		<>
 			<Menu
 				defaultSelectedKeys={['dashboard']}
 				mode='inline'
-				items={items}
+				items={itemsCategory}
 				onClick={onClick}
 			/>
 		</>

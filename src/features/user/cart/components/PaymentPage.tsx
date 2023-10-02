@@ -73,9 +73,9 @@ const PaymentPage = () => {
 					</Form.Item>
 					<Form.Item<DataPayment> name={'paymentMethod'}>
 						<Radio.Group className='px-2'>
-							<Radio.Button value='Momo'>Momo</Radio.Button>
-							<Radio.Button value='VietcomBank'>VietcomBank</Radio.Button>
-							<Radio.Button value='Tiền mặt'>Tiền mặt</Radio.Button>
+							<Radio.Button value='tien-mat'>Tiền mặt</Radio.Button>
+							<Radio.Button value='momo'>Momo</Radio.Button>
+							<Radio.Button value='vietcomBank'>VietcomBank</Radio.Button>
 						</Radio.Group>
 					</Form.Item>
 				</MCol>
