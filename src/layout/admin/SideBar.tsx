@@ -18,10 +18,10 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-	getItem('Dashboard', '/admin', <FontAwesomeIcon icon={faServer} />),
-	getItem('Category', '/admin/category', <FontAwesomeIcon icon={faBoxesStacked} />),
-	getItem('Product', '/admin/product', <FontAwesomeIcon icon={faBox} />),
-	getItem('User', '/admin/user', <FontAwesomeIcon icon={faUser} />),
+	getItem('Dashboard', '/', <FontAwesomeIcon icon={faServer} />),
+	getItem('Category', '/category', <FontAwesomeIcon icon={faBoxesStacked} />),
+	getItem('Product', '/product', <FontAwesomeIcon icon={faBox} />),
+	getItem('User', '/user', <FontAwesomeIcon icon={faUser} />),
 
 	getItem('Navigation One', '1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),
 

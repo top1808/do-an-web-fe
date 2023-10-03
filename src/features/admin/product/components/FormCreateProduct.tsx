@@ -102,7 +102,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 					<MButton
 						type='primary'
 						className='bg-gray-400'
-						link='/admin/product'
+						isGoBack
 					>
 						Back
 					</MButton>

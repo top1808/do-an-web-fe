@@ -20,7 +20,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 
 	useEffect(() => {
 		if (!auth.isLoggedIn) {
-			router.push('/admin/login');
+			router.push('/login');
 		}
 	}, [auth, router]);
 

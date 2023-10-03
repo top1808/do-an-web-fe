@@ -88,7 +88,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 					<MButton
 						type='primary'
 						className='bg-gray-400'
-						link='/admin/user'
+						isGoBack
 					>
 						Back
 					</MButton>

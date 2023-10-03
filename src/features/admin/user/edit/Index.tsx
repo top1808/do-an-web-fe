@@ -1,3 +1,4 @@
+'use client';
 import { User } from '@/models/userModel';
 import { useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -17,7 +19,7 @@ const AdminCreateCategoryComponent = () => {
 
 	useEffect(() => {
 		if (category.status === 'completed') {
-			router.push('/admin/category');
+			router.push('/category');
 		}
 	}, [category.status, router]);
 

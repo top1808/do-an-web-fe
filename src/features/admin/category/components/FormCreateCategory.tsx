@@ -86,7 +86,7 @@ const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 					<MButton
 						type='primary'
 						className='bg-gray-400'
-						link='/admin/category'
+						isGoBack
 					>
 						Back
 					</MButton>

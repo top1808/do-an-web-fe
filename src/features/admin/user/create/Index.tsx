@@ -1,3 +1,4 @@
+'use client';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
@@ -19,7 +20,7 @@ const AdminCreateUserComponent = () => {
 		console.log(user);
 
 		if (user.status === 'completed') {
-			router.push('/admin/user');
+			router.push('/user');
 		}
 	}, [user.status, router]);
 

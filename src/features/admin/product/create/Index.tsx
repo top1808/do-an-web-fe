@@ -1,3 +1,4 @@
+'use client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -17,7 +18,7 @@ const CreateProductComponent = () => {
 
 	useEffect(() => {
 		if (product.status === 'completed') {
-			router.push('/admin/product');
+			router.push('/product');
 		}
 	}, [product.status, router]);
 

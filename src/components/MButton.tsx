@@ -7,15 +7,16 @@ import { useRouter } from 'next/navigation';
 interface MButtonProps extends ButtonProps {
 	children?: ReactNode;
 	link?: string;
+	isGoBack?: boolean;
 }
 
 const MButton: React.FC<MButtonProps> = (props) => {
 	const router = useRouter();
-	const { children, link, ...rest } = props;
+	const { children, link, isGoBack, ...rest } = props;
 	return (
 		<Button
 			{...rest}
-			onClick={link ? () => router.push(link) : rest.onClick}
+			onClick={isGoBack ? () => router.back() : link ? () => router.push(link) : rest.onClick}
 		>
 			{children}
 		</Button>
