@@ -3,7 +3,8 @@ import { authSaga } from './authSaga';
 import { userSaga } from './userSaga';
 import { CategorySaga } from './categorySaga';
 import { ProductSaga } from './productSaga';
+import { RoleSaga } from './roleSaga';
 
 export function* rootSaga() {
-	yield all([authSaga(), userSaga(), CategorySaga(), ProductSaga()]);
+	yield all([authSaga(), userSaga(), CategorySaga(), ProductSaga(), RoleSaga()]);
 }

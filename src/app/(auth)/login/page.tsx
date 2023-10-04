@@ -1,5 +1,5 @@
 'use client';
-import AdminLogin from '@/features/admin/login/Index';
+import AdminLogin from '@/features/login/Index';
 import { useAppSelector } from '@/redux/hooks';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';

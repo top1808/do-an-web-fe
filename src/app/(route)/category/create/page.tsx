@@ -1,6 +1,6 @@
 import MBreadcrumb from '@/components/MBreadcrumb';
 import MCard from '@/components/MCard';
-import AdminCreateCategoryComponent from '@/features/admin/category/createCategory/Index';
+import AdminCreateCategoryComponent from '@/features/category/createCategory/Index';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';

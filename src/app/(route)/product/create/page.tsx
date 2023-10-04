@@ -1,6 +1,6 @@
 import MBreadcrumb from '@/components/MBreadcrumb';
 import MCard from '@/components/MCard';
-import CreateProductComponent from '@/features/admin/product/create/Index';
+import CreateProductComponent from '@/features/product/create/Index';
 import { Metadata } from 'next';
 import Link from 'next/link';
 

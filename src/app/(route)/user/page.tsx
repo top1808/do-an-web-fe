@@ -2,7 +2,7 @@ import MBreadcrumb from '@/components/MBreadcrumb';
 import MButton from '@/components/MButton';
 import MCard from '@/components/MCard';
 import MRow from '@/components/MRow';
-import AdminUserComponent from '@/features/admin/user/Index';
+import AdminUserComponent from '@/features/user/Index';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Metadata } from 'next';

@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<StyledComponentsRegistry>
 					<Providers>
 						<div>{children}</div>
-						<ToastContainer />
+						<ToastContainer limit={3} />
 					</Providers>
 				</StyledComponentsRegistry>
 			</body>
