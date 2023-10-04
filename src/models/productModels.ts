@@ -8,12 +8,7 @@ export interface InforProduct {
 	isFlashSale: boolean;
 	countHeart: number;
 }
-// export interface Category {
-// 	label: string;
-// 	key: string;
-// 	icon?: React.ReactNode;
-// 	children?: Category[];
-// }
+
 export interface Product {
 	_id?: string;
 	name?: string;
