@@ -7,9 +7,24 @@ export interface Role {
 export interface Permission {
 	_id?: string;
 	name?: string;
+	method?: string;
+	url?: string;
+}
+
+export interface PermissionGroup {
+	name?: string;
+	permissions?: Permission[];
 }
 
 export interface SetPermissionAction {
 	roleId?: string;
-	permissionId?: string;
+	permissionIds?: string[];
+}
+
+export interface CheckPermissionState {
+	url?: string;
+	canView?: boolean;
+	canCreate?: boolean;
+	canEdit?: boolean;
+	canDelete?: boolean;
 }

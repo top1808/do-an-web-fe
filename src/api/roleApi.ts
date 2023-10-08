@@ -11,7 +11,10 @@ const roleApi = {
 		return axiosClient.get(URL + '/permission');
 	},
 	setPerrmissionForRole(params: SetPermissionAction) {
-		return axiosClient.put(URL + '/role/give-permission/' + params.roleId, { permissionId: params.permissionId });
+		return axiosClient.post(URL + '/role/give-permission', { permissionIds: params.permissionIds, roleId: params.roleId });
+	},
+	checkPermissionUrl(url: string) {
+		return axiosClient.post(URL + '/permission/check', { url });
 	},
 };
 

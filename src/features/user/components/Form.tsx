@@ -2,11 +2,13 @@ import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
-import MSpace from '@/components/MSpace';
+import MSelect from '@/components/MSelect';
 import { User } from '@/models/userModel';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { gettingRole } from '@/redux/reducers/roleReducer';
 import { Form, Input } from 'antd';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type UserFormProps = {
 	onSubmit?: (data: User) => void;
@@ -20,8 +22,14 @@ const inititalValue: User = {
 };
 
 const UserForm: React.FC<UserFormProps> = (props) => {
+	const { role } = useAppSelector((state) => state);
+	const dispatch = useAppDispatch();
 	const { onSubmit } = props;
 	const pathname = usePathname();
+
+	useEffect(() => {
+		dispatch(gettingRole());
+	}, [dispatch]);
 
 	return (
 		<Form
@@ -75,6 +83,22 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 					>
 						<MInput
 							placeholder='Enter Email...'
+							size='large'
+						/>
+					</Form.Item>
+				</MCol>
+				<MCol span={6}>
+					<Form.Item
+						name='roleId'
+						label='Role'
+						rules={[{ required: true }]}
+					>
+						<MSelect
+							placeholder='Select a role'
+							options={role.roles?.map((r) => ({
+								value: r._id,
+								label: r.name,
+							}))}
 							size='large'
 						/>
 					</Form.Item>

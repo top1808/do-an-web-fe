@@ -1,6 +1,9 @@
 import { fork, put, call, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import {
+	checkPermissionFailed,
+	checkPermissionSuccess,
+	checkingPermission,
 	getPermissionFailed,
 	getPermissionSuccess,
 	getRoleFailed,
@@ -12,7 +15,7 @@ import {
 	settingPermissionForRole,
 } from '../reducers/roleReducer';
 import roleApi from '@/api/roleApi';
-import { SetPermissionAction } from '@/models/roleModel';
+import { SetPermissionAction, CheckPermissionState } from '@/models/roleModel';
 import { CreateAction } from '@/models/actionModel';
 
 function* onGetPermissions() {
@@ -41,11 +44,23 @@ function* onSetPermission(action: CreateAction<SetPermissionAction>) {
 	try {
 		const params = action.payload as SetPermissionAction;
 		const response: AxiosResponse = yield call(roleApi.setPerrmissionForRole, params);
-		yield put(setPermissionForRoleSuccess(response.data.message));
+		yield put(setPermissionForRoleSuccess(response.data));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		if (error?.response?.status === 403) return;
 		yield put(setPermissionForRoleFailed(error.response.data.message));
+	}
+}
+
+function* onCheckPermission(action: CreateAction<string>) {
+	try {
+		const url = action.payload as string;
+		const response: AxiosResponse = yield call(roleApi.checkPermissionUrl, url);
+		yield put(checkPermissionSuccess(response.data));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(checkPermissionFailed(error.response.data.message));
 	}
 }
 
@@ -61,8 +76,13 @@ function* watchSetPermissionFlow() {
 	yield takeEvery(settingPermissionForRole.type, onSetPermission);
 }
 
+function* watchCheckPermissionFlow() {
+	yield takeEvery(checkingPermission.type, onCheckPermission);
+}
+
 export function* RoleSaga() {
 	yield fork(watchGetRoleFlow);
 	yield fork(watchGetPermissionFlow);
 	yield fork(watchSetPermissionFlow);
+	yield fork(watchCheckPermissionFlow);
 }

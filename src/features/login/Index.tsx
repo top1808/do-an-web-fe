@@ -11,12 +11,10 @@ import { login } from '@/redux/reducers/authReducer';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
 import { FormLogin } from '@/models/authModel';
-import { useRouter } from 'next/navigation';
 
 const AdminLogin = () => {
 	const params = useSearchParams();
 	const messageError = params.get('error');
-	const router = useRouter();
 
 	const accountUser: FormLogin = JSON.parse(localStorage.getItem('accountUser') || '{}');
 

@@ -2,13 +2,60 @@
 import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import MSwitch from '@/components/MSwitch';
+import { Permission, PermissionGroup, Role } from '@/models/roleModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingPermission, gettingRole, settingPermissionForRole } from '@/redux/reducers/roleReducer';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const PermissionPageComponent = () => {
 	const dispatch = useAppDispatch();
-	const { role } = useAppSelector((state) => state);
+	const { role: roleState } = useAppSelector((state) => state);
+
+	const [permissionGroups, setPermisisonGroups] = useState<PermissionGroup[] | undefined>([]);
+
+	const handleChangePermission = (role: Role, permisison: Permission, isChecked?: boolean) => {
+		if (permisison.method === 'get' && isChecked) {
+			const permissionsWithUrl = roleState?.permissions?.filter((p) => p.url === permisison.url && role.permissionIds?.includes(p._id as string));
+			dispatch(settingPermissionForRole({ roleId: role._id, permissionIds: permissionsWithUrl?.map((p) => p._id) as string[] }));
+		} else {
+			dispatch(settingPermissionForRole({ roleId: role._id, permissionIds: [permisison._id] as string[] }));
+		}
+	};
+
+	useEffect(() => {
+		const tempPermissionGroups = roleState.permissions?.reduce((acc: PermissionGroup[], p: Permission) => {
+			const findPermissionGroup = acc.find((item) => item.name === p.url?.replace('/', ''));
+			if (findPermissionGroup) {
+				acc = acc.map((item) => {
+					if (item.name === findPermissionGroup.name) {
+						return {
+							...item,
+							permissions: [
+								...(item?.permissions || []),
+								{
+									...p,
+									name: p.name?.split(' ')[0],
+								},
+							],
+						};
+					}
+					return item;
+				});
+			} else {
+				acc.push({
+					name: p.url?.replace('/', ''),
+					permissions: [
+						{
+							...p,
+							name: p.name?.split(' ')[0],
+						},
+					],
+				});
+			}
+			return acc;
+		}, [] as PermissionGroup[]);
+		setPermisisonGroups(tempPermissionGroups);
+	}, [roleState.permissions]);
 
 	useEffect(() => {
 		dispatch(gettingRole());
@@ -22,7 +69,7 @@ const PermissionPageComponent = () => {
 				className='bg-slate-300 p-4 rounded-t'
 			>
 				<MCol span={6}>Permisisons</MCol>
-				{role?.roles?.map((r) => (
+				{roleState?.roles?.map((r) => (
 					<MCol
 						span={3}
 						key={r._id}
@@ -32,28 +79,39 @@ const PermissionPageComponent = () => {
 					</MCol>
 				))}
 			</MRow>
-			{role?.permissions?.map((p) => (
+			{permissionGroups?.map((group) => (
 				<MRow
 					gutter={0}
-					key={p._id}
+					key={group.name}
 					className='border border-slate-300 border-solid border-t-transparent bg-white p-4'
 				>
 					<MCol
 						span={6}
 						className='uppercase'
 					>
-						{p.name}
+						{group.name}
 					</MCol>
-					{role?.roles?.map((r) => (
+					{roleState?.roles?.map((r) => (
 						<MCol
 							span={3}
 							key={r._id}
+							className='text-sm font-bold uppercase'
 						>
-							<MSwitch
-								defaultChecked={r.permissionIds?.includes(p._id as string)}
-								loading={role.loading}
-								onChange={() => dispatch(settingPermissionForRole({ roleId: r._id, permissionId: p._id }))}
-							/>
+							{group.permissions?.map((p) => (
+								<div
+									key={p._id}
+									className='my-2'
+								>
+									<MSwitch
+										checked={r.permissionIds?.includes(p._id as string)}
+										checkedChildren={p.name}
+										unCheckedChildren={p.name}
+										loading={roleState.loading}
+										onChange={() => handleChangePermission(r, p, r.permissionIds?.includes(p._id as string))}
+										style={{ width: 72 }}
+									/>
+								</div>
+							))}
 						</MCol>
 					))}
 				</MRow>

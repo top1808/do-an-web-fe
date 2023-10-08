@@ -1,9 +1,11 @@
 import { faBox, faBoxesStacked, faServer, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../redux/hooks';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { checkingPermission } from '@/redux/reducers/roleReducer';
+import usePermission from '@/hooks/usePermission';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -38,10 +40,22 @@ const SideBarAdmin: React.FC = () => {
 	const { sideBar } = useAppSelector((state) => state);
 	const router = useRouter();
 	const pathname = usePathname();
+	const userPermisison = usePermission('/user');
+	const perPermisison = usePermission('/permission');
+
+	const [sidebarItems, setSidebarItems] = useState<MenuItem[]>([]);
 
 	const onClick: MenuProps['onClick'] = (e) => {
 		router.push(e.key);
 	};
+
+	useEffect(() => {
+		let tempItems = items;
+		if (!userPermisison?.canView) {
+			tempItems = tempItems.filter((item: MenuItem) => item?.key !== '/user');
+		}
+		setSidebarItems(tempItems);
+	}, [userPermisison?.canView]);
 
 	return (
 		<div className='h-full'>
@@ -58,7 +72,7 @@ const SideBarAdmin: React.FC = () => {
 			<Menu
 				selectedKeys={[pathname]}
 				mode='inline'
-				items={items}
+				items={sidebarItems}
 				style={{ border: 'none', paddingTop: 100 }}
 				onClick={onClick}
 			/>

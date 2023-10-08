@@ -1,4 +1,5 @@
-import { Permission, Role, SetPermissionAction } from '@/models/roleModel';
+import { ReponseState } from '@/models/actionModel';
+import { Permission, Role, SetPermissionAction, CheckPermissionState } from '@/models/roleModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
@@ -6,12 +7,14 @@ interface RoleState {
 	loading?: boolean;
 	roles?: Role[] | null;
 	permissions?: Permission[] | null;
+	checkPermission?: CheckPermissionState | null;
 }
 
 const initialState: RoleState = {
 	loading: false,
 	roles: null,
 	permissions: null,
+	checkPermission: null,
 };
 
 const roleSlice = createSlice({
@@ -43,12 +46,25 @@ const roleSlice = createSlice({
 		settingPermissionForRole: (state, action: PayloadAction<SetPermissionAction>) => {
 			state.loading = true;
 		},
-		setPermissionForRoleSuccess: (state, action: PayloadAction<string>) => {
+		setPermissionForRoleSuccess: (state, action: PayloadAction<ReponseState<Role[]>>) => {
 			state.loading = false;
-			action.payload && toast.success(action.payload);
+			state.roles = action.payload.data;
+			action.payload && toast.success(action.payload.message);
 		},
 		setPermissionForRoleFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
+			action.payload && toast.error(action.payload);
+		},
+		checkingPermission: (state, action: PayloadAction<string>) => {
+			state.loading = true;
+		},
+		checkPermissionSuccess: (state, action: PayloadAction<CheckPermissionState>) => {
+			state.loading = false;
+			state.checkPermission = action.payload;
+		},
+		checkPermissionFailed: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			state.checkPermission = null;
 			action.payload && toast.error(action.payload);
 		},
 	},
@@ -64,5 +80,8 @@ export const {
 	setPermissionForRoleFailed,
 	setPermissionForRoleSuccess,
 	settingPermissionForRole,
+	checkPermissionFailed,
+	checkPermissionSuccess,
+	checkingPermission,
 } = roleSlice.actions;
 export default roleSlice.reducer;
