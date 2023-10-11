@@ -1,4 +1,4 @@
-import { fork, put, call, take, takeLatest } from 'redux-saga/effects';
+import { fork, put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import productApi from '@/api/productApi';
 import { AxiosResponse } from 'axios';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -14,9 +14,11 @@ import {
 	gettingProduct,
 } from '../reducers/productReducer';
 import { Product } from '@/models/productModels';
+import { CreateAction, DeleteAction } from '@/models/actionModel';
 
-function* onDeleteProduct(id: string) {
+function* onDeleteProduct(action: DeleteAction) {
 	try {
+		const id = action.payload as string;
 		const response: AxiosResponse = yield call(productApi.deleteProduct, id);
 		yield put(deleteProductSuccess({ id, message: response.data.message }));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,9 +28,9 @@ function* onDeleteProduct(id: string) {
 	}
 }
 
-function* onCreateProduct(body: Product) {
+function* onCreateProduct(action: CreateAction<Product>) {
 	try {
-		const response: AxiosResponse = yield call(productApi.createProduct, body);
+		const response: AxiosResponse = yield call(productApi.createProduct, action.payload as Product);
 		yield put(createProductSuccess(response.data.message));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
@@ -49,17 +51,15 @@ function* onGetProducts() {
 }
 
 function* watchDeleteProductFlow() {
-	const action: PayloadAction<string> = yield take(deletingProduct.type);
-	yield fork(onDeleteProduct, action.payload);
+	yield takeEvery(deletingProduct.type, onDeleteProduct);
 }
 
 function* watchCreateProductFlow() {
-	const action: PayloadAction<Product> = yield take(creatingProduct.type);
-	yield fork(onCreateProduct, action.payload);
+	yield takeEvery(creatingProduct.type, onCreateProduct);
 }
 
 function* watchGetProductFlow() {
-	yield takeLatest(gettingProduct.type, onGetProducts);
+	yield takeEvery(gettingProduct.type, onGetProducts);
 }
 
 export function* ProductSaga() {

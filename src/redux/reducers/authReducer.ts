@@ -1,3 +1,4 @@
+import authApi from '@/api/authApi';
 import { FormLogin } from '@/models/authModel';
 import { User } from '@/models/userModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -38,15 +39,23 @@ const authSlice = createSlice({
 			state.logging = false;
 			state.isLoggedIn = false;
 			state.currentUser = null;
-			toast.error(action.payload);
+			action.payload && toast.error(action.payload);
 		},
 
-		logout(state) {
+		logouting(state) {
+			state.logging = true;
+		},
+		logoutSuccess(state) {
 			state.logging = false;
 			state.isLoggedIn = false;
+			state.currentUser = null;
+		},
+		logoutFailed(state, action: PayloadAction<string>) {
+			state.logging = false;
+			action.payload && toast.error(action.payload);
 		},
 	},
 });
 
-export const { login, loginSuccess, loginFailed, logout } = authSlice.actions;
+export const { login, loginSuccess, loginFailed, logouting, logoutFailed, logoutSuccess } = authSlice.actions;
 export default authSlice.reducer;

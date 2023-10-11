@@ -1,17 +1,28 @@
 import axiosClient from './axiosClient';
-import { FormRegister, FormLogin } from '../models/authModel';
+import { FormLogin } from '../models/authModel';
+import axios from 'axios';
 
-const URL = '/auth';
+const baseUrl = process.env.API_URL;
+
+const URL = 'auth';
 
 const authApi = {
-	register(body: FormRegister) {
-		return axiosClient.post(URL + '/register', body);
-	},
 	login(body: FormLogin) {
-		return axiosClient.post(URL + '/login', body);
+		return axios.post(baseUrl + URL + '/login', body, {
+			withCredentials: true,
+		});
 	},
 	refreshToken() {
-		return axiosClient.post(URL + '/refresh', {});
+		return axios.post(
+			baseUrl + URL + '/refresh',
+			{},
+			{
+				withCredentials: true,
+			},
+		);
+	},
+	logout() {
+		return axiosClient.post(URL + '/logout');
 	},
 };
 

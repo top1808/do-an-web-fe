@@ -8,4 +8,9 @@ interface CreateAction<T> {
 	type?: string;
 }
 
-export type { DeleteAction, CreateAction };
+interface ReponseState<T> {
+	message?: string;
+	data?: T;
+}
+
+export type { DeleteAction, CreateAction, ReponseState };

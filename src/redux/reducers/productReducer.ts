@@ -34,6 +34,7 @@ const ProductSlice = createSlice({
 
 		creatingProduct: (state, action: PayloadAction<Product>) => {
 			state.loading = true;
+			state.status = 'pending';
 		},
 		createProductSuccess: (state, action: PayloadAction<string>) => {
 			state.loading = false;
@@ -51,13 +52,11 @@ const ProductSlice = createSlice({
 		},
 		deleteProductSuccess: (state, action: PayloadAction<ReponseDeleteSuccess>) => {
 			state.loading = false;
-			state.status = 'completed';
 			state.data = state.data?.filter((item) => item._id !== action.payload.id);
 			action.payload && toast.success(action.payload.message);
 		},
 		deleteProductFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
-			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
 	},

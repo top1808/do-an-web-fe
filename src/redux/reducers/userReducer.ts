@@ -20,7 +20,6 @@ const userSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		gettingUsers: (state) => {
-			state.status = 'pending';
 			state.loading = true;
 			state.status = 'pending';
 		},

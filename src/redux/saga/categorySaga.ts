@@ -1,7 +1,6 @@
-import { fork, put, call, take, takeLatest } from 'redux-saga/effects';
+import { fork, put, call, takeEvery } from 'redux-saga/effects';
 import CategoryApi from '@/api/categoryApi';
 import { AxiosResponse } from 'axios';
-import { PayloadAction } from '@reduxjs/toolkit';
 import {
 	createCategoryFailed,
 	createCategorySuccess,
@@ -14,9 +13,11 @@ import {
 	gettingCategory,
 } from '../reducers/categoryReducer';
 import { Category } from '@/models/categoryModels';
+import { CreateAction } from '@/models/actionModel';
 
-function* onDeleteCategory(id: string) {
+function* onDeleteCategory(action: CreateAction<string>) {
 	try {
+		const id = action.payload as string;
 		const response: AxiosResponse = yield call(CategoryApi.deleteCategory, id);
 		yield put(deleteCategorySuccess({ id, message: response.data.message }));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,9 +27,9 @@ function* onDeleteCategory(id: string) {
 	}
 }
 
-function* onCreateCategory(body: Category) {
+function* onCreateCategory(action: CreateAction<Category>) {
 	try {
-		const response: AxiosResponse = yield call(CategoryApi.createCategory, body);
+		const response: AxiosResponse = yield call(CategoryApi.createCategory, action.payload as Category);
 		yield put(createCategorySuccess(response.data.message));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
@@ -49,17 +50,15 @@ function* onGetCategories() {
 }
 
 function* watchDeleteCategoryFlow() {
-	const action: PayloadAction<string> = yield take(deletingCategory.type);
-	yield fork(onDeleteCategory, action.payload);
+	yield takeEvery(deletingCategory.type, onDeleteCategory);
 }
 
 function* watchCreateCategoryFlow() {
-	const action: PayloadAction<Category> = yield take(creatingCategory.type);
-	yield fork(onCreateCategory, action.payload);
+	yield takeEvery(creatingCategory.type, onCreateCategory);
 }
 
 function* watchGetCategoryFlow() {
-	yield takeLatest(gettingCategory.type, onGetCategories);
+	yield takeEvery(gettingCategory.type, onGetCategories);
 }
 
 export function* CategorySaga() {
