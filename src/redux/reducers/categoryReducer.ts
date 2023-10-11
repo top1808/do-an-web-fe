@@ -34,6 +34,7 @@ const categorySlice = createSlice({
 
 		creatingCategory: (state, action: PayloadAction<Category>) => {
 			state.loading = true;
+			state.status = 'pending';
 		},
 		createCategorySuccess: (state, action: PayloadAction<string>) => {
 			state.loading = false;
@@ -51,13 +52,11 @@ const categorySlice = createSlice({
 		},
 		deleteCategorySuccess: (state, action: PayloadAction<ReponseDeleteSuccess>) => {
 			state.loading = false;
-			state.status = 'completed';
 			state.data = state.data?.filter((item) => item._id !== action.payload.id);
 			action.payload && toast.success(action.payload.message);
 		},
 		deleteCategoryFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
-			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
 	},

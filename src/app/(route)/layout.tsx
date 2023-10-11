@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
-const MLayout = dynamic(() => import('@/layout/admin/MLayout'), { ssr: false });
+const MLayout = dynamic(() => import('@/layout/MLayout'), { ssr: false });
 
 export const metadata: Metadata = {
 	title: 'Admin',

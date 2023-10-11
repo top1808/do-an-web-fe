@@ -1,4 +1,5 @@
 'use client';
+import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
@@ -6,6 +7,7 @@ import MTable from '@/components/MTable';
 import { Category } from '@/models/categoryModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingCategory } from '@/redux/reducers/categoryReducer';
+import { compareAlphabet } from '@/utils/FuntionHelpers';
 import { faCheck, faMagnifyingGlass, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
@@ -98,52 +100,47 @@ const TableCategories = () => {
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: '2%',
+			width: 20,
 		},
 		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: '10%',
+			width: 120,
 			...getColumnSearchProps('name'),
 		},
 		{
 			title: 'Type',
 			dataIndex: 'type',
 			key: 'type',
-			width: '20%',
-			...getColumnSearchProps('type'),
+			width: 50,
+			sortDirections: ['ascend', 'descend'],
 		},
 		{
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
-			width: '20%',
+			width: 200,
 			...getColumnSearchProps('description'),
 		},
 		{
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',
-			width: '15%',
-			render: (status) =>
-				status ? (
-					<FontAwesomeIcon
-						icon={faCheck}
-						color='green'
-					/>
-				) : (
-					<FontAwesomeIcon
-						icon={faXmark}
-						color='red'
-					/>
-				),
+			width: 50,
+			render: (status) => (
+				<MBadge
+					count={status}
+					color={status === 'active' ? 'green' : 'red'}
+					style={{ width: 70 }}
+				/>
+			),
 		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: '15%',
+			width: 50,
 			render: (item) => (
 				<MSpace split={2}>
 					<MButton

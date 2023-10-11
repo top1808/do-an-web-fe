@@ -2,9 +2,11 @@ import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
+import MSelect from '@/components/MSelect';
+import { STATUS_PRODUCT } from '@/constants';
 import { Product } from '@/models/productModels';
 
-import { Form, InputNumber, Radio } from 'antd';
+import { Form, Input, InputNumber } from 'antd';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -17,7 +19,7 @@ const inititalValue: Product = {
 	price: 0,
 	decription: '',
 	quantity: 0,
-	status: true,
+	status: 'active',
 };
 
 const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
@@ -31,19 +33,19 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 			initialValues={inititalValue}
 		>
 			<MRow gutter={12}>
-				<MCol span={4}>
+				<MCol span={6}>
 					<Form.Item
 						name='name'
-						label='Product Name'
+						label='Name'
 						rules={[{ required: true }]}
 					>
 						<MInput
-							placeholder='Enter Product name...'
+							placeholder='Enter name...'
 							size='large'
 						/>
 					</Form.Item>
 				</MCol>
-				<MCol span={4}>
+				<MCol span={6}>
 					<Form.Item
 						name='price'
 						label='Price'
@@ -56,7 +58,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 						/>
 					</Form.Item>
 				</MCol>
-				<MCol span={2}>
+				<MCol span={6}>
 					<Form.Item
 						name='quantity'
 						label='Quantity'
@@ -69,28 +71,30 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 						/>
 					</Form.Item>
 				</MCol>
-				<MCol span={9}>
-					<Form.Item
-						name='description'
-						label='Description'
-						rules={[{ required: true }]}
-					>
-						<MInput
-							placeholder='Enter description...'
-							size='large'
-						/>
-					</Form.Item>
-				</MCol>
-				<MCol span={4}>
+
+				<MCol span={6}>
 					<Form.Item
 						name='status'
 						label='Status'
 						rules={[{ required: true }]}
 					>
-						<Radio.Group defaultValue={true}>
-							<Radio.Button value={true}>True</Radio.Button>
-							<Radio.Button value={false}>False</Radio.Button>
-						</Radio.Group>
+						<MSelect
+							placeholder='Select type'
+							options={STATUS_PRODUCT}
+							size='large'
+						/>
+					</Form.Item>
+				</MCol>
+				<MCol span={24}>
+					<Form.Item
+						name='description'
+						label='Description'
+					>
+						<Input.TextArea
+							placeholder='Enter description...'
+							size='large'
+							rows={3}
+						/>
 					</Form.Item>
 				</MCol>
 			</MRow>

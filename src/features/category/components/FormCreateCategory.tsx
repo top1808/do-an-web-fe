@@ -2,6 +2,8 @@ import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
+import MSelect from '@/components/MSelect';
+import { CATEGORY_TYPE, STATUS_PRODUCT } from '@/constants';
 import { Category } from '@/models/categoryModels';
 import { Form, Input, Radio } from 'antd';
 import { usePathname } from 'next/navigation';
@@ -15,7 +17,7 @@ const inititalValue: Category = {
 	name: '',
 	type: '',
 	description: '',
-	status: true,
+	status: 'active',
 };
 
 const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
@@ -32,11 +34,11 @@ const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 				<MCol span={6}>
 					<Form.Item
 						name='name'
-						label='Category Name'
+						label='Name'
 						rules={[{ required: true }]}
 					>
 						<MInput
-							placeholder='Enter Category name...'
+							placeholder='Enter name...'
 							size='large'
 						/>
 					</Form.Item>
@@ -47,34 +49,37 @@ const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 						label='Type'
 						rules={[{ required: true }]}
 					>
-						<Input
-							placeholder='Enter type...'
+						<MSelect
+							placeholder='Select type'
+							options={CATEGORY_TYPE}
 							size='large'
 						/>
 					</Form.Item>
 				</MCol>
-				<MCol span={6}>
-					<Form.Item
-						name='description'
-						label='Description'
-						rules={[{ required: true }]}
-					>
-						<MInput
-							placeholder='Enter description...'
-							size='large'
-						/>
-					</Form.Item>
-				</MCol>
+
 				<MCol span={6}>
 					<Form.Item
 						name='status'
 						label='Status'
 						rules={[{ required: true }]}
 					>
-						<Radio.Group defaultValue={true}>
-							<Radio.Button value={true}> True</Radio.Button>
-							<Radio.Button value={false}> False</Radio.Button>
-						</Radio.Group>
+						<MSelect
+							placeholder='Select type'
+							options={STATUS_PRODUCT}
+							size='large'
+						/>
+					</Form.Item>
+				</MCol>
+				<MCol span={24}>
+					<Form.Item
+						name='description'
+						label='Description'
+					>
+						<Input.TextArea
+							placeholder='Enter description...'
+							size='large'
+							rows={3}
+						/>
 					</Form.Item>
 				</MCol>
 			</MRow>

@@ -1,6 +1,6 @@
 import MBreadcrumb from '@/components/MBreadcrumb';
 import MCard from '@/components/MCard';
-import AdminCreateCategoryComponent from '@/features/category/createCategory/Index';
+import AdminCreateCategoryComponent from '@/features/category/create/Index';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';
@@ -26,7 +26,7 @@ const CreateUserPage = () => {
 	return (
 		<>
 			<MBreadcrumb items={breadcrumbItems} />
-			<MCard title='Create User'>
+			<MCard title='Create Category'>
 				<AdminCreateCategoryComponent />
 			</MCard>
 		</>

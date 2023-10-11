@@ -16,6 +16,6 @@ export interface Product {
 	quantity?: number;
 	category_id?: string[];
 	decription?: string;
-	status?: boolean;
+	status?: string;
 }
 export type MenuItem = Required<MenuProps>['items'][number];

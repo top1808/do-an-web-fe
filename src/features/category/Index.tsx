@@ -11,6 +11,7 @@ const AdminCategoryComponent = () => {
 	useEffect(() => {
 		dispatch(gettingCategory());
 	}, [dispatch]);
+
 	return (
 		<div>
 			<TableCategories />

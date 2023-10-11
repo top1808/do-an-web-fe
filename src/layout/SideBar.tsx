@@ -2,9 +2,8 @@ import { faBox, faBoxesStacked, faServer, faUser, faUserLock } from '@fortawesom
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../redux/hooks';
 import { usePathname, useRouter } from 'next/navigation';
-import { checkingPermission } from '@/redux/reducers/roleReducer';
 import usePermission from '@/hooks/usePermission';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -19,7 +18,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 	} as MenuItem;
 }
 
-const items: MenuItem[] = [
+export const routes: MenuItem[] = [
 	getItem('Dashboard', '/', <FontAwesomeIcon icon={faServer} />),
 	getItem('Category', '/category', <FontAwesomeIcon icon={faBoxesStacked} />),
 	getItem('Product', '/product', <FontAwesomeIcon icon={faBox} />),
@@ -40,8 +39,7 @@ const SideBarAdmin: React.FC = () => {
 	const { sideBar } = useAppSelector((state) => state);
 	const router = useRouter();
 	const pathname = usePathname();
-	const userPermisison = usePermission('/user');
-	const perPermisison = usePermission('/permission');
+	// const webPermissions = usePermission();
 
 	const [sidebarItems, setSidebarItems] = useState<MenuItem[]>([]);
 
@@ -50,12 +48,15 @@ const SideBarAdmin: React.FC = () => {
 	};
 
 	useEffect(() => {
-		let tempItems = items;
-		if (!userPermisison?.canView) {
-			tempItems = tempItems.filter((item: MenuItem) => item?.key !== '/user');
-		}
+		const tempItems = routes;
+		// webPermissions?.forEach((p) => {
+		// 	if (!p?.canView) {
+		// 		tempItems = tempItems.filter((item: MenuItem) => item?.key !== p.url);
+		// 	}
+		// });
+
 		setSidebarItems(tempItems);
-	}, [userPermisison?.canView]);
+	}, []);
 
 	return (
 		<div className='h-full'>

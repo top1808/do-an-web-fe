@@ -1,4 +1,5 @@
 'use client';
+import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
@@ -6,7 +7,8 @@ import MTable from '@/components/MTable';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingProduct } from '@/redux/reducers/productReducer';
-import { faCheck, faMagnifyingGlass, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { customMoney, customNumber } from '@/utils/FuntionHelpers';
+import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -97,53 +99,52 @@ const TableProductsAdmin = () => {
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: '2%',
+			width: 20,
 		},
 		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: '10%',
+			width: 100,
 			...getColumnSearchProps('name'),
 		},
 		{
 			title: 'Price',
 			dataIndex: 'price',
 			key: 'price',
-			width: '20%',
-			...getColumnSearchProps('price'),
+			align: 'right',
+			width: 50,
+			sorter: (a, b) => (a.price || 0) - (b.price || 0),
+			render: customMoney,
 		},
 		{
 			title: 'Quantity',
 			dataIndex: 'quantity',
 			key: 'quantity',
-			width: '10%',
-			...getColumnSearchProps('quantity'),
+			align: 'right',
+			width: 50,
+			sorter: (a, b) => (a.quantity || 0) - (b.quantity || 0),
+			render: customNumber,
 		},
 		{
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
-			width: '20%',
+			width: 200,
 			...getColumnSearchProps('decription'),
 		},
 		{
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',
-			width: '5%',
-			render: (status) =>
-				status ? (
-					<FontAwesomeIcon
-						icon={faCheck}
-						color='green'
-					/>
-				) : (
-					<FontAwesomeIcon
-						icon={faXmark}
-						color='red'
-					/>
-				),
+			width: 50,
+			render: (status) => (
+				<MBadge
+					count={status}
+					color={status === 'active' ? 'green' : 'red'}
+					style={{ width: 70 }}
+				/>
+			),
 		},
 		{
 			title: 'Action',
@@ -155,7 +156,7 @@ const TableProductsAdmin = () => {
 					<MButton
 						type='primary'
 						onClick={() => {
-							dispatch(deletingProduct(item._id));
+							dispatch(deletingProduct(item._id || ''));
 						}}
 					>
 						<FontAwesomeIcon icon={faTrash} />

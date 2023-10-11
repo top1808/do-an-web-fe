@@ -10,8 +10,9 @@ const roleApi = {
 	getPermissions() {
 		return axiosClient.get(URL + '/permission');
 	},
-	setPerrmissionForRole(params: SetPermissionAction) {
-		return axiosClient.post(URL + '/role/give-permission', { permissionIds: params.permissionIds, roleId: params.roleId });
+	async setPerrmissionForRole(params: SetPermissionAction) {
+		const response = await axiosClient.post(URL + '/role/give-permission', { permissionIds: params.permissionIds, roleId: params.roleId });
+		return response;
 	},
 	checkPermissionUrl(url: string) {
 		return axiosClient.post(URL + '/permission/check', { url });

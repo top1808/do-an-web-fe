@@ -3,6 +3,5 @@ export interface Category {
 	name?: string;
 	type?: string;
 	description?: string;
-	status: boolean;
-	accessToken?: string;
+	status?: string;
 }

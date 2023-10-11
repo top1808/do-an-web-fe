@@ -7,14 +7,14 @@ interface RoleState {
 	loading?: boolean;
 	roles?: Role[] | null;
 	permissions?: Permission[] | null;
-	checkPermission?: CheckPermissionState | null;
+	webPermissions?: CheckPermissionState[] | null;
 }
 
 const initialState: RoleState = {
 	loading: false,
 	roles: null,
 	permissions: null,
-	checkPermission: null,
+	webPermissions: [],
 };
 
 const roleSlice = createSlice({
@@ -57,14 +57,15 @@ const roleSlice = createSlice({
 		},
 		checkingPermission: (state, action: PayloadAction<string>) => {
 			state.loading = true;
+			state.webPermissions = [];
 		},
 		checkPermissionSuccess: (state, action: PayloadAction<CheckPermissionState>) => {
 			state.loading = false;
-			state.checkPermission = action.payload;
+			state?.webPermissions?.push(action.payload);
 		},
 		checkPermissionFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
-			state.checkPermission = null;
+			state.webPermissions = [];
 			action.payload && toast.error(action.payload);
 		},
 	},

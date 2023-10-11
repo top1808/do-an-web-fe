@@ -1,6 +1,6 @@
 import { FormLogin } from '@/models/authModel';
 import { fork, put, take, select, call } from 'redux-saga/effects';
-import { login, loginFailed, loginSuccess, logout } from '../reducers/authReducer';
+import { login, loginFailed, loginSuccess, logoutSuccess, logouting } from '../reducers/authReducer';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
 import authApi from '@/api/authApi';
@@ -17,7 +17,13 @@ function* handleLogin(body: FormLogin) {
 }
 
 function* handleLogout() {
-	yield put(logout());
+	try {
+		const response: AxiosResponse = yield call(authApi.logout);
+		yield put(logoutSuccess(response.data.message));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		yield put(loginFailed(error?.response?.data?.message || 'Error Network!'));
+	}
 }
 
 function* watchLoginFlow() {
@@ -30,7 +36,7 @@ function* watchLoginFlow() {
 			const action: PayloadAction<FormLogin> = yield take(login.type);
 			yield fork(handleLogin, action.payload);
 		} else {
-			yield take(logout.type);
+			yield take(logouting.type);
 			yield call(handleLogout);
 		}
 	}

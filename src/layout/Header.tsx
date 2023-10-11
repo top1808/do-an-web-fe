@@ -5,13 +5,13 @@ import { faBell, faEnvelope, faMessage, faUser } from '@fortawesome/free-regular
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Badge, Col, Drawer, Dropdown, Image, Row, Tabs, TabsProps } from 'antd';
 import React, { useState } from 'react';
-import styles from '../../styles/layout.module.css';
+import styles from '../styles/layout.module.css';
 import type { MenuProps } from 'antd';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { toggle } from '../../redux/reducers/sideBarReducer';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { toggle } from '../redux/reducers/sideBarReducer';
 
 import MButton from '@/components/MButton';
-import { logout } from '@/redux/reducers/authReducer';
+import { logouting } from '@/redux/reducers/authReducer';
 
 const tabItems: TabsProps['items'] = [
 	{
@@ -246,7 +246,9 @@ const HeaderAdmin: React.FC = () => {
 			label: (
 				<div
 					className='flex items-center gap-2'
-					onClick={() => dispatch(logout())}
+					onClick={() => {
+						dispatch(logouting());
+					}}
 				>
 					<FontAwesomeIcon
 						icon={faArrowRightFromBracket}
