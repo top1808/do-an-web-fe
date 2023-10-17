@@ -183,7 +183,7 @@ const tabItems: TabsProps['items'] = [
 ];
 
 const HeaderAdmin: React.FC = () => {
-	const { sideBar } = useAppSelector((state) => state);
+	const { sideBar, auth } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
 	const notificationItems: MenuProps['items'] = [
@@ -337,25 +337,20 @@ const HeaderAdmin: React.FC = () => {
 					className='p-0'
 					headerStyle={{ padding: 0 }}
 				></Drawer>
-				<div className={styles.userProfileContainer}>
-					<div className='mx-8'>
-						<div className='text-base'>
-							Hello, <strong>Top</strong>
+
+				<Dropdown
+					menu={{ items: profileItems }}
+					trigger={['click']}
+				>
+					<div className={styles.userProfileContainer}>
+						<div className='mx-2'>
+							<div className='text-base'>
+								Hello, <strong>{auth.currentUser?.name}</strong>
+							</div>
 						</div>
-						<div className='text-right text-xs text-gray-600'>admin</div>
+						<div className={styles.userAvatar}>60x60</div>
 					</div>
-					<Dropdown
-						menu={{ items: profileItems }}
-						trigger={['click']}
-					>
-						<a
-							onClick={(e) => e.preventDefault()}
-							className={styles.userAvatar}
-						>
-							60x60
-						</a>
-					</Dropdown>
-				</div>
+				</Dropdown>
 			</div>
 		</div>
 	);

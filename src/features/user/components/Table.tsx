@@ -1,4 +1,5 @@
 import MButton from '@/components/MButton';
+import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
@@ -100,31 +101,43 @@ const UserTable = () => {
 			width: '2%',
 		},
 		{
+			title: 'Avatar',
+			dataIndex: 'image',
+			key: 'image',
+			width: 60,
+			render: (item) => (
+				<MImage
+					src={item}
+					alt='avatar'
+				/>
+			),
+		},
+		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: '30%',
+			width: 200,
 			...getColumnSearchProps('name'),
 		},
 		{
 			title: 'email',
 			dataIndex: 'email',
 			key: 'email',
-			width: '20%',
+			width: 100,
 			...getColumnSearchProps('email'),
 		},
 		{
 			title: 'Username',
 			dataIndex: 'username',
 			key: 'username',
-			width: '15%',
+			width: 100,
 			...getColumnSearchProps('username'),
 		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: '15%',
+			width: 100,
 			render: (item) => (
 				<MSpace split={2}>
 					<MButton
