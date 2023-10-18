@@ -17,7 +17,7 @@ const axiosClient = axios.create({
 		'Access-Control-Allow-Origin': '*',
 	},
 	withCredentials: true,
-	timeout: 5000,
+	timeout: 15000,
 });
 
 const refreshToken = async () => {

@@ -55,7 +55,6 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 						listType='picture-card'
 						multiple={false}
 						showUploadList={false}
-						style={{ width: '100' }}
 					>
 						Upload
 					</MForm.UploadImage>

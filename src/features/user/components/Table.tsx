@@ -10,7 +10,7 @@ import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type DataIndex = keyof User;
 
@@ -19,18 +19,12 @@ const UserTable = () => {
 
 	const dispatch = useAppDispatch();
 
-	const [searchText, setSearchText] = useState('');
-	const [searchedColumn, setSearchedColumn] = useState('');
-
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
-		setSearchText(selectedKeys[0]);
-		setSearchedColumn(dataIndex);
 	};
 
 	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		clearFilters();
-		setSearchText('');
 		handleSearch(selectedKeys as string[], confirm, dataIndex);
 	};
 
@@ -109,6 +103,7 @@ const UserTable = () => {
 				<MImage
 					src={item}
 					alt='avatar'
+					style={{ height: 50 }}
 				/>
 			),
 		},

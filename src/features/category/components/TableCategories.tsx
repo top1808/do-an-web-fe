@@ -1,6 +1,7 @@
 'use client';
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
+import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
@@ -21,18 +22,12 @@ const TableCategories = () => {
 
 	const dispatch = useAppDispatch();
 
-	const [searchText, setSearchText] = useState('');
-	const [searchedColumn, setSearchedColumn] = useState('');
-
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
-		setSearchText(selectedKeys[0]);
-		setSearchedColumn(dataIndex);
 	};
 
 	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		clearFilters();
-		setSearchText('');
 		handleSearch(selectedKeys as string[], confirm, dataIndex);
 	};
 
@@ -103,10 +98,23 @@ const TableCategories = () => {
 			width: 20,
 		},
 		{
+			title: 'Image',
+			dataIndex: 'image',
+			key: 'image',
+			width: 60,
+			render: (item) => (
+				<MImage
+					src={item}
+					alt='avatar'
+					style={{ height: 50 }}
+				/>
+			),
+		},
+		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: 120,
+			width: 150,
 			...getColumnSearchProps('name'),
 		},
 		{
