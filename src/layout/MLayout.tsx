@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import HeaderComponent from './Header';
 import FooterComponent from './Footer';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next/navigation';
+import MSpin from '@/components/MSpin';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -63,7 +64,17 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 				>
 					<HeaderComponent />
 				</Header>
-				<Content style={{ marginTop: 100 }}>{children}</Content>
+				<Content style={{ marginTop: 100, minHeight: 'calc(100vh - 180px)' }}>
+					<Suspense
+						fallback={
+							<div className='w-full h-full flex items-center justify-center'>
+								<MSpin size='large'></MSpin>
+							</div>
+						}
+					>
+						{children}
+					</Suspense>
+				</Content>
 				<Footer>
 					<FooterComponent />
 				</Footer>

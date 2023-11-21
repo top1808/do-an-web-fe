@@ -6,9 +6,10 @@ import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import { CATEGORY_TYPE, STATUS_PRODUCT } from '@/constants';
 import { Category } from '@/models/categoryModels';
-import { Form, Input, Radio } from 'antd';
+import { useAppSelector } from '@/redux/hooks';
+import { Form, Input } from 'antd';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type CategoryFormProps = {
 	onSubmit?: (data: Category) => void;
@@ -23,14 +24,23 @@ const inititalValue: Category = {
 };
 
 const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
+	const { category } = useAppSelector((state) => state);
+	const { categoryEdit } = category;
+
 	const { onSubmit } = props;
 	const pathname = usePathname();
+
+	const [form] = Form.useForm();
+
+	useEffect(() => {
+		form.setFieldsValue(categoryEdit ? categoryEdit : inititalValue);
+	}, [form, categoryEdit]);
 
 	return (
 		<Form
 			onFinish={onSubmit}
 			layout='vertical'
-			initialValues={inititalValue}
+			form={form}
 		>
 			<MRow gutter={12}>
 				<MCol span={3}>
@@ -43,6 +53,7 @@ const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 						listType='picture-card'
 						multiple={false}
 						showUploadList={false}
+						initImage={categoryEdit?.image}
 					>
 						Upload
 					</MForm.UploadImage>

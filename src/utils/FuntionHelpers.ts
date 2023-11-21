@@ -29,6 +29,10 @@ export const handleParserInputNumber = (value: string | undefined) => {
 	return 1;
 };
 
+export const objectToQueryString = <T>(object: T): string => {
+	return '?' + new URLSearchParams(object as any).toString();
+};
+
 export function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): MenuItem {
 	return {
 		key,

@@ -1,26 +1,21 @@
-import uploadApi from '@/api/uploadApi';
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MForm from '@/components/MForm';
-import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
-import MUpload from '@/components/MUpload';
-import MUploadImage from '@/components/MUploadImage';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingRole } from '@/redux/reducers/roleReducer';
 import { Form, Input } from 'antd';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 type UserFormProps = {
 	onSubmit?: (data: User) => void;
 };
 
-const inititalValue: User = {
+const INITIAL_VALUE: User = {
 	username: '',
 	password: '',
 	name: '',
@@ -29,20 +24,26 @@ const inititalValue: User = {
 };
 
 const UserForm: React.FC<UserFormProps> = (props) => {
-	const { role } = useAppSelector((state) => state);
+	const { role, user } = useAppSelector((state) => state);
+	const { userEdit } = user;
 	const dispatch = useAppDispatch();
 	const { onSubmit } = props;
 	const pathname = usePathname();
+	const [form] = Form.useForm();
 
 	useEffect(() => {
 		dispatch(gettingRole());
 	}, [dispatch]);
 
+	useEffect(() => {
+		form.setFieldsValue(userEdit ? userEdit : INITIAL_VALUE);
+	}, [form, userEdit]);
+
 	return (
 		<Form
 			onFinish={onSubmit}
 			layout='vertical'
-			initialValues={inititalValue}
+			form={form}
 		>
 			<MRow gutter={8}>
 				<MCol span={3}>
@@ -53,6 +54,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 						action={`${process.env.API_UPLOAD_URL}image/upload`}
 						accept='image/*'
 						listType='picture-card'
+						initImage={userEdit?.image}
 						multiple={false}
 						showUploadList={false}
 					>
@@ -77,7 +79,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 							<Form.Item
 								name='password'
 								label='Password'
-								rules={[{ required: true }]}
+								rules={[{ required: !userEdit }]}
 							>
 								<Input.Password
 									placeholder='Enter password...'

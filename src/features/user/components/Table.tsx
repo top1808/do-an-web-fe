@@ -1,4 +1,5 @@
 import MButton from '@/components/MButton';
+import MButtonDelete from '@/components/MButtonDelete';
 import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
@@ -6,7 +7,7 @@ import MTable from '@/components/MTable';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingUser } from '@/redux/reducers/userReducer';
-import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -134,13 +135,17 @@ const UserTable = () => {
 			fixed: 'right',
 			width: 100,
 			render: (item) => (
-				<MSpace split={2}>
+				<MSpace split={''}>
 					<MButton
 						type='primary'
-						onClick={() => dispatch(deletingUser(item._id))}
+						link={`user/edit/${item._id}`}
 					>
-						<FontAwesomeIcon icon={faTrash} />
+						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
+					<MButtonDelete
+						title={`Delete user ${item.name}? `}
+						onConfirm={() => dispatch(deletingUser(item._id))}
+					></MButtonDelete>
 				</MSpace>
 			),
 		},

@@ -228,18 +228,6 @@ const HeaderAdmin: React.FC = () => {
 			key: '0',
 		},
 		{
-			label: (
-				<div className='flex items-center gap-2'>
-					<FontAwesomeIcon
-						icon={faEnvelope}
-						color='#2BC255'
-					/>
-					Inbox
-				</div>
-			),
-			key: '1',
-		},
-		{
 			type: 'divider',
 		},
 		{
@@ -348,7 +336,13 @@ const HeaderAdmin: React.FC = () => {
 								Hello, <strong>{auth.currentUser?.name}</strong>
 							</div>
 						</div>
-						<div className={styles.userAvatar}>60x60</div>
+						<div className={styles.userAvatar}>
+							<Image
+								src={auth.currentUser?.image}
+								alt='avatar'
+								preview={false}
+							/>
+						</div>
 					</div>
 				</Dropdown>
 			</div>

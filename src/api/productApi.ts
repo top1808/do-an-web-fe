@@ -13,6 +13,12 @@ const ProductApi = {
 	deleteProduct(id: string) {
 		return axiosClient.delete(URL + '/' + id);
 	},
+	getProductInfo(id: string) {
+		return axiosClient.get(URL + '/' + id);
+	},
+	editProduct(body: Product) {
+		return axiosClient.put(URL + '/update/' + body._id, body);
+	},
 };
 
 export default ProductApi;

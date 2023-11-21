@@ -8,9 +8,15 @@ import {
 	deleteCategoryFailed,
 	deleteCategorySuccess,
 	deletingCategory,
+	editCategoryFailed,
+	editCategorySuccess,
+	edittingCategory,
 	getCategorieSuccess,
 	getCategoriesFailed,
+	getCategoryInfoFailed,
+	getCategoryInfoSuccess,
 	gettingCategory,
+	gettingCategoryInfo,
 } from '../reducers/categoryReducer';
 import { Category } from '@/models/categoryModels';
 import { CreateAction } from '@/models/actionModel';
@@ -49,6 +55,30 @@ function* onGetCategories() {
 	}
 }
 
+function* onGetCategoryInfo(action: CreateAction<string>) {
+	try {
+		const id: string = action.payload as string;
+		const response: AxiosResponse = yield call(CategoryApi.getCategoryInfo, id);
+		yield put(getCategoryInfoSuccess(response.data.category));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(getCategoryInfoFailed(error.response.data.message));
+	}
+}
+
+function* onEditCategory(action: CreateAction<Category>) {
+	try {
+		const body: Category = action.payload as Category;
+		const response: AxiosResponse = yield call(CategoryApi.editCategory, body);
+		yield put(editCategorySuccess(response.data.message));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(editCategoryFailed(error.response.data.message));
+	}
+}
+
 function* watchDeleteCategoryFlow() {
 	yield takeEvery(deletingCategory.type, onDeleteCategory);
 }
@@ -61,8 +91,20 @@ function* watchGetCategoryFlow() {
 	yield takeEvery(gettingCategory.type, onGetCategories);
 }
 
+function* watchGetCategoryInfoFlow() {
+	const type: string = gettingCategoryInfo.type;
+	yield takeEvery(type, onGetCategoryInfo);
+}
+
+function* watchEditCategoryFlow() {
+	const type: string = edittingCategory.type;
+	yield takeEvery(type, onEditCategory);
+}
+
 export function* CategorySaga() {
 	yield fork(watchGetCategoryFlow);
 	yield fork(watchCreateCategoryFlow);
 	yield fork(watchDeleteCategoryFlow);
+	yield fork(watchGetCategoryInfoFlow);
+	yield fork(watchEditCategoryFlow);
 }

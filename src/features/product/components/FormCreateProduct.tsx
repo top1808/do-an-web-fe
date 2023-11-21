@@ -6,11 +6,12 @@ import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import { STATUS_PRODUCT } from '@/constants';
 import { Product } from '@/models/productModels';
+import { useAppSelector } from '@/redux/hooks';
 import { handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 
 import { Form, Input, InputNumber } from 'antd';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type ProductFormProps = {
 	onSubmit?: (data: Product) => void;
@@ -26,14 +27,22 @@ const inititalValue: Product = {
 };
 
 const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
+	const { product } = useAppSelector((state) => state);
+	const { productEdit } = product;
+
 	const { onSubmit } = props;
 	const pathname = usePathname();
+	const [form] = Form.useForm();
+
+	useEffect(() => {
+		form.setFieldsValue(productEdit ? productEdit : inititalValue);
+	}, [form, productEdit]);
 
 	return (
 		<Form
 			onFinish={onSubmit}
 			layout='vertical'
-			initialValues={inititalValue}
+			form={form}
 		>
 			<MRow gutter={12}>
 				<MCol span={3}>
@@ -45,6 +54,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 						accept='image/*'
 						listType='picture-card'
 						multiple={false}
+						initImage={productEdit?.image}
 						showUploadList={false}
 					>
 						Upload

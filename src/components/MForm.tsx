@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Form, FormProps, FormItemProps, UploadProps } from 'antd';
 import MUpload from './MUpload';
 import MImage from './MImage';
@@ -15,6 +15,7 @@ interface MFormUploadImageProps extends UploadProps {
 	children?: ReactNode;
 	formLabel?: string;
 	formName?: string;
+	initImage?: string;
 }
 
 const MForm1: React.FC<MFormProps> = (props) => {
@@ -28,7 +29,7 @@ const MFormItem: React.FC<MFormItemProps> = (props) => {
 };
 
 const MFormUploadImage: React.FC<MFormUploadImageProps> = (props) => {
-	const { children, formLabel, formName, ...rest } = props;
+	const { children, formLabel, formName, initImage, ...rest } = props;
 	const [image, setImage] = useState('');
 
 	const normFile = (e: any) => {
@@ -37,6 +38,11 @@ const MFormUploadImage: React.FC<MFormUploadImageProps> = (props) => {
 		}
 		return e?.file?.response?.image?.data;
 	};
+
+	useEffect(() => {
+		setImage(initImage || '');
+	}, [initImage]);
+
 	return (
 		<Form.Item
 			name={formName}

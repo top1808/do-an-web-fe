@@ -1,6 +1,7 @@
 'use client';
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
+import MButtonDelete from '@/components/MButtonDelete';
 import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
@@ -9,7 +10,7 @@ import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingProduct } from '@/redux/reducers/productReducer';
 import { customMoney, customNumber } from '@/utils/FuntionHelpers';
-import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -160,15 +161,17 @@ const TableProductsAdmin = () => {
 			fixed: 'right',
 			width: '15%',
 			render: (item: Product) => (
-				<MSpace split={2}>
+				<MSpace split={''}>
 					<MButton
 						type='primary'
-						onClick={() => {
-							dispatch(deletingProduct(item._id || ''));
-						}}
+						link={`product/edit/${item._id}`}
 					>
-						<FontAwesomeIcon icon={faTrash} />
+						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
+					<MButtonDelete
+						title={`Delete product ${item.name}? `}
+						onConfirm={() => dispatch(deletingProduct(item._id || ''))}
+					></MButtonDelete>
 				</MSpace>
 			),
 		},

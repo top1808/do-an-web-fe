@@ -6,12 +6,14 @@ interface ProductState {
 	loading: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: Product[];
+	productEdit?: Product | null;
 }
 
 const initialState: ProductState = {
 	loading: false,
 	status: 'pending',
 	data: [],
+	productEdit: null,
 };
 
 const ProductSlice = createSlice({
@@ -21,6 +23,7 @@ const ProductSlice = createSlice({
 		gettingProduct: (state) => {
 			state.status = 'pending';
 			state.loading = true;
+			state.productEdit = null;
 		},
 		getProductsSuccess: (state, action: PayloadAction<Product[]>) => {
 			state.loading = false;
@@ -59,9 +62,52 @@ const ProductSlice = createSlice({
 			state.loading = false;
 			action.payload && toast.error(action.payload);
 		},
+
+		gettingProductInfo: (state, action: PayloadAction<string>) => {
+			state.loading = true;
+			state.productEdit = null;
+		},
+		getProductInfoSuccess: (state, action: PayloadAction<Product>) => {
+			state.loading = false;
+			state.productEdit = action.payload;
+		},
+		getProductInfoFailed: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			action.payload && toast.error(action.payload);
+		},
+
+		edittingProduct: (state, action: PayloadAction<Product>) => {
+			state.loading = true;
+			state.status = 'pending';
+		},
+		editProductSuccess: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			state.status = 'completed';
+			action.payload && toast.success(action.payload);
+		},
+		editProductFailed: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			state.status = 'failed';
+			action.payload && toast.error(action.payload);
+		},
 	},
 });
 
-export const { createProductFailed, createProductSuccess, creatingProduct, deleteProductFailed, deleteProductSuccess, deletingProduct, gettingProduct, getProductsFailed, getProductsSuccess } =
-	ProductSlice.actions;
+export const {
+	editProductFailed,
+	editProductSuccess,
+	edittingProduct,
+	getProductInfoFailed,
+	getProductInfoSuccess,
+	gettingProductInfo,
+	createProductFailed,
+	createProductSuccess,
+	creatingProduct,
+	deleteProductFailed,
+	deleteProductSuccess,
+	deletingProduct,
+	gettingProduct,
+	getProductsFailed,
+	getProductsSuccess,
+} = ProductSlice.actions;
 export default ProductSlice.reducer;

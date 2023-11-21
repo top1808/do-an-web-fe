@@ -10,3 +10,8 @@ export interface User {
 	image?: string;
 	accessToken?: string;
 }
+
+export interface UserParams {
+	offset?: string;
+	limit?: string;
+}
