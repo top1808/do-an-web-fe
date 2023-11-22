@@ -1,6 +1,6 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 import React, { useEffect } from 'react';
 import FormCreateProduct from '../components/FormCreateProduct';
 import { creatingProduct } from '@/redux/reducers/productReducer';

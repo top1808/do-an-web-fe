@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from 'react';
 import { Button, ButtonProps } from 'antd';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 
 interface MButtonProps extends ButtonProps {
 	children?: ReactNode;

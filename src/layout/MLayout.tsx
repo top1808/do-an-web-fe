@@ -6,7 +6,7 @@ import FooterComponent from './Footer';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
 
 const { Header, Footer, Sider, Content } = Layout;
