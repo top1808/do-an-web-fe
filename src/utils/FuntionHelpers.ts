@@ -1,4 +1,19 @@
 import { MenuItem } from '@/models/productModels';
+import dayjs from 'dayjs';
+
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import localeData from 'dayjs/plugin/localeData';
+import weekday from 'dayjs/plugin/weekday';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import weekYear from 'dayjs/plugin/weekYear';
+
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
 
 export const customMoney = (money: number) => {
 	return money.toLocaleString('vi-VN', {
@@ -31,6 +46,14 @@ export const handleParserInputNumber = (value: string | undefined) => {
 
 export const objectToQueryString = <T>(object: T): string => {
 	return '?' + new URLSearchParams(object as any).toString();
+};
+
+export const formatDate = (date: Date | string, format: string) => {
+	return dayjs(date || new Date()).format(format || 'YYYY-MM-DD');
+};
+
+export const changeDateStringToDayjs = (date: string) => {
+	return dayjs(date || new Date());
 };
 
 export function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): MenuItem {

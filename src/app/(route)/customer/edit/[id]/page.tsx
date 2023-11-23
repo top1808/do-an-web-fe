@@ -1,35 +1,36 @@
 import MBreadcrumb from '@/components/MBreadcrumb';
 import MCard from '@/components/MCard';
-import CreateProductComponent from '@/features/product/create/Index';
+import AdminEditCustomerComponent from '@/features/customer/edit/Index';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import React from 'react';
 
 export const metadata: Metadata = {
-	title: 'Create product',
-	description: 'Create product',
+	title: 'Edit customer',
+	description: 'Edit customer',
 };
 
-const CreateProduct = () => {
+const CustomerEditPage = () => {
 	const breadcrumbItems = [
 		{
 			title: <Link href='/'>Admin</Link>,
 		},
 		{
-			title: <Link href='/product'>Product</Link>,
+			title: <Link href='/customer'>Customer</Link>,
 		},
 		{
-			title: 'Create',
+			title: 'Edit',
 		},
 	];
 
 	return (
 		<>
 			<MBreadcrumb items={breadcrumbItems} />
-			<MCard title='Create Product'>
-				<CreateProductComponent />
+			<MCard title='Edit Customer'>
+				<AdminEditCustomerComponent />
 			</MCard>
 		</>
 	);
 };
 
-export default CreateProduct;
+export default CustomerEditPage;

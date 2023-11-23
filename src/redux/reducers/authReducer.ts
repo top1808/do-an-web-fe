@@ -37,8 +37,6 @@ const authSlice = createSlice({
 		},
 		loginFailed(state, action: PayloadAction<string>) {
 			state.logging = false;
-			state.isLoggedIn = false;
-			state.currentUser = null;
 			action.payload && toast.error(action.payload);
 		},
 

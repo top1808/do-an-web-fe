@@ -58,7 +58,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 						top: 0,
 						left: sideBar?.isOpen ? 200 : 80,
 						right: 0,
-						zIndex: 1,
+						zIndex: 10,
 						transitionDuration: '0.3s',
 					}}
 				>

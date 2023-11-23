@@ -24,6 +24,7 @@ export const routes: MenuItem[] = [
 	getItem('Category', '/category', <FontAwesomeIcon icon={faBoxesStacked} />),
 	getItem('Product', '/product', <FontAwesomeIcon icon={faBox} />),
 	getItem('User', '/user', <FontAwesomeIcon icon={faUser} />),
+	getItem('Customer', '/customer', <FontAwesomeIcon icon={faUser} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
 
 	getItem('Navigation One', '1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),

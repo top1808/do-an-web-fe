@@ -54,7 +54,7 @@ const PermissionPageComponent = () => {
 			}
 			return acc;
 		}, [] as PermissionGroup[]);
-		setPermisisonGroups(tempPermissionGroups);
+		setPermisisonGroups(tempPermissionGroups?.sort((a, b) => (a?.name || '').localeCompare(b?.name || '')));
 	}, [roleState.permissions]);
 
 	useEffect(() => {
@@ -71,7 +71,7 @@ const PermissionPageComponent = () => {
 				<MCol span={6}>Permisisons</MCol>
 				{roleState?.roles?.map((r) => (
 					<MCol
-						span={3}
+						span={6}
 						key={r._id}
 						className='text-sm font-bold uppercase'
 					>
@@ -93,7 +93,7 @@ const PermissionPageComponent = () => {
 					</MCol>
 					{roleState?.roles?.map((r) => (
 						<MCol
-							span={3}
+							span={6}
 							key={r._id}
 							className='text-sm font-bold uppercase'
 						>
