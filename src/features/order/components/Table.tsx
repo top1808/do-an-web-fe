@@ -1,23 +1,22 @@
 import MButton from '@/components/MButton';
 import MButtonDelete from '@/components/MButtonDelete';
-import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
-import { Customer } from '@/models/customerModel';
+import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingCustomer } from '@/redux/reducers/customerReducer';
-import { formatDate, formatPhonenumber } from '@/utils/FuntionHelpers';
+import { deletingOrder } from '@/redux/reducers/orderReducer';
+import { customMoney, formatDate, formatPhonenumber } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
 import React from 'react';
 
-type DataIndex = keyof Customer;
+type DataIndex = keyof Order;
 
-const CustomerTable = () => {
-	const { customer } = useAppSelector((state) => state);
+const OrderTable = () => {
+	const { order } = useAppSelector((state) => state);
 
 	const dispatch = useAppDispatch();
 
@@ -85,11 +84,11 @@ const CustomerTable = () => {
 			</div>
 		),
 		filterIcon: () => <FontAwesomeIcon icon={faMagnifyingGlass} />,
-		onFilter: (value: string, record: Customer) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
+		onFilter: (value: string, record: Order) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
 		render: (text: string) => text,
 	});
 
-	const columns: ColumnsType<Customer> = [
+	const columns: ColumnsType<Order> = [
 		{
 			title: '#',
 			dataIndex: 'index',
@@ -97,54 +96,54 @@ const CustomerTable = () => {
 			width: '2%',
 		},
 		{
-			title: 'Avatar',
-			dataIndex: 'image',
-			key: 'image',
-			width: 60,
-			render: (item) => (
-				<MImage
-					src={item}
-					alt='avatar'
-					style={{ height: 50 }}
-				/>
-			),
-		},
-		{
-			title: 'Name',
-			dataIndex: 'name',
-			key: 'name',
-			width: 200,
-			...getColumnSearchProps('name'),
-		},
-		{
-			title: 'Email',
-			dataIndex: 'email',
-			key: 'email',
+			title: 'Order Code',
+			dataIndex: 'orderCode',
+			key: 'orderCode',
 			width: 100,
-			...getColumnSearchProps('email'),
+			...getColumnSearchProps('orderCode'),
 		},
 		{
-			title: 'Birthday',
-			dataIndex: 'birthday',
-			key: 'birthday',
+			title: 'Customer Name',
+			dataIndex: 'customerName',
+			key: 'customerName',
 			width: 100,
-			...getColumnSearchProps('birthday'),
-			render: (item: string) => formatDate(item, 'DD/MM/YYYY'),
+			...getColumnSearchProps('customerName'),
 		},
 		{
-			title: 'Phone number',
-			dataIndex: 'phoneNumber',
-			key: 'phoneNumber',
-			width: 100,
-			...getColumnSearchProps('phoneNumber'),
-			render: (item) => formatPhonenumber(item),
+			title: 'Customer Phone',
+			dataIndex: 'customerPhone',
+			key: 'customerPhone',
+			width: 50,
+			...getColumnSearchProps('customerPhone'),
+			render: formatPhonenumber,
 		},
 		{
-			title: 'Address',
-			dataIndex: 'address',
-			key: 'address',
+			title: 'Customer Address',
+			dataIndex: 'customerAddress',
+			key: 'customerAddress',
 			width: 100,
-			...getColumnSearchProps('address'),
+			...getColumnSearchProps('customerAddress'),
+		},
+		{
+			title: 'Total Price',
+			dataIndex: 'totalPrice',
+			key: 'totalPrice',
+			width: 50,
+			align: 'right',
+			render: customMoney,
+		},
+		{
+			title: 'Created At',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
+			width: 30,
+			render: (item) => formatDate(item, 'DD/MM/YYYY'),
+		},
+		{
+			title: 'Status',
+			dataIndex: 'status',
+			key: 'status',
+			width: 30,
 		},
 		{
 			title: 'Action',
@@ -155,26 +154,26 @@ const CustomerTable = () => {
 				<MSpace split={''}>
 					<MButton
 						type='primary'
-						link={`customer/edit/${item.id}`}
+						link={`order/edit/${item._id}`}
 					>
 						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
 					<MButtonDelete
-						title={`Delete customer ${item.name}? `}
-						onConfirm={() => dispatch(deletingCustomer(item._id))}
+						title={`Delete order ${item.orderCode}? `}
+						onConfirm={() => dispatch(deletingOrder(item._id))}
 					></MButtonDelete>
 				</MSpace>
 			),
 		},
-	] as ColumnsType<Customer>;
+	] as ColumnsType<Order>;
 
 	return (
 		<MTable
 			columns={columns}
-			dataSource={customer?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
+			dataSource={order?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
 		/>
 	);
 };
 
-export default CustomerTable;
+export default OrderTable;

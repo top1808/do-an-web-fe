@@ -1,12 +1,14 @@
 'use client';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import CustomerTable from './components/Table';
 import { useParams } from 'next/navigation';
 import { UserParams } from '@/models/userModel';
 import { gettingCustomers } from '@/redux/reducers/customerReducer';
+import MSkeleton from '@/components/MSkeleton';
 
 const AdminCustomerComponent = () => {
+	const { customer } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 
@@ -19,9 +21,9 @@ const AdminCustomerComponent = () => {
 	}, [dispatch, myParams?.limit, myParams?.offset]);
 
 	return (
-		<div>
+		<MSkeleton loading={customer.loading}>
 			<CustomerTable />
-		</div>
+		</MSkeleton>
 	);
 };
 

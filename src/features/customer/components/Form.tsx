@@ -7,7 +7,6 @@ import { Customer } from '@/models/customerModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { changeDateStringToDayjs } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
-import dayjs from 'dayjs';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 

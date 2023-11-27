@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosRequestHeade
 import authApi from './authApi';
 import { toast } from 'react-toastify';
 import { User } from '@/models/userModel';
-import { loginSuccess, logouting } from '@/redux/reducers/authReducer';
+import { loginSuccess, logoutSuccess, logouting } from '@/redux/reducers/authReducer';
 import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '@/models/jwtModel';
 interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
@@ -35,7 +35,7 @@ const refreshToken = async () => {
 	} catch (err: any) {
 		toast.error(err.response.data.message);
 		if (err.response.status === 401) {
-			store.dispatch(logouting());
+			store.dispatch(logoutSuccess());
 		}
 	}
 };

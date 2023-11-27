@@ -20,4 +20,26 @@ const STATUS_PRODUCT = [
 	},
 ];
 
-export { CATEGORY_TYPE, STATUS_PRODUCT };
+const STATUS_ORDER = [
+	{
+		label: 'Active',
+		value: 'active',
+	},
+	{
+		label: 'Disable',
+		value: 'disable',
+	},
+];
+
+const PAYMENT_METHOD = [
+	{
+		label: 'Cash',
+		value: 'cash',
+	},
+	{
+		label: 'Transfer',
+		value: 'transfer',
+	},
+];
+
+export { CATEGORY_TYPE, STATUS_PRODUCT, STATUS_ORDER, PAYMENT_METHOD };

@@ -48,12 +48,20 @@ export const objectToQueryString = <T>(object: T): string => {
 	return '?' + new URLSearchParams(object as any).toString();
 };
 
-export const formatDate = (date: Date | string, format: string) => {
+export const formatDate = (date?: Date | string, format?: string) => {
 	return dayjs(date || new Date()).format(format || 'YYYY-MM-DD');
 };
 
-export const changeDateStringToDayjs = (date: string) => {
+export const changeDateStringToDayjs = (date: string | Date) => {
 	return dayjs(date || new Date());
+};
+
+export const formatPhonenumber = (phoneNumber: string) => {
+	return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+};
+
+export const generateCode = () => {
+	return Math.floor(Math.random() * Math.pow(10, 21)).toString();
 };
 
 export function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): MenuItem {

@@ -8,6 +8,7 @@ import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
+import { redirect } from 'next/navigation';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -21,7 +22,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 
 	useEffect(() => {
 		if (!auth.isLoggedIn) {
-			router.push('/login');
+			redirect('/login');
 		}
 	}, [auth, router]);
 
