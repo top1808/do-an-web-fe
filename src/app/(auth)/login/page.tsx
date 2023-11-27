@@ -1,7 +1,7 @@
 'use client';
 import AdminLogin from '@/features/login/Index';
 import { useAppSelector } from '@/redux/hooks';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 import React, { useEffect } from 'react';
 
 const AdminLoginPage = () => {
@@ -10,7 +10,7 @@ const AdminLoginPage = () => {
 
 	useEffect(() => {
 		if (auth.isLoggedIn) {
-			router.push('/');
+			window.location.assign('/admin');
 		}
 	}, [auth, router]);
 

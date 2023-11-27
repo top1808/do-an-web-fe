@@ -183,7 +183,7 @@ const tabItems: TabsProps['items'] = [
 ];
 
 const HeaderAdmin: React.FC = () => {
-	const { sideBar } = useAppSelector((state) => state);
+	const { sideBar, auth } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
 	const notificationItems: MenuProps['items'] = [
@@ -226,18 +226,6 @@ const HeaderAdmin: React.FC = () => {
 				</div>
 			),
 			key: '0',
-		},
-		{
-			label: (
-				<div className='flex items-center gap-2'>
-					<FontAwesomeIcon
-						icon={faEnvelope}
-						color='#2BC255'
-					/>
-					Inbox
-				</div>
-			),
-			key: '1',
 		},
 		{
 			type: 'divider',
@@ -337,25 +325,26 @@ const HeaderAdmin: React.FC = () => {
 					className='p-0'
 					headerStyle={{ padding: 0 }}
 				></Drawer>
-				<div className={styles.userProfileContainer}>
-					<div className='mx-8'>
-						<div className='text-base'>
-							Hello, <strong>Top</strong>
+
+				<Dropdown
+					menu={{ items: profileItems }}
+					trigger={['click']}
+				>
+					<div className={styles.userProfileContainer}>
+						<div className='mx-2'>
+							<div className='text-base'>
+								Hello, <strong>{auth.currentUser?.name}</strong>
+							</div>
 						</div>
-						<div className='text-right text-xs text-gray-600'>admin</div>
+						<div className={styles.userAvatar}>
+							<Image
+								src={auth.currentUser?.image}
+								alt='avatar'
+								preview={false}
+							/>
+						</div>
 					</div>
-					<Dropdown
-						menu={{ items: profileItems }}
-						trigger={['click']}
-					>
-						<a
-							onClick={(e) => e.preventDefault()}
-							className={styles.userAvatar}
-						>
-							60x60
-						</a>
-					</Dropdown>
-				</div>
+				</Dropdown>
 			</div>
 		</div>
 	);

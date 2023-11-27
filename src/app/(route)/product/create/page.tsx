@@ -25,7 +25,7 @@ const CreateProduct = () => {
 	return (
 		<>
 			<MBreadcrumb items={breadcrumbItems} />
-			<MCard title='Create User'>
+			<MCard title='Create Product'>
 				<CreateProductComponent />
 			</MCard>
 		</>

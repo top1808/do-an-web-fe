@@ -1,5 +1,6 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
+import MForm from '@/components/MForm';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
@@ -14,94 +15,120 @@ type UserFormProps = {
 	onSubmit?: (data: User) => void;
 };
 
-const inititalValue: User = {
+const INITIAL_VALUE: User = {
 	username: '',
 	password: '',
 	name: '',
 	email: '',
+	image: '',
 };
 
 const UserForm: React.FC<UserFormProps> = (props) => {
-	const { role } = useAppSelector((state) => state);
+	const { role, user } = useAppSelector((state) => state);
+	const { userEdit } = user;
 	const dispatch = useAppDispatch();
 	const { onSubmit } = props;
 	const pathname = usePathname();
+	const [form] = Form.useForm();
 
 	useEffect(() => {
 		dispatch(gettingRole());
 	}, [dispatch]);
 
+	useEffect(() => {
+		form.setFieldsValue(userEdit ? userEdit : INITIAL_VALUE);
+	}, [form, userEdit]);
+
 	return (
 		<Form
 			onFinish={onSubmit}
 			layout='vertical'
-			initialValues={inititalValue}
+			form={form}
 		>
-			<MRow gutter={12}>
-				<MCol span={6}>
-					<Form.Item
-						name='username'
-						label='Username'
-						rules={[{ required: true }]}
+			<MRow gutter={8}>
+				<MCol span={3}>
+					<MForm.UploadImage
+						formLabel='Avatar'
+						formName='image'
+						name='image'
+						action={`${process.env.API_UPLOAD_URL}image/upload`}
+						accept='image/*'
+						listType='picture-card'
+						initImage={userEdit?.image}
+						multiple={false}
+						showUploadList={false}
 					>
-						<MInput
-							placeholder='Enter username...'
-							size='large'
-						/>
-					</Form.Item>
+						Upload
+					</MForm.UploadImage>
 				</MCol>
-				<MCol span={6}>
-					<Form.Item
-						name='password'
-						label='Password'
-						rules={[{ required: true }]}
-					>
-						<Input.Password
-							placeholder='Enter password...'
-							autoComplete='new-password'
-							size='large'
-						/>
-					</Form.Item>
-				</MCol>
-				<MCol span={6}>
-					<Form.Item
-						name='name'
-						label='Name'
-						rules={[{ required: true }]}
-					>
-						<MInput
-							placeholder='Enter Name...'
-							size='large'
-						/>
-					</Form.Item>
-				</MCol>
-				<MCol span={6}>
-					<Form.Item
-						name='email'
-						label='Email'
-						rules={[{ required: true }]}
-					>
-						<MInput
-							placeholder='Enter Email...'
-							size='large'
-						/>
-					</Form.Item>
-				</MCol>
-				<MCol span={6}>
-					<Form.Item
-						name='roleId'
-						label='Role'
-						rules={[{ required: true }]}
-					>
-						<MSelect
-							placeholder='Select a role'
-							options={role.roles?.map((r) => ({
-								value: r._id,
-								label: r.name,
-							}))}
-							size='large'
-						/>
-					</Form.Item>
+				<MCol span={21}>
+					<MRow gutter={12}>
+						<MCol span={6}>
+							<Form.Item
+								name='username'
+								label='Username'
+								rules={[{ required: true }]}
+							>
+								<MInput
+									placeholder='Enter username...'
+									size='large'
+								/>
+							</Form.Item>
+						</MCol>
+						<MCol span={6}>
+							<Form.Item
+								name='password'
+								label='Password'
+								rules={[{ required: !userEdit }]}
+							>
+								<Input.Password
+									placeholder='Enter password...'
+									autoComplete='new-password'
+									size='large'
+								/>
+							</Form.Item>
+						</MCol>
+						<MCol span={6}>
+							<Form.Item
+								name='name'
+								label='Name'
+								rules={[{ required: true }]}
+							>
+								<MInput
+									placeholder='Enter Name...'
+									size='large'
+								/>
+							</Form.Item>
+						</MCol>
+						<MCol span={6}>
+							<Form.Item
+								name='email'
+								label='Email'
+								rules={[{ required: true }]}
+							>
+								<MInput
+									placeholder='Enter Email...'
+									size='large'
+								/>
+							</Form.Item>
+						</MCol>
+						<MCol span={6}>
+							<Form.Item
+								name='roleId'
+								label='Role'
+								rules={[{ required: true }]}
+							>
+								<MSelect
+									placeholder='Select a role'
+									options={role.roles?.map((r) => ({
+										value: r._id,
+										label: r.name,
+									}))}
+									size='large'
+								/>
+							</Form.Item>
+						</MCol>
+					</MRow>
 				</MCol>
 			</MRow>
 			<MRow

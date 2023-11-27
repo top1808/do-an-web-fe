@@ -31,6 +31,7 @@ function* watchLoginFlow() {
 	while (true) {
 		const { auth } = yield select((state) => state);
 		const isLoggedIn = auth.isLoggedIn;
+		console.log('🚀 ~ file: authSaga.ts:34 ~ function*watchLoginFlow ~ isLoggedIn:', isLoggedIn);
 
 		if (!isLoggedIn) {
 			const action: PayloadAction<FormLogin> = yield take(login.type);

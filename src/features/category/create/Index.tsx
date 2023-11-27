@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 import { Category } from '@/models/categoryModels';
 import { creatingCategory } from '@/redux/reducers/categoryReducer';
 import FormCreateCategory from '../components/FormCreateCategory';

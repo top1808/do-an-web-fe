@@ -13,6 +13,12 @@ const CategoryApi = {
 	deleteCategory(id: string) {
 		return axiosClient.delete(URL + '/' + id);
 	},
+	getCategoryInfo(id: string) {
+		return axiosClient.get(URL + '/' + id);
+	},
+	editCategory(body: Category) {
+		return axiosClient.put(URL + '/update/' + body._id, body);
+	},
 };
 
 export default CategoryApi;

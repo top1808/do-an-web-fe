@@ -1,6 +1,8 @@
 'use client';
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
+import MButtonDelete from '@/components/MButtonDelete';
+import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
@@ -8,7 +10,7 @@ import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingProduct } from '@/redux/reducers/productReducer';
 import { customMoney, customNumber } from '@/utils/FuntionHelpers';
-import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -20,18 +22,12 @@ const TableProductsAdmin = () => {
 	const { product } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
-	const [searchText, setSearchText] = useState('');
-	const [searchedColumn, setSearchedColumn] = useState('');
-
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
-		setSearchText(selectedKeys[0]);
-		setSearchedColumn(dataIndex);
 	};
 
 	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		clearFilters();
-		setSearchText('');
 		handleSearch(selectedKeys as string[], confirm, dataIndex);
 	};
 
@@ -102,6 +98,19 @@ const TableProductsAdmin = () => {
 			width: 20,
 		},
 		{
+			title: 'Image',
+			dataIndex: 'image',
+			key: 'image',
+			width: 60,
+			render: (item) => (
+				<MImage
+					src={item}
+					alt='avatar'
+					style={{ height: 50 }}
+				/>
+			),
+		},
+		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
@@ -152,15 +161,17 @@ const TableProductsAdmin = () => {
 			fixed: 'right',
 			width: '15%',
 			render: (item: Product) => (
-				<MSpace split={2}>
+				<MSpace split={''}>
 					<MButton
 						type='primary'
-						onClick={() => {
-							dispatch(deletingProduct(item._id || ''));
-						}}
+						link={`product/edit/${item._id}`}
 					>
-						<FontAwesomeIcon icon={faTrash} />
+						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
+					<MButtonDelete
+						title={`Delete product ${item.name}? `}
+						onConfirm={() => dispatch(deletingProduct(item._id || ''))}
+					></MButtonDelete>
 				</MSpace>
 			),
 		},

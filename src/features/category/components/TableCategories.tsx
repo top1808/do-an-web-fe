@@ -1,6 +1,8 @@
 'use client';
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
+import MButtonDelete from '@/components/MButtonDelete';
+import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
@@ -8,7 +10,7 @@ import { Category } from '@/models/categoryModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingCategory } from '@/redux/reducers/categoryReducer';
 import { compareAlphabet } from '@/utils/FuntionHelpers';
-import { faCheck, faMagnifyingGlass, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEdit, faMagnifyingGlass, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -21,18 +23,12 @@ const TableCategories = () => {
 
 	const dispatch = useAppDispatch();
 
-	const [searchText, setSearchText] = useState('');
-	const [searchedColumn, setSearchedColumn] = useState('');
-
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
-		setSearchText(selectedKeys[0]);
-		setSearchedColumn(dataIndex);
 	};
 
 	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		clearFilters();
-		setSearchText('');
 		handleSearch(selectedKeys as string[], confirm, dataIndex);
 	};
 
@@ -103,10 +99,23 @@ const TableCategories = () => {
 			width: 20,
 		},
 		{
+			title: 'Image',
+			dataIndex: 'image',
+			key: 'image',
+			width: 60,
+			render: (item) => (
+				<MImage
+					src={item}
+					alt='avatar'
+					style={{ height: 50 }}
+				/>
+			),
+		},
+		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: 120,
+			width: 150,
 			...getColumnSearchProps('name'),
 		},
 		{
@@ -142,13 +151,17 @@ const TableCategories = () => {
 			fixed: 'right',
 			width: 50,
 			render: (item) => (
-				<MSpace split={2}>
+				<MSpace split={''}>
 					<MButton
 						type='primary'
-						onClick={() => dispatch(deletingCategory(item._id))}
+						link={`category/edit/${item._id}`}
 					>
-						<FontAwesomeIcon icon={faTrash} />
+						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
+					<MButtonDelete
+						title={`Delete category ${item.name}? `}
+						onConfirm={() => dispatch(deletingCategory(item._id))}
+					></MButtonDelete>
 				</MSpace>
 			),
 		},

@@ -1,15 +1,17 @@
 import MButton from '@/components/MButton';
+import MButtonDelete from '@/components/MButtonDelete';
+import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingUser } from '@/redux/reducers/userReducer';
-import { faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type DataIndex = keyof User;
 
@@ -18,18 +20,12 @@ const UserTable = () => {
 
 	const dispatch = useAppDispatch();
 
-	const [searchText, setSearchText] = useState('');
-	const [searchedColumn, setSearchedColumn] = useState('');
-
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
-		setSearchText(selectedKeys[0]);
-		setSearchedColumn(dataIndex);
 	};
 
 	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		clearFilters();
-		setSearchText('');
 		handleSearch(selectedKeys as string[], confirm, dataIndex);
 	};
 
@@ -100,39 +96,56 @@ const UserTable = () => {
 			width: '2%',
 		},
 		{
+			title: 'Avatar',
+			dataIndex: 'image',
+			key: 'image',
+			width: 60,
+			render: (item) => (
+				<MImage
+					src={item}
+					alt='avatar'
+					style={{ height: 50 }}
+				/>
+			),
+		},
+		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: '30%',
+			width: 200,
 			...getColumnSearchProps('name'),
 		},
 		{
 			title: 'email',
 			dataIndex: 'email',
 			key: 'email',
-			width: '20%',
+			width: 100,
 			...getColumnSearchProps('email'),
 		},
 		{
 			title: 'Username',
 			dataIndex: 'username',
 			key: 'username',
-			width: '15%',
+			width: 100,
 			...getColumnSearchProps('username'),
 		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: '15%',
+			width: 100,
 			render: (item) => (
-				<MSpace split={2}>
+				<MSpace split={''}>
 					<MButton
 						type='primary'
-						onClick={() => dispatch(deletingUser(item._id))}
+						link={`user/edit/${item._id}`}
 					>
-						<FontAwesomeIcon icon={faTrash} />
+						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
+					<MButtonDelete
+						title={`Delete user ${item.name}? `}
+						onConfirm={() => dispatch(deletingUser(item._id))}
+					></MButtonDelete>
 				</MSpace>
 			),
 		},
