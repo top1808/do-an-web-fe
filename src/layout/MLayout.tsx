@@ -1,11 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense, useEffect } from 'react';
 import HeaderComponent from './Header';
 import FooterComponent from './Footer';
 import { Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
+import { useRouter } from 'next-nprogress-bar';
+import MSpin from '@/components/MSpin';
+import { redirect } from 'next/navigation';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -14,9 +17,18 @@ interface LayoutProps {
 }
 
 const MLayout: React.FC<LayoutProps> = ({ children }) => {
-	const { sideBar } = useAppSelector((state) => state);
+	const { sideBar, auth } = useAppSelector((state) => state);
+	const router = useRouter();
 
-	return (
+	useEffect(() => {
+		if (!auth.isLoggedIn) {
+			redirect('/login');
+		}
+	}, [auth, router]);
+
+	return !auth.isLoggedIn ? (
+		<></>
+	) : (
 		<Layout>
 			<Sider
 				theme='light'
@@ -47,13 +59,23 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 						top: 0,
 						left: sideBar?.isOpen ? 200 : 80,
 						right: 0,
-						zIndex: 1,
+						zIndex: 10,
 						transitionDuration: '0.3s',
 					}}
 				>
 					<HeaderComponent />
 				</Header>
-				<Content style={{ marginTop: 100 }}>{children}</Content>
+				<Content style={{ marginTop: 100, minHeight: 'calc(100vh - 180px)' }}>
+					<Suspense
+						fallback={
+							<div className='w-full h-full flex items-center justify-center'>
+								<MSpin size='large'></MSpin>
+							</div>
+						}
+					>
+						{children}
+					</Suspense>
+				</Content>
 				<Footer>
 					<FooterComponent />
 				</Footer>

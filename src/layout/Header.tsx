@@ -3,57 +3,15 @@
 import { faArrowRight, faArrowRightFromBracket, faBars, faEllipsis, faPen, faPlus, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faBell, faEnvelope, faMessage, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Badge, Col, Drawer, Dropdown, Image, Input, Row, Tabs, TabsProps } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Avatar, Badge, Col, Drawer, Dropdown, Image, Row, Tabs, TabsProps } from 'antd';
+import React, { useState } from 'react';
 import styles from '../styles/layout.module.css';
 import type { MenuProps } from 'antd';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { toggle } from '../redux/reducers/sideBarReducer';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import MButton from '@/components/MButton';
-// import axios from 'axios';
 
-const profileItems: MenuProps['items'] = [
-	{
-		label: (
-			<div className='flex items-center gap-2 w-32'>
-				<FontAwesomeIcon
-					icon={faUser}
-					color='#1EAAE8'
-				/>
-				Profile
-			</div>
-		),
-		key: '0',
-	},
-	{
-		label: (
-			<div className='flex items-center gap-2'>
-				<FontAwesomeIcon
-					icon={faEnvelope}
-					color='#2BC255'
-				/>
-				Inbox
-			</div>
-		),
-		key: '1',
-	},
-	{
-		type: 'divider',
-	},
-	{
-		label: (
-			<div className='flex items-center gap-2'>
-				<FontAwesomeIcon
-					icon={faArrowRightFromBracket}
-					color='#FF2F2E'
-				/>
-				Log out
-			</div>
-		),
-		key: '3',
-	},
-];
+import MButton from '@/components/MButton';
+import { logouting } from '@/redux/reducers/authReducer';
 
 const tabItems: TabsProps['items'] = [
 	{
@@ -224,7 +182,10 @@ const tabItems: TabsProps['items'] = [
 	},
 ];
 
-const Header: React.FC = () => {
+const HeaderAdmin: React.FC = () => {
+	const { sideBar, auth } = useAppSelector((state) => state);
+	const dispatch = useAppDispatch();
+
 	const notificationItems: MenuProps['items'] = [
 		{
 			label: (
@@ -252,8 +213,41 @@ const Header: React.FC = () => {
 			key: '0',
 		},
 	];
-	const { sideBar } = useAppSelector((state) => state);
-	const dispatch = useAppDispatch();
+
+	const profileItems: MenuProps['items'] = [
+		{
+			label: (
+				<div className='flex items-center gap-2 w-32'>
+					<FontAwesomeIcon
+						icon={faUser}
+						color='#1EAAE8'
+					/>
+					Profile
+				</div>
+			),
+			key: '0',
+		},
+		{
+			type: 'divider',
+		},
+		{
+			label: (
+				<div
+					className='flex items-center gap-2'
+					onClick={() => {
+						dispatch(logouting());
+					}}
+				>
+					<FontAwesomeIcon
+						icon={faArrowRightFromBracket}
+						color='#FF2F2E'
+					/>
+					Log out
+				</div>
+			),
+			key: '3',
+		},
+	];
 
 	const [open, setOpen] = useState(false);
 
@@ -290,16 +284,6 @@ const Header: React.FC = () => {
 					size='large'
 					onClick={() => dispatch(toggle())}
 				/>
-				{/* <div className={styles.searchContainer}>
-					<FontAwesomeIcon
-						icon={faSearch}
-						className={styles.iconSearch}
-					/>
-					<Input
-						placeholder='Search here...'
-						className={styles.searchInput}
-					/>
-				</div> */}
 			</div>
 			<div className='flex items-center'>
 				<Dropdown
@@ -341,28 +325,29 @@ const Header: React.FC = () => {
 					className='p-0'
 					headerStyle={{ padding: 0 }}
 				></Drawer>
-				<div className={styles.userProfileContainer}>
-					<div className='mx-8'>
-						<div className='text-base'>
-							Hello, <strong>Top</strong>
+
+				<Dropdown
+					menu={{ items: profileItems }}
+					trigger={['click']}
+				>
+					<div className={styles.userProfileContainer}>
+						<div className='mx-2'>
+							<div className='text-base'>
+								Hello, <strong>{auth.currentUser?.name}</strong>
+							</div>
 						</div>
-						<div className='text-right text-xs text-gray-600'>admin</div>
+						<div className={styles.userAvatar}>
+							<Image
+								src={auth.currentUser?.image}
+								alt='avatar'
+								preview={false}
+							/>
+						</div>
 					</div>
-					<Dropdown
-						menu={{ items: profileItems }}
-						trigger={['click']}
-					>
-						<a
-							onClick={(e) => e.preventDefault()}
-							className={styles.userAvatar}
-						>
-							60x60
-						</a>
-					</Dropdown>
-				</div>
+				</Dropdown>
 			</div>
 		</div>
 	);
 };
 
-export default Header;
+export default HeaderAdmin;

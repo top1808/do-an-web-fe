@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	'fontawesome-svg-core': {
-		license: 'free',
+	env: {
+		API_URL: process.env.NEXT_PUBLIC_API_URL,
+		API_UPLOAD_URL: process.env.NEXT_PUBLIC_API_UPLOAD_URL,
 	},
+	basePath: '/admin',
 };
 
 module.exports = nextConfig;

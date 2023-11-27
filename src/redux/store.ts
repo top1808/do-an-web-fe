@@ -9,11 +9,12 @@ const persistConfig = {
 	key: 'do-an-web',
 	version: 1,
 	storage,
+	whitelist: ['auth'],
 };
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
+
 export const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) =>
