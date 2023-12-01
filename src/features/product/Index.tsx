@@ -1,10 +1,12 @@
 'use client';
 import React, { useEffect } from 'react';
 import TableProductsAdmin from './components/TableProductsAdmin';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingProduct } from '@/redux/reducers/productReducer';
+import MSkeleton from '@/components/MSkeleton';
 
 const AdminProductComponent = () => {
+	const { product } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -12,9 +14,9 @@ const AdminProductComponent = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
+		<MSkeleton loading={product.loading}>
 			<TableProductsAdmin />
-		</div>
+		</MSkeleton>
 	);
 };
 

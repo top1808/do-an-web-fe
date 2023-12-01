@@ -286,7 +286,7 @@ const HeaderAdmin: React.FC = () => {
 				/>
 			</div>
 			<div className='flex items-center'>
-				<Dropdown
+				{/* <Dropdown
 					menu={{ items: notificationItems }}
 					trigger={['click']}
 					placement='bottomRight'
@@ -324,7 +324,7 @@ const HeaderAdmin: React.FC = () => {
 					closable={false}
 					className='p-0'
 					headerStyle={{ padding: 0 }}
-				></Drawer>
+				></Drawer> */}
 
 				<Dropdown
 					menu={{ items: profileItems }}
