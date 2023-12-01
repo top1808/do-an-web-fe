@@ -119,13 +119,6 @@ const TableCategories = () => {
 			...getColumnSearchProps('name'),
 		},
 		{
-			title: 'Type',
-			dataIndex: 'type',
-			key: 'type',
-			width: 50,
-			sortDirections: ['ascend', 'descend'],
-		},
-		{
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',

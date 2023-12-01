@@ -6,15 +6,16 @@ import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
+import { Category } from '@/models/categoryModels';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingProduct } from '@/redux/reducers/productReducer';
-import { customMoney, customNumber } from '@/utils/FuntionHelpers';
-import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { customMoney } from '@/utils/FuntionHelpers';
+import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
-import React, { useState } from 'react';
+import React from 'react';
 
 type DataIndex = keyof Product;
 
@@ -127,13 +128,21 @@ const TableProductsAdmin = () => {
 			render: customMoney,
 		},
 		{
-			title: 'Quantity',
-			dataIndex: 'quantity',
-			key: 'quantity',
-			align: 'right',
-			width: 50,
-			sorter: (a, b) => (a.quantity || 0) - (b.quantity || 0),
-			render: customNumber,
+			title: 'Categories',
+			dataIndex: 'categoryIds',
+			key: 'categoryIds',
+			width: 200,
+			render: (items: Category[]) => (
+				<div className='flex gap-2 align-middle flex-wrap'>
+					{items?.map((item) => (
+						<MBadge
+							key={item._id}
+							count={item.name}
+							color='cyan'
+						></MBadge>
+					))}
+				</div>
+			),
 		},
 		{
 			title: 'Description',

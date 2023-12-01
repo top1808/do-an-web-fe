@@ -2,10 +2,13 @@
 
 import React, { useEffect } from 'react';
 import TableCategories from './components/TableCategories';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingCategory } from '@/redux/reducers/categoryReducer';
+import MSkeleton from '@/components/MSkeleton';
 
 const AdminCategoryComponent = () => {
+	const { category } = useAppSelector((state) => state);
+
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -13,9 +16,9 @@ const AdminCategoryComponent = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
+		<MSkeleton loading={category.loading}>
 			<TableCategories />
-		</div>
+		</MSkeleton>
 	);
 };
 

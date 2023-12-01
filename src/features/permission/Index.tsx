@@ -1,6 +1,7 @@
 'use client';
 import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
+import MSkeleton from '@/components/MSkeleton';
 import MSwitch from '@/components/MSwitch';
 import { Permission, PermissionGroup, Role } from '@/models/roleModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -63,7 +64,7 @@ const PermissionPageComponent = () => {
 	}, [dispatch]);
 
 	return (
-		<>
+		<MSkeleton loading={roleState.loading}>
 			<MRow
 				gutter={0}
 				className='bg-slate-300 p-4 rounded-t'
@@ -116,7 +117,7 @@ const PermissionPageComponent = () => {
 					))}
 				</MRow>
 			))}
-		</>
+		</MSkeleton>
 	);
 };
 

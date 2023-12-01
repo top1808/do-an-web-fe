@@ -23,6 +23,7 @@ const categorySlice = createSlice({
 		gettingCategory: (state) => {
 			state.status = 'pending';
 			state.loading = true;
+			state.categoryEdit = null;
 		},
 		getCategorieSuccess: (state, action: PayloadAction<Category[]>) => {
 			state.loading = false;
