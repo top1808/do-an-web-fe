@@ -1,12 +1,14 @@
 'use client';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { UserParams } from '@/models/userModel';
 import OrderTable from './components/Table';
 import { gettingOrders } from '@/redux/reducers/orderReducer';
+import MSkeleton from '@/components/MSkeleton';
 
 const AdminOrderComponent = () => {
+	const { order } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 
@@ -19,9 +21,9 @@ const AdminOrderComponent = () => {
 	}, [dispatch, myParams?.limit, myParams?.offset]);
 
 	return (
-		<div>
+		<MSkeleton loading={order.loading}>
 			<OrderTable />
-		</div>
+		</MSkeleton>
 	);
 };
 

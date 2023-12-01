@@ -1,12 +1,14 @@
 'use client';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import UserTable from './components/Table';
 import { gettingUsers } from '@/redux/reducers/userReducer';
 import { useParams } from 'next/navigation';
 import { UserParams } from '@/models/userModel';
+import MSkeleton from '@/components/MSkeleton';
 
 const AdminUserComponent = () => {
+	const { user } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 
@@ -19,9 +21,9 @@ const AdminUserComponent = () => {
 	}, [dispatch, myParams?.limit, myParams?.offset]);
 
 	return (
-		<div>
+		<MSkeleton loading={user.loading}>
 			<UserTable />
-		</div>
+		</MSkeleton>
 	);
 };
 

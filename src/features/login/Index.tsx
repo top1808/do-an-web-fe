@@ -16,9 +16,6 @@ const AdminLogin = () => {
 	const params = useSearchParams();
 	const messageError = params.get('error');
 
-	console.log('url: ' + process.env.API_URL);
-	console.log(process.env.API_UPLOAD_URL);
-
 	const accountUser: FormLogin = JSON.parse(localStorage.getItem('accountUser') || '{}');
 
 	const dispatch = useAppDispatch();
