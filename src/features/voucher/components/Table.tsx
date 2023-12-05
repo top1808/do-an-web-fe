@@ -1,26 +1,24 @@
-'use client';
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
 import MButtonDelete from '@/components/MButtonDelete';
-import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
-import { Category } from '@/models/categoryModels';
-import { Product } from '@/models/productModels';
+import { Voucher } from '@/models/voucherModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingProduct } from '@/redux/reducers/productReducer';
-import { customMoney } from '@/utils/FuntionHelpers';
+import { deletingVoucher } from '@/redux/reducers/voucherReducer';
+import { customMoney, customNumber, formatDate } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
 import React from 'react';
 
-type DataIndex = keyof Product;
+type DataIndex = keyof Voucher;
 
-const TableProductsAdmin = () => {
-	const { product } = useAppSelector((state) => state);
+const VoucherTable = () => {
+	const { voucher } = useAppSelector((state) => state);
+
 	const dispatch = useAppDispatch();
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
@@ -87,75 +85,102 @@ const TableProductsAdmin = () => {
 			</div>
 		),
 		filterIcon: () => <FontAwesomeIcon icon={faMagnifyingGlass} />,
-		onFilter: (value: string, record: Product) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
+		onFilter: (value: string, record: Voucher) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
 		render: (text: string) => text,
 	});
 
-	const columns: ColumnsType<Product> = [
+	const columns: ColumnsType<Voucher> = [
 		{
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: 20,
+			width: 40,
+			fixed: 'left',
 		},
 		{
-			title: 'Image',
-			dataIndex: 'image',
-			key: 'image',
-			width: 60,
-			render: (item) => (
-				<MImage
-					src={item}
-					alt='avatar'
-					style={{ height: 50 }}
-				/>
-			),
+			title: 'Code',
+			dataIndex: 'code',
+			key: 'code',
+			fixed: 'left',
+			width: 120,
+			...getColumnSearchProps('code'),
 		},
 		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: 150,
+			width: 200,
 			...getColumnSearchProps('name'),
 		},
 		{
-			title: 'Price',
-			dataIndex: 'price',
-			key: 'price',
+			title: 'Type',
+			dataIndex: 'type',
+			key: 'type',
+			width: 80,
+			render: (item: string) => (item === 'percent' ? '%' : 'Price'),
+		},
+		{
+			title: 'Value',
+			dataIndex: 'value',
+			key: 'value',
+			width: 100,
 			align: 'right',
-			width: 50,
-			sorter: (a, b) => (a.price || 0) - (b.price || 0),
+			sorter: (a, b) => (a.value || 0) - (b.value || 0),
+			render: customNumber,
+		},
+		{
+			title: 'Min Order Value',
+			dataIndex: 'minOrderValue',
+			key: 'minOrderValue',
+			width: 140,
+			align: 'right',
+			sorter: (a, b) => (a.minOrderValue || 0) - (b.minOrderValue || 0),
 			render: customMoney,
 		},
 		{
-			title: 'Categories',
-			dataIndex: 'categoryIds',
-			key: 'categoryIds',
-			width: 200,
-			render: (items: Category[]) => (
-				<div className='flex gap-2 align-middle flex-wrap'>
-					{items?.map((item) => (
-						<MBadge
-							key={item._id}
-							count={item.name}
-							color='cyan'
-						></MBadge>
-					))}
-				</div>
-			),
+			title: 'Max Discount Value',
+			dataIndex: 'maxDiscountValue',
+			key: 'maxDiscountValue',
+			width: 140,
+			align: 'right',
+			sorter: (a, b) => (a.maxDiscountValue || 0) - (b.maxDiscountValue || 0),
+			render: customMoney,
+		},
+		{
+			title: 'Quantity',
+			dataIndex: 'quantity',
+			key: 'quantity',
+			width: 100,
+			align: 'right',
+			sorter: (a, b) => (a.quantity || 0) - (b.quantity || 0),
+			render: customNumber,
 		},
 		{
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
 			width: 200,
-			...getColumnSearchProps('decription'),
+			...getColumnSearchProps('description'),
+		},
+		{
+			title: 'Date Start',
+			dataIndex: 'dateStart',
+			key: 'dateStart',
+			width: 120,
+			render: (item: string) => formatDate(item, 'DD/MM/YYYY'),
+		},
+		{
+			title: 'Date End',
+			dataIndex: 'dateEnd',
+			key: 'dateEnd',
+			width: 120,
+			render: (item: string) => formatDate(item, 'DD/MM/YYYY'),
 		},
 		{
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',
-			width: 50,
+			width: 100,
 			render: (status) => (
 				<MBadge
 					count={status}
@@ -168,31 +193,34 @@ const TableProductsAdmin = () => {
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: 50,
-			render: (item: Product) => (
+			width: 200,
+			render: (item) => (
 				<MSpace split={''}>
 					<MButton
 						type='primary'
-						link={`product/edit/${item._id}`}
+						link={`voucher/edit/${item._id}`}
 					>
 						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
 					<MButtonDelete
-						title={`Delete product ${item.name}? `}
-						onConfirm={() => dispatch(deletingProduct(item._id || ''))}
+						title={`Xoá voucher ${item.name}? `}
+						onConfirm={() => dispatch(deletingVoucher(item._id))}
 					></MButtonDelete>
 				</MSpace>
 			),
 		},
-	] as ColumnsType<Product>;
+	] as ColumnsType<Voucher>;
 
 	return (
 		<MTable
 			columns={columns}
-			dataSource={product?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
+			dataSource={voucher?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			scroll={{ x: 2000, y: 2000 }}
+			virtual
+			className='w-full'
 		/>
 	);
 };
 
-export default TableProductsAdmin;
+export default VoucherTable;

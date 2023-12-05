@@ -64,6 +64,15 @@ export const generateCode = () => {
 	return Math.floor(Math.random() * Math.pow(10, 21)).toString();
 };
 
+export const generateVoucherCode = () => {
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	let randomString = '';
+	for (let i = 0; i < 8; i++) {
+		randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+	}
+	return randomString;
+};
+
 export function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): MenuItem {
 	return {
 		key,
