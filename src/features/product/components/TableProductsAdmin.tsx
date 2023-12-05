@@ -96,13 +96,15 @@ const TableProductsAdmin = () => {
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: 20,
+			width: 60,
+			fixed: 'left',
 		},
 		{
 			title: 'Image',
 			dataIndex: 'image',
 			key: 'image',
-			width: 60,
+			width: 100,
+			fixed: 'left',
 			render: (item) => (
 				<MImage
 					src={item}
@@ -115,7 +117,8 @@ const TableProductsAdmin = () => {
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: 150,
+			width: 300,
+			fixed: 'left',
 			...getColumnSearchProps('name'),
 		},
 		{
@@ -123,7 +126,7 @@ const TableProductsAdmin = () => {
 			dataIndex: 'price',
 			key: 'price',
 			align: 'right',
-			width: 50,
+			width: 100,
 			sorter: (a, b) => (a.price || 0) - (b.price || 0),
 			render: customMoney,
 		},
@@ -148,14 +151,14 @@ const TableProductsAdmin = () => {
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
-			width: 200,
+			width: 300,
 			...getColumnSearchProps('decription'),
 		},
 		{
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',
-			width: 50,
+			width: 100,
 			render: (status) => (
 				<MBadge
 					count={status}
@@ -168,7 +171,7 @@ const TableProductsAdmin = () => {
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: 50,
+			width: 200,
 			render: (item: Product) => (
 				<MSpace split={''}>
 					<MButton
@@ -191,6 +194,8 @@ const TableProductsAdmin = () => {
 			columns={columns}
 			dataSource={product?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			scroll={{ x: 4000, y: 500 }}
+			virtual
 		/>
 	);
 };

@@ -64,7 +64,7 @@ const PermissionPageComponent = () => {
 	}, [dispatch]);
 
 	return (
-		<MSkeleton loading={roleState.loading}>
+		<>
 			<MRow
 				gutter={0}
 				className='bg-slate-300 p-4 rounded-t'
@@ -117,7 +117,7 @@ const PermissionPageComponent = () => {
 					))}
 				</MRow>
 			))}
-		</MSkeleton>
+		</>
 	);
 };
 
