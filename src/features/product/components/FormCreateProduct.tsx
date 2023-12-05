@@ -31,7 +31,7 @@ const inititalValue: Product = {
 const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 	const { product, category } = useAppSelector((state) => state);
 	const { productEdit } = product;
-	console.log('🚀 ~ file: FormCreateProduct.tsx:34 ~ productEdit:', productEdit);
+
 	const dispatch = useAppDispatch();
 
 	const router = useRouter();
