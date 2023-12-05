@@ -1,30 +1,30 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
-import CustomerTable from './components/Table';
 import { useParams } from 'next/navigation';
-import { gettingCustomers } from '@/redux/reducers/customerReducer';
 import MSkeleton from '@/components/MSkeleton';
-import { CustomerParams } from '@/models/customerModel';
+import { VoucherParams } from '@/models/voucherModel';
+import { gettingVouchers } from '@/redux/reducers/voucherReducer';
+import VoucherTable from './components/Table';
 
-const AdminCustomerComponent = () => {
-	const { customer } = useAppSelector((state) => state);
+const AdminVoucherComponent = () => {
+	const { voucher } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 
 	useEffect(() => {
-		const params: CustomerParams = {
+		const params: VoucherParams = {
 			offset: myParams?.offset as string,
 			limit: myParams?.limit as string,
 		};
-		dispatch(gettingCustomers(params));
+		dispatch(gettingVouchers(params));
 	}, [dispatch, myParams?.limit, myParams?.offset]);
 
 	return (
-		<MSkeleton loading={customer.loading}>
-			<CustomerTable />
+		<MSkeleton loading={voucher.loading}>
+			<VoucherTable />
 		</MSkeleton>
 	);
 };
 
-export default AdminCustomerComponent;
+export default AdminVoucherComponent;
