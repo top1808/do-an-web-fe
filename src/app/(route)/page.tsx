@@ -1,5 +1,7 @@
 'use client';
 
+import DashboardComponent from '@/features/dashboard/Index';
+
 export default function Home() {
-	return <main className='p-24'>to1p12323</main>;
+	return <DashboardComponent />;
 }

@@ -64,4 +64,19 @@ const TYPE_VOUCHER = [
 	},
 ];
 
-export { CATEGORY_TYPE, STATUS_PRODUCT, STATUS_ORDER, PAYMENT_METHOD, TYPE_VOUCHER, STATUS_VOUCHER };
+const ORDER_STATUS = [
+	{
+		label: 'Đang giao hàng',
+		value: 'delivering',
+	},
+	{
+		label: 'Đã giao hàng',
+		value: 'delivered',
+	},
+	{
+		label: 'Đã hủy',
+		value: 'cancelled',
+	},
+];
+
+export { CATEGORY_TYPE, STATUS_PRODUCT, STATUS_ORDER, PAYMENT_METHOD, TYPE_VOUCHER, STATUS_VOUCHER, ORDER_STATUS };

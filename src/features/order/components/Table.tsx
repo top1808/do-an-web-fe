@@ -1,8 +1,10 @@
+import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
 import MButtonDelete from '@/components/MButtonDelete';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
+import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingOrder } from '@/redux/reducers/orderReducer';
@@ -93,27 +95,27 @@ const OrderTable = () => {
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: '2%',
+			width: 50,
 		},
 		{
 			title: 'Order Code',
 			dataIndex: 'orderCode',
 			key: 'orderCode',
-			width: 100,
+			width: 220,
 			...getColumnSearchProps('orderCode'),
 		},
 		{
 			title: 'Customer Name',
 			dataIndex: 'customerName',
 			key: 'customerName',
-			width: 100,
+			width: 200,
 			...getColumnSearchProps('customerName'),
 		},
 		{
 			title: 'Customer Phone',
 			dataIndex: 'customerPhone',
 			key: 'customerPhone',
-			width: 50,
+			width: 140,
 			...getColumnSearchProps('customerPhone'),
 			render: formatPhonenumber,
 		},
@@ -121,14 +123,38 @@ const OrderTable = () => {
 			title: 'Customer Address',
 			dataIndex: 'customerAddress',
 			key: 'customerAddress',
-			width: 100,
+			width: 200,
 			...getColumnSearchProps('customerAddress'),
+		},
+		{
+			title: 'Total Product Price',
+			dataIndex: 'totalProductPrice',
+			key: 'totalProductPrice',
+			width: 150,
+			align: 'right',
+			render: customMoney,
+		},
+		{
+			title: 'Delivery Fee',
+			dataIndex: 'deliveryFee',
+			key: 'deliveryFee',
+			width: 150,
+			align: 'right',
+			render: customMoney,
+		},
+		{
+			title: 'Total Paid',
+			dataIndex: 'totalPaid',
+			key: 'totalPaid',
+			width: 150,
+			align: 'right',
+			render: customMoney,
 		},
 		{
 			title: 'Total Price',
 			dataIndex: 'totalPrice',
 			key: 'totalPrice',
-			width: 50,
+			width: 150,
 			align: 'right',
 			render: customMoney,
 		},
@@ -136,20 +162,26 @@ const OrderTable = () => {
 			title: 'Created At',
 			dataIndex: 'createdAt',
 			key: 'createdAt',
-			width: 30,
+			width: 120,
 			render: (item) => formatDate(item, 'DD/MM/YYYY'),
 		},
 		{
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',
-			width: 30,
+			width: 150,
+			render: (item: string) => (
+				<MBadge
+					count={ORDER_STATUS.find((p) => p.value === item)?.label}
+					color='geekblue'
+				></MBadge>
+			),
 		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: 100,
+			width: 200,
 			render: (item) => (
 				<MSpace split={''}>
 					<MButton
@@ -172,6 +204,8 @@ const OrderTable = () => {
 			columns={columns}
 			dataSource={order?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			virtual
+			scroll={{ x: 4000, y: 800 }}
 		/>
 	);
 };
