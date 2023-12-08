@@ -215,21 +215,21 @@ const HeaderAdmin: React.FC = () => {
 	];
 
 	const profileItems: MenuProps['items'] = [
-		{
-			label: (
-				<div className='flex items-center gap-2 w-32'>
-					<FontAwesomeIcon
-						icon={faUser}
-						color='#1EAAE8'
-					/>
-					Profile
-				</div>
-			),
-			key: '0',
-		},
-		{
-			type: 'divider',
-		},
+		// {
+		// 	label: (
+		// 		<div className='flex items-center gap-2 w-32'>
+		// 			<FontAwesomeIcon
+		// 				icon={faUser}
+		// 				color='#1EAAE8'
+		// 			/>
+		// 			Profile
+		// 		</div>
+		// 	),
+		// 	key: '0',
+		// },
+		// {
+		// 	type: 'divider',
+		// },
 		{
 			label: (
 				<div

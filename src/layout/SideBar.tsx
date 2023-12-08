@@ -1,4 +1,4 @@
-import { faBox, faBoxesStacked, faDolly, faServer, faTicket, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faBoxesStacked, faDolly, faHatCowboy, faServer, faTicket, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -6,6 +6,9 @@ import { useAppSelector } from '../redux/hooks';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
 import usePermission from '@/hooks/usePermission';
+import logo from '../../public/images/logo.png';
+import MImage from '@/components/MImage';
+import Link from 'next/link';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -29,14 +32,14 @@ export const routes: MenuItem[] = [
 	getItem('Voucher', '/voucher', <FontAwesomeIcon icon={faTicket} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
 
-	getItem('Navigation One', '1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),
+	// getItem('Navigation One', '1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),
 
-	getItem('Navigation Two', '2', <FontAwesomeIcon icon={faServer} />, [
-		getItem('Option 9', '9'),
-		getItem('Option 10', '10'),
+	// getItem('Navigation Two', '2', <FontAwesomeIcon icon={faServer} />, [
+	// 	getItem('Option 9', '9'),
+	// 	getItem('Option 10', '10'),
 
-		getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
-	]),
+	// 	getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
+	// ]),
 ];
 
 const SideBarAdmin: React.FC = () => {
@@ -64,16 +67,21 @@ const SideBarAdmin: React.FC = () => {
 
 	return (
 		<div className='h-full'>
-			<div
-				className='logo px-4 fixed top-0 left-0 z-10 bg-red-100'
-				style={{
-					height: 100,
-					width: sideBar.isOpen ? 200 : 80,
-					transitionDuration: '0.25s',
-				}}
-			>
-				LOGO
-			</div>
+			<Link href='/'>
+				<div
+					className='logo px-4 fixed top-0 left-0 z-10 text-5xl flex items-center justify-center'
+					style={{
+						height: 100,
+						width: sideBar.isOpen ? 200 : 80,
+						transitionDuration: '0.25s',
+						background: '#1EAAE8',
+						color: '#fff',
+					}}
+				>
+					<FontAwesomeIcon icon={faHatCowboy} />
+					{sideBar.isOpen && <>T&T</>}
+				</div>
+			</Link>
 			<Menu
 				selectedKeys={[pathname]}
 				mode='inline'
