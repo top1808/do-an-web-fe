@@ -9,6 +9,7 @@ import customerReducer from './customerReducer';
 import orderReducer from './orderReducer';
 import voucherReducer from './voucherReducer';
 import statisticReducer from './statisticReducer';
+import discountProgramReducer from './discountProgramReducer';
 
 const rootReducer = combineReducers({
 	sideBar: sideBarReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
 	category: categoryReducer,
 	product: productReducer,
 	voucher: voucherReducer,
+	discountProgram: discountProgramReducer,
 	role: roleReducer,
 	statistic: statisticReducer,
 });

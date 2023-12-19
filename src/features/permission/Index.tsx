@@ -25,7 +25,7 @@ const PermissionPageComponent = () => {
 
 	useEffect(() => {
 		const tempPermissionGroups = roleState.permissions?.reduce((acc: PermissionGroup[], p: Permission) => {
-			const findPermissionGroup = acc.find((item) => item.name === p.url?.replace('/', ''));
+			const findPermissionGroup = acc.find((item) => item.name === (p.url?.replace('/', '') === 'role' ? 'permission' : p.url?.replace('/', '')));
 			if (findPermissionGroup) {
 				acc = acc.map((item) => {
 					if (item.name === findPermissionGroup.name) {

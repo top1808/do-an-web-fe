@@ -18,7 +18,7 @@ type VoucherFormProps = {
 };
 
 const INITIAL_VALUE: Voucher = {
-	code: generateVoucherCode(),
+	code: '',
 	name: '',
 	description: '',
 	type: 'percent',
@@ -43,7 +43,9 @@ const VoucherForm: React.FC<VoucherFormProps> = (props) => {
 
 	useEffect(() => {
 		form.setFieldsValue(
-			voucherEdit ? { ...voucherEdit, dateEnd: changeDateStringToDayjs(voucherEdit.dateEnd as string), dateStart: changeDateStringToDayjs(voucherEdit.dateStart as string) } : INITIAL_VALUE,
+			voucherEdit
+				? { ...voucherEdit, dateEnd: changeDateStringToDayjs(voucherEdit.dateEnd as string), dateStart: changeDateStringToDayjs(voucherEdit.dateStart as string) }
+				: { ...INITIAL_VALUE, code: generateVoucherCode() },
 		);
 	}, [form, voucherEdit]);
 

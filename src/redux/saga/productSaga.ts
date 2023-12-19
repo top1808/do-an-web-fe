@@ -47,7 +47,7 @@ function* onCreateProduct(action: CreateAction<Product>) {
 function* onGetProducts() {
 	try {
 		const response: AxiosResponse = yield call(productApi.getProducts);
-		yield put(getProductsSuccess(response.data.products));
+		yield put(getProductsSuccess(response?.data?.products));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		if (error?.response?.status === 403) return;
