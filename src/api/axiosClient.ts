@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosRequestHeade
 import authApi from './authApi';
 import { toast } from 'react-toastify';
 import { User } from '@/models/userModel';
-import { loginSuccess, logoutSuccess, logouting } from '@/redux/reducers/authReducer';
+import { loginSuccess, logoutSuccess } from '@/redux/reducers/authReducer';
 import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '@/models/jwtModel';
 interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
@@ -17,7 +17,6 @@ const axiosClient = axios.create({
 		'Access-Control-Allow-Origin': '*',
 	},
 	withCredentials: true,
-	timeout: 15000,
 });
 
 const refreshToken = async () => {

@@ -1,4 +1,4 @@
-import { faBox, faBoxesStacked, faDolly, faHatCowboy, faServer, faTicket, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faBoxesStacked, faDolly, faHatCowboy, faPercent, faServer, faTicket, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -30,6 +30,7 @@ export const routes: MenuItem[] = [
 	getItem('Customer', '/customer', <FontAwesomeIcon icon={faUser} />),
 	getItem('Order', '/order', <FontAwesomeIcon icon={faDolly} />),
 	getItem('Voucher', '/voucher', <FontAwesomeIcon icon={faTicket} />),
+	getItem('Discount Program', '/discount-program', <FontAwesomeIcon icon={faPercent} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
 
 	// getItem('Navigation One', '1', <FontAwesomeIcon icon={faServer} />, [getItem('Option 5', '5'), getItem('Option 6', '6'), getItem('Option 7', '7'), getItem('Option 8', '8')]),
