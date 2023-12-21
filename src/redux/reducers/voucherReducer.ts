@@ -21,7 +21,7 @@ const voucherSlice = createSlice({
 	name: 'voucher',
 	initialState: initialState,
 	reducers: {
-		gettingVouchers: (state, action: PayloadAction<VoucherParams>) => {
+		gettingVouchers: (state, action: PayloadAction<VoucherParams | null>) => {
 			state.voucherEdit = null;
 			state.loading = true;
 			state.status = 'pending';

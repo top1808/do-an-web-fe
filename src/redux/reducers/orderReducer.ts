@@ -1,5 +1,6 @@
 import { Order, OrderParams, OrderProduct } from '@/models/orderModel';
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
+import { Voucher } from '@/models/voucherModel';
 import { formatDate, generateCode } from '@/utils/FuntionHelpers';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
@@ -29,13 +30,15 @@ const initialState: OrderState = {
 		deliveryAddress: '',
 		products: [],
 		note: '',
-		status: 'active',
+		status: 'delivering',
 		totalProductPrice: 0,
 		totalPaid: 0,
 		totalPrice: 0,
 		paymentMethod: '',
 		deliveryDate: '',
 		deliveryFee: 30000,
+		voucherCode: '',
+		voucherDiscount: 0,
 		createdAt: formatDate(new Date()),
 	},
 	orderProductEdit: null,
@@ -51,13 +54,15 @@ const orderInitValue = {
 	deliveryAddress: '',
 	products: [],
 	note: '',
-	status: 'active',
+	status: 'delivering',
 	totalProductPrice: 0,
 	totalPaid: 0,
 	totalPrice: 0,
 	paymentMethod: '',
 	deliveryDate: '',
 	deliveryFee: 30000,
+	voucherCode: '',
+	voucherDiscount: 0,
 	createdAt: formatDate(new Date()),
 };
 
@@ -133,6 +138,30 @@ const orderSlice = createSlice({
 			};
 		},
 
+		applyVoucher: (state, action: PayloadAction<Voucher>) => {
+			const voucher = action.payload;
+			const data = state.orderPost;
+			let voucherDiscount = 0;
+			if ((voucher?.minOrderValue || 0) > (data?.totalProductPrice || 0)) toast.error('Min Order Value is not enough to use this voucher');
+			else {
+				if (voucher.type === 'percent') {
+					voucherDiscount = ((data?.totalProductPrice || 0) * (voucher?.value || 0)) / 100;
+					voucherDiscount = voucherDiscount > (voucher?.maxDiscountValue || 0) ? voucher?.maxDiscountValue || 0 : voucherDiscount;
+				} else {
+					voucherDiscount = voucher?.value || 0;
+				}
+
+				const totalPrice = (data?.totalPrice || 0) - voucherDiscount;
+
+				state.orderPost = {
+					...data,
+					voucherCode: voucher.code,
+					voucherDiscount,
+					totalPrice: totalPrice < 0 ? 0 : totalPrice,
+				};
+			}
+		},
+
 		gettingOrders: (state, action: PayloadAction<OrderParams>) => {
 			state.orderEdit = null;
 			state.loading = true;
@@ -184,6 +213,7 @@ const orderSlice = createSlice({
 		gettingOrderInfo: (state, action: PayloadAction<string>) => {
 			state.loading = true;
 			state.orderEdit = null;
+			state.orderPost = null;
 		},
 		getOrderInfoSuccess: (state, action: PayloadAction<Order>) => {
 			state.loading = false;
@@ -236,5 +266,6 @@ export const {
 	getOrdersSuccess,
 	gettingOrderInfo,
 	gettingOrders,
+	applyVoucher,
 } = orderSlice.actions;
 export default orderSlice.reducer;
