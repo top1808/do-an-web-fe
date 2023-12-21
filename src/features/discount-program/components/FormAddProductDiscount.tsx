@@ -74,7 +74,7 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 	}, [form, discountProgramProductEdit, onChangeProduct]);
 
 	useEffect(() => {
-		dispatch(gettingProduct());
+		dispatch(gettingProduct({}));
 	}, [dispatch]);
 
 	return (
