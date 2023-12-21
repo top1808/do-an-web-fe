@@ -18,8 +18,9 @@ import {
 	gettingProduct,
 	gettingProductInfo,
 } from '../reducers/productReducer';
-import { Product } from '@/models/productModels';
+import { Product, ProductParams } from '@/models/productModels';
 import { CreateAction, DeleteAction } from '@/models/actionModel';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 function* onDeleteProduct(action: DeleteAction) {
 	try {
@@ -44,10 +45,10 @@ function* onCreateProduct(action: CreateAction<Product>) {
 	}
 }
 
-function* onGetProducts() {
+function* onGetProducts(action: PayloadAction<ProductParams>) {
 	try {
-		const response: AxiosResponse = yield call(productApi.getProducts);
-		yield put(getProductsSuccess(response?.data?.products));
+		const response: AxiosResponse = yield call(productApi.getProducts, action.payload);
+		yield put(getProductsSuccess({ products: response?.data?.products, pagination: response?.data?.pagination }));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		if (error?.response?.status === 403) return;

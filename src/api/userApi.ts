@@ -1,6 +1,6 @@
 import { objectToQueryString } from '@/utils/FuntionHelpers';
 import axiosClient from './axiosClient';
-import { User, UserParams } from '@/models/userModel';
+import { User, UserParams, ChangePasswordModel } from '@/models/userModel';
 
 const URL = '/user';
 
@@ -20,6 +20,9 @@ const userApi = {
 	},
 	editUser(body: User) {
 		return axiosClient.put(URL + '/update/' + body._id, body);
+	},
+	changePassword(body: ChangePasswordModel) {
+		return axiosClient.put(URL + '/change-password/' + body.id, body);
 	},
 };
 

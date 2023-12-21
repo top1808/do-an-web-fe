@@ -1,5 +1,5 @@
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
-import { User, UserParams } from '@/models/userModel';
+import { ChangePasswordModel, User, UserParams } from '@/models/userModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
@@ -91,6 +91,21 @@ const userSlice = createSlice({
 			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
+
+		changingPasswordUser: (state, action: PayloadAction<ChangePasswordModel>) => {
+			state.loading = true;
+			state.status = 'pending';
+		},
+		changePasswordUserSuccess: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			state.status = 'completed';
+			action.payload && toast.success(action.payload);
+		},
+		changePasswordUserFailed: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			state.status = 'failed';
+			action.payload && toast.error(action.payload);
+		},
 	},
 });
 
@@ -110,5 +125,8 @@ export const {
 	editUserFailed,
 	editUserSuccess,
 	edittingUser,
+	changePasswordUserFailed,
+	changePasswordUserSuccess,
+	changingPasswordUser,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -19,4 +19,10 @@ export interface Product {
 	decription?: string;
 	status?: string;
 }
+
+export interface ProductParams {
+	offset?: string;
+	limit?: string;
+}
+
 export type MenuItem = Required<MenuProps>['items'][number];

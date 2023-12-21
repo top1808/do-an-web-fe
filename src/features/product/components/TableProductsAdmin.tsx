@@ -9,12 +9,13 @@ import MTable from '@/components/MTable';
 import { Category } from '@/models/categoryModels';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingProduct } from '@/redux/reducers/productReducer';
-import { customMoney } from '@/utils/FuntionHelpers';
+import { deletingProduct, gettingProduct } from '@/redux/reducers/productReducer';
+import { customMoney, objectToQueryString } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
-import { FilterConfirmProps } from 'antd/es/table/interface';
+import { FilterConfirmProps, TablePaginationConfig } from 'antd/es/table/interface';
+import { useRouter } from 'next-nprogress-bar';
 import React from 'react';
 
 type DataIndex = keyof Product;
@@ -22,6 +23,8 @@ type DataIndex = keyof Product;
 const TableProductsAdmin = () => {
 	const { product } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
+
+	const router = useRouter();
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
@@ -90,6 +93,15 @@ const TableProductsAdmin = () => {
 		onFilter: (value: string, record: Product) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
 		render: (text: string) => text,
 	});
+
+	const onChangeTable = (pagination: TablePaginationConfig) => {
+		let offset = ((pagination?.current || 1) - 1) * (pagination.pageSize || 0);
+		const limit = pagination.pageSize;
+		if (limit !== product.pagination?.limit) offset = 0;
+		const query = objectToQueryString({ offset, limit });
+
+		router.replace('/product' + query);
+	};
 
 	const columns: ColumnsType<Product> = [
 		{
@@ -192,8 +204,15 @@ const TableProductsAdmin = () => {
 	return (
 		<MTable
 			columns={columns}
-			dataSource={product?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
-			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			dataSource={product?.data?.map((item, index) => ({ ...item, index: (product.pagination?.offset || 0) + index + 1, key: item._id })) || []}
+			pagination={{
+				showSizeChanger: true,
+				pageSizeOptions: ['10', '20', '30'],
+				total: product.pagination?.total,
+				pageSize: product.pagination?.limit,
+				current: product.pagination?.page,
+			}}
+			onChange={onChangeTable}
 			scroll={{ x: 4000, y: 500 }}
 			virtual
 		/>

@@ -1,6 +1,7 @@
 import { fork, put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import userApi from '@/api/userApi';
 import {
+	changingPasswordUser,
 	createUserFailed,
 	createUserSuccess,
 	creatingUser,
@@ -18,8 +19,9 @@ import {
 	gettingUsers,
 } from '../reducers/userReducer';
 import { AxiosResponse } from 'axios';
-import { User, UserParams } from '@/models/userModel';
+import { ChangePasswordModel, User, UserParams } from '@/models/userModel';
 import { CreateAction, DeleteAction } from '@/models/actionModel';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 function* onDeleteUser(action: DeleteAction) {
 	try {
@@ -81,6 +83,17 @@ function* onEditUser(action: CreateAction<User>) {
 	}
 }
 
+function* onChangePasswordUser(action: PayloadAction<ChangePasswordModel>) {
+	try {
+		const response: AxiosResponse = yield call(userApi.changePassword, action.payload);
+		yield put(editUserSuccess(response.data.message));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(editUserFailed(error.response.data.message));
+	}
+}
+
 function* watchDeleteUserFlow() {
 	const type: string = deletingUser.type;
 	yield takeEvery(type, onDeleteUser);
@@ -106,10 +119,16 @@ function* watchEditUserFlow() {
 	yield takeEvery(type, onEditUser);
 }
 
+function* watchChangePasswordUserFlow() {
+	const type: string = changingPasswordUser.type;
+	yield takeEvery(type, onChangePasswordUser);
+}
+
 export function* userSaga() {
 	yield fork(watchGetUsersFlow);
 	yield fork(watchCreateUserFlow);
 	yield fork(watchDeleteUserFlow);
 	yield fork(watchGetUserFlow);
 	yield fork(watchEditUserFlow);
+	yield fork(watchChangePasswordUserFlow);
 }

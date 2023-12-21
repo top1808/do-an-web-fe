@@ -1,11 +1,14 @@
+import { objectToQueryString } from '@/utils/FuntionHelpers';
 import axiosClient from './axiosClient';
-import { Product } from '@/models/productModels';
+import { Product, ProductParams } from '@/models/productModels';
 
 const URL = '/product';
 
 const ProductApi = {
-	getProducts() {
-		return axiosClient.get(URL);
+	getProducts(params: ProductParams) {
+		const query = objectToQueryString(params);
+
+		return axiosClient.get(URL + query);
 	},
 	createProduct(body: Product) {
 		return axiosClient.post(URL + '/create', body);
