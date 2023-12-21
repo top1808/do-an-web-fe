@@ -61,7 +61,7 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	}, [form, orderProductEdit]);
 
 	useEffect(() => {
-		dispatch(gettingProduct());
+		dispatch(gettingProduct({}));
 	}, [dispatch]);
 
 	return (
