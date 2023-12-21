@@ -47,7 +47,7 @@ function* onCreateVoucher(action: CreateAction<Voucher>) {
 	}
 }
 
-function* onGetVouchers(action: CreateAction<VoucherParams>) {
+function* onGetVouchers(action: CreateAction<VoucherParams | null>) {
 	try {
 		const params: VoucherParams = action.payload as VoucherParams;
 		const response: AxiosResponse = yield call(voucherApi.getData, params);
