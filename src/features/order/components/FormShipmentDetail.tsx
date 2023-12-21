@@ -9,10 +9,11 @@ import MText from '@/components/MText';
 import { PAYMENT_METHOD } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { applyVoucher, creatingOrder, edittingOrder, setPaidAmount, toggleAddOrderProductPage } from '@/redux/reducers/orderReducer';
+import { applyVoucher, creatingOrder, edittingOrder, setPaidAmount, toggleAddOrderProductPage, clearVoucher } from '@/redux/reducers/orderReducer';
 import { gettingVouchers } from '@/redux/reducers/voucherReducer';
 import { customMoney, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, InputNumber } from 'antd';
+import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 
@@ -20,9 +21,9 @@ interface FormShipmentDetailProps {}
 
 const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 	const { order, voucher } = useAppSelector((state) => state);
-
 	const { orderPost, orderEdit } = order;
-	console.log('🚀 ~ file: FormShipmentDetail.tsx:25 ~ orderPost:', orderPost);
+
+	const router = useRouter();
 
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
@@ -49,6 +50,8 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 		const findVoucher = voucher?.data?.find((e) => e.code === code);
 		if (findVoucher) {
 			dispatch(applyVoucher(findVoucher));
+		} else {
+			dispatch(clearVoucher());
 		}
 		form.setFieldValue('voucherDescription', findVoucher?.description || '');
 		form.setFieldValue('voucherName', findVoucher?.name || '');
@@ -57,17 +60,23 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 	useEffect(() => {
 		if (orderEdit) {
 			form.setFieldsValue(orderEdit);
+			onChangeVoucher(orderEdit?.voucherCode || '');
+			onChangeTotalPaid(orderEdit?.totalPaid || 0);
+		} else {
+			dispatch(setPaidAmount(0));
+			dispatch(gettingVouchers({}));
 		}
-	}, [form, orderEdit]);
+	}, [dispatch, form, orderEdit]);
 
 	useEffect(() => {
 		form.setFieldValue('deliveryFee', 30000);
 	}, [form]);
 
 	useEffect(() => {
-		dispatch(setPaidAmount(0));
-		dispatch(gettingVouchers({}));
-	}, [dispatch]);
+		if (order.status === 'completed') {
+			router.push('/order');
+		}
+	}, [order.status, router]);
 
 	return (
 		<MSkeleton loading={voucher.loading}>
@@ -181,7 +190,7 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 						span={6}
 					>
 						<MText className='font-bold text-base'>
-							Subtotal: <MText className='text-red-400'>{customMoney(orderPost?.totalProductPrice as number)}</MText>
+							Subtotal: <MText className='text-red-500'>{customMoney(orderPost?.totalProductPrice as number)}</MText>
 						</MText>
 					</MCol>
 					<MCol
@@ -189,7 +198,7 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 						span={6}
 					>
 						<MText className='font-bold text-base'>
-							Delivery Fee: <MText className='text-red-400'>{customMoney(orderPost?.deliveryFee as number)}</MText>
+							Delivery Fee: <MText className='text-red-500'>{customMoney(orderPost?.deliveryFee as number)}</MText>
 						</MText>
 					</MCol>
 					{!!orderPost?.voucherDiscount && (
@@ -215,7 +224,7 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 						span={6}
 					>
 						<MText className='font-bold text-base'>
-							Total: <MText className='text-red-400'>{customMoney(orderPost?.totalPrice as number)}</MText>
+							Total: <MText className='text-red-500'>{customMoney(orderPost?.totalPrice as number)}</MText>
 						</MText>
 					</MCol>
 				</MRow>
