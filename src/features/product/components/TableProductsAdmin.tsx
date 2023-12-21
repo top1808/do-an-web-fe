@@ -9,7 +9,7 @@ import MTable from '@/components/MTable';
 import { Category } from '@/models/categoryModels';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingProduct, gettingProduct } from '@/redux/reducers/productReducer';
+import { deletingProduct } from '@/redux/reducers/productReducer';
 import { customMoney, objectToQueryString } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
