@@ -8,7 +8,7 @@ import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingRole } from '@/redux/reducers/roleReducer';
 import { Form, Input } from 'antd';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 type UserFormProps = {
@@ -75,19 +75,21 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 								/>
 							</Form.Item>
 						</MCol>
-						<MCol span={6}>
-							<Form.Item
-								name='password'
-								label='Password'
-								rules={[{ required: !userEdit }]}
-							>
-								<Input.Password
-									placeholder='Enter password...'
-									autoComplete='new-password'
-									size='large'
-								/>
-							</Form.Item>
-						</MCol>
+						{!pathname.includes('edit') && (
+							<MCol span={6}>
+								<Form.Item
+									name='password'
+									label='Password'
+									rules={[{ required: !userEdit }]}
+								>
+									<Input.Password
+										placeholder='Enter password...'
+										autoComplete='new-password'
+										size='large'
+									/>
+								</Form.Item>
+							</MCol>
+						)}
 						<MCol span={6}>
 							<Form.Item
 								name='name'
@@ -148,6 +150,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 					<MButton
 						type='primary'
 						htmlType='submit'
+						loading={user.loading}
 					>
 						{pathname.includes('create') ? 'Create' : 'Update'}
 					</MButton>
