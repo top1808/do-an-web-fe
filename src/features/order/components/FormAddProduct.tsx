@@ -12,11 +12,13 @@ import { Form, InputNumber } from 'antd';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import TableOrderProduct from './TableOrderProduct';
+import MSkeleton from '@/components/MSkeleton';
 
 interface FormAddProductProps {}
 
 const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	const { product, order } = useAppSelector((state) => state);
+
 	const { orderProductEdit } = order;
 
 	const dispatch = useAppDispatch();
@@ -63,161 +65,150 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	}, [dispatch]);
 
 	return (
-		<MCard
-			title='Add Product'
-			className='mt-2'
-		>
-			<Form
-				onFinish={onSubmit}
-				layout='vertical'
-				form={form}
+		<MSkeleton loading={product.loading}>
+			<MCard
+				title='Add Product'
+				className='mt-2'
 			>
-				<MRow gutter={8}>
-					<MCol span={6}>
-						<Form.Item
-							name='productCode'
-							label='Product Code'
-							rules={[{ required: true }]}
-						>
-							<MSelect
-								placeholder='Select a product'
-								options={product?.data?.map((c) => ({
-									value: c._id,
-									label: c._id,
-								}))}
-								size='large'
-								onChange={onChangeProduct}
-								disabled={!!orderProductEdit}
-							/>
-						</Form.Item>
-					</MCol>
-					<MCol span={6}>
-						<Form.Item
-							name='productName'
-							label='Product Name'
-							rules={[{ required: true }]}
-						>
-							<MSelect
-								placeholder='Select a product'
-								options={product?.data?.map((c) => ({
-									value: c._id,
-									label: c.name,
-								}))}
-								size='large'
-								onChange={onChangeProduct}
-								disabled={!!orderProductEdit}
-							/>
-						</Form.Item>
-					</MCol>
-					<MCol span={6}>
-						<Form.Item
-							name='productQuantity'
-							label='Product Quantity'
-						>
-							<InputNumber
-								className='w-full'
-								size='large'
-								formatter={handleFormatterInputNumber}
-								parser={handleParserInputNumber}
-								disabled
-							/>
-						</Form.Item>
-					</MCol>
-					<MCol span={6}>
-						<Form.Item
-							name='price'
-							label='Product Price'
-							rules={[{ required: true }]}
-						>
-							<InputNumber
-								placeholder='Enter price...'
-								className='w-full'
-								size='large'
-								formatter={handleFormatterInputNumber}
-								parser={handleParserInputNumber}
-							/>
-						</Form.Item>
-					</MCol>
-					<MCol span={6}>
-						<Form.Item
-							name='quantity'
-							label='Quantity'
-							rules={[{ required: true }, { type: 'number', min: 1 }]}
-						>
-							<InputNumber
-								placeholder='Enter quantity...'
-								className='w-full'
-								size='large'
-								formatter={handleFormatterInputNumber}
-								parser={handleParserInputNumber}
-								maxLength={4}
-							/>
-						</Form.Item>
-					</MCol>
-				</MRow>
+				<Form
+					onFinish={onSubmit}
+					layout='vertical'
+					form={form}
+				>
+					<MRow gutter={8}>
+						<MCol span={6}>
+							<Form.Item
+								name='productCode'
+								label='Product Code'
+								rules={[{ required: true }]}
+							>
+								<MSelect
+									placeholder='Select a product'
+									options={product?.data?.map((c) => ({
+										value: c._id,
+										label: c._id,
+									}))}
+									size='large'
+									onChange={onChangeProduct}
+									disabled={!!orderProductEdit}
+								/>
+							</Form.Item>
+						</MCol>
+						<MCol span={6}>
+							<Form.Item
+								name='productName'
+								label='Product Name'
+								rules={[{ required: true }]}
+							>
+								<MSelect
+									placeholder='Select a product'
+									options={product?.data?.map((c) => ({
+										value: c._id,
+										label: c.name,
+									}))}
+									size='large'
+									onChange={onChangeProduct}
+									disabled={!!orderProductEdit}
+								/>
+							</Form.Item>
+						</MCol>
+
+						<MCol span={6}>
+							<Form.Item
+								name='price'
+								label='Product Price'
+								rules={[{ required: true }]}
+							>
+								<InputNumber
+									placeholder='Enter price...'
+									className='w-full'
+									size='large'
+									formatter={handleFormatterInputNumber}
+									parser={handleParserInputNumber}
+								/>
+							</Form.Item>
+						</MCol>
+						<MCol span={6}>
+							<Form.Item
+								name='quantity'
+								label='Quantity'
+								rules={[{ required: true }, { type: 'number', min: 1 }]}
+							>
+								<InputNumber
+									placeholder='Enter quantity...'
+									className='w-full'
+									size='large'
+									formatter={handleFormatterInputNumber}
+									parser={handleParserInputNumber}
+									maxLength={4}
+								/>
+							</Form.Item>
+						</MCol>
+					</MRow>
+					<MRow
+						gutter={8}
+						justify='end'
+					>
+						{orderProductEdit ? (
+							<MCol>
+								<MButton
+									type='primary'
+									className='bg-red-500'
+									onClick={() => {
+										dispatch(setOrderProductEdit(null));
+										onResetForm();
+									}}
+								>
+									Cancel
+								</MButton>
+							</MCol>
+						) : (
+							<MCol>
+								<MButton
+									type='primary'
+									className='bg-gray-400'
+									onClick={onResetForm}
+								>
+									Reset
+								</MButton>
+							</MCol>
+						)}
+						<MCol>
+							<MButton
+								type='primary'
+								htmlType='submit'
+							>
+								{orderProductEdit ? 'Update' : 'Add'}
+							</MButton>
+						</MCol>
+					</MRow>
+				</Form>
+				<TableOrderProduct />
 				<MRow
 					gutter={8}
 					justify='end'
+					className='mt-2'
 				>
-					{orderProductEdit ? (
-						<MCol>
-							<MButton
-								type='primary'
-								className='bg-red-500'
-								onClick={() => {
-									dispatch(setOrderProductEdit(null));
-									onResetForm();
-								}}
-							>
-								Cancel
-							</MButton>
-						</MCol>
-					) : (
-						<MCol>
-							<MButton
-								type='primary'
-								className='bg-gray-400'
-								onClick={onResetForm}
-							>
-								Reset
-							</MButton>
-						</MCol>
-					)}
 					<MCol>
 						<MButton
 							type='primary'
-							htmlType='submit'
+							className='bg-gray-400'
+							onClick={() => dispatch(toggleAddOrderProductPage())}
 						>
-							{orderProductEdit ? 'Update' : 'Add'}
+							Back
+						</MButton>
+					</MCol>
+					<MCol>
+						<MButton
+							type='primary'
+							onClick={() => dispatch(toggleAddShipmentDetailPage())}
+						>
+							Next
 						</MButton>
 					</MCol>
 				</MRow>
-			</Form>
-			<TableOrderProduct />
-			<MRow
-				gutter={8}
-				justify='end'
-				className='mt-2'
-			>
-				<MCol>
-					<MButton
-						type='primary'
-						className='bg-gray-400'
-						onClick={() => dispatch(toggleAddOrderProductPage())}
-					>
-						Back
-					</MButton>
-				</MCol>
-				<MCol>
-					<MButton
-						type='primary'
-						onClick={() => dispatch(toggleAddShipmentDetailPage())}
-					>
-						Next
-					</MButton>
-				</MCol>
-			</MRow>
-		</MCard>
+			</MCard>
+		</MSkeleton>
 	);
 };
 

@@ -18,7 +18,6 @@ interface OrderFormProps {}
 
 const OrderForm: React.FC<OrderFormProps> = (props) => {
 	const { customer, order } = useAppSelector((state) => state);
-	console.log('🚀 ~ file: Form.tsx:34 ~ order:', order);
 	const { orderPost } = order;
 
 	const dispatch = useAppDispatch();

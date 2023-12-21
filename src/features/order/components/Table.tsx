@@ -143,6 +143,14 @@ const OrderTable = () => {
 			render: customMoney,
 		},
 		{
+			title: 'Voucher',
+			dataIndex: 'voucherDiscount',
+			key: 'voucherDiscount',
+			width: 150,
+			align: 'right',
+			render: customMoney,
+		},
+		{
 			title: 'Total Paid',
 			dataIndex: 'totalPaid',
 			key: 'totalPaid',
