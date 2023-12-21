@@ -4,14 +4,24 @@ import TableProductsAdmin from './components/TableProductsAdmin';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingProduct } from '@/redux/reducers/productReducer';
 import MSkeleton from '@/components/MSkeleton';
+import { useSearchParams } from 'next/navigation';
 
 const AdminProductComponent = () => {
 	const { product } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
+	const params = useSearchParams();
+	const limit = params.get('limit');
+	const offset = params.get('offset');
+
 	useEffect(() => {
-		dispatch(gettingProduct());
-	}, [dispatch]);
+		dispatch(
+			gettingProduct({
+				offset: offset || '0',
+				limit: limit || '10',
+			}),
+		);
+	}, [dispatch, limit, offset]);
 
 	return (
 		<MSkeleton loading={product.loading}>
