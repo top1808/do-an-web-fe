@@ -62,7 +62,6 @@ function* onGetOrderInfo(action: CreateAction<string>) {
 	try {
 		const id: string = action.payload as string;
 		const response: AxiosResponse = yield call(orderApi.getById, id);
-		console.log('🚀 ~ file: orderSaga.ts:65 ~ function*onGetOrderInfo ~ response:', response);
 		yield put(getOrderInfoSuccess(response.data.order));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {

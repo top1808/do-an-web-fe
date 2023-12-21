@@ -1,11 +1,12 @@
-import { Product } from '@/models/productModels';
-import { ReponseDeleteSuccess } from '@/models/reponseModel';
+import { Product, ProductParams } from '@/models/productModels';
+import { PaginationModel, ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 interface ProductState {
 	loading: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: Product[];
+	pagination?: PaginationModel;
 	productEdit?: Product | null;
 }
 
@@ -14,20 +15,27 @@ const initialState: ProductState = {
 	status: 'pending',
 	data: [],
 	productEdit: null,
+	pagination: {
+		total: 0,
+		offset: 0,
+		limit: 10,
+		page: 1,
+	},
 };
 
 const ProductSlice = createSlice({
 	name: 'product',
 	initialState: initialState,
 	reducers: {
-		gettingProduct: (state) => {
+		gettingProduct: (state, action: PayloadAction<ProductParams | null>) => {
 			state.status = 'pending';
 			state.loading = true;
 			state.productEdit = null;
 		},
-		getProductsSuccess: (state, action: PayloadAction<Product[]>) => {
+		getProductsSuccess: (state, action: PayloadAction<{ products?: Product[]; pagination?: PaginationModel }>) => {
 			state.loading = false;
-			state.data = action.payload;
+			state.data = action.payload.products;
+			state.pagination = action.payload.pagination;
 		},
 		getProductsFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;

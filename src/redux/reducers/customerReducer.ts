@@ -8,6 +8,7 @@ interface CustomerState {
 	status: 'pending' | 'completed' | 'failed';
 	data?: Customer[];
 	customerEdit?: Customer | null;
+	isGetCustomerInfo?: boolean;
 }
 
 const initialState: CustomerState = {
@@ -15,6 +16,7 @@ const initialState: CustomerState = {
 	status: 'pending',
 	data: [],
 	customerEdit: null,
+	isGetCustomerInfo: false,
 };
 
 const customerSlice = createSlice({
@@ -65,15 +67,15 @@ const customerSlice = createSlice({
 		},
 
 		gettingCustomerInfo: (state, action: PayloadAction<string>) => {
-			state.loading = true;
+			state.isGetCustomerInfo = true;
 			state.customerEdit = null;
 		},
 		getCustomerInfoSuccess: (state, action: PayloadAction<Customer>) => {
-			state.loading = false;
+			state.isGetCustomerInfo = false;
 			state.customerEdit = action.payload;
 		},
 		getCustomerInfoFailed: (state, action: PayloadAction<string>) => {
-			state.loading = false;
+			state.isGetCustomerInfo = false;
 			action.payload && toast.error(action.payload);
 		},
 

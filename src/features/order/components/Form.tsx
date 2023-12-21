@@ -13,6 +13,7 @@ import React, { useEffect } from 'react';
 import FormAddProduct from './FormAddProduct';
 import { addOrderCustomerInfo, toggleAddOrderProductPage } from '@/redux/reducers/orderReducer';
 import FormShipmentDetail from './FormShipmentDetail';
+import MSkeleton from '@/components/MSkeleton';
 
 interface OrderFormProps {}
 
@@ -54,7 +55,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 	}, [dispatch]);
 
 	return (
-		<>
+		<MSkeleton loading={order.loading}>
 			{order.isAddOrderShipmentDetail ? (
 				<FormShipmentDetail />
 			) : order.isAddOrderProduct ? (
@@ -227,7 +228,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 					</MButton>
 				</MCol>
 			</MRow> */}
-		</>
+		</MSkeleton>
 	);
 };
 

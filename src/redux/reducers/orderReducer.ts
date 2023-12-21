@@ -134,7 +134,7 @@ const orderSlice = createSlice({
 			state.orderPost = {
 				...data,
 				totalPaid: action.payload as number,
-				totalPrice: (data?.totalProductPrice || 0) + (data?.deliveryFee || 0) - action.payload,
+				totalPrice: (data?.totalProductPrice || 0) + (data?.deliveryFee || 0) - action.payload - (data?.voucherDiscount || 0),
 			};
 		},
 
@@ -160,6 +160,16 @@ const orderSlice = createSlice({
 					totalPrice: totalPrice < 0 ? 0 : totalPrice,
 				};
 			}
+		},
+
+		clearVoucher: (state) => {
+			const data = state.orderPost;
+			state.orderPost = {
+				...data,
+				voucherCode: '',
+				voucherDiscount: 0,
+				totalPrice: (data?.totalProductPrice || 0) + (data?.deliveryFee || 0) - (data?.totalPaid || 0),
+			};
 		},
 
 		gettingOrders: (state, action: PayloadAction<OrderParams>) => {
@@ -267,5 +277,6 @@ export const {
 	gettingOrderInfo,
 	gettingOrders,
 	applyVoucher,
+	clearVoucher,
 } = orderSlice.actions;
 export default orderSlice.reducer;

@@ -11,6 +11,13 @@ export interface User {
 	accessToken?: string;
 }
 
+export interface ChangePasswordModel {
+	id?: string;
+	password?: string;
+	newPassword?: string;
+	confirmPassword?: string;
+}
+
 export interface UserParams {
 	offset?: string;
 	limit?: string;
