@@ -129,8 +129,7 @@ const TableProductsAdmin = () => {
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			width: 300,
-			fixed: 'left',
+			width: 400,
 			...getColumnSearchProps('name'),
 		},
 		{
@@ -138,7 +137,7 @@ const TableProductsAdmin = () => {
 			dataIndex: 'price',
 			key: 'price',
 			align: 'right',
-			width: 100,
+			width: 140,
 			sorter: (a, b) => (a.price || 0) - (b.price || 0),
 			render: customMoney,
 		},
@@ -146,7 +145,7 @@ const TableProductsAdmin = () => {
 			title: 'Categories',
 			dataIndex: 'categoryIds',
 			key: 'categoryIds',
-			width: 200,
+			width: 240,
 			render: (items: Category[]) => (
 				<div className='flex gap-2 align-middle flex-wrap'>
 					{items?.map((item) => (
@@ -163,7 +162,7 @@ const TableProductsAdmin = () => {
 			title: 'Description',
 			dataIndex: 'description',
 			key: 'description',
-			width: 300,
+			width: 400,
 			...getColumnSearchProps('decription'),
 		},
 		{
