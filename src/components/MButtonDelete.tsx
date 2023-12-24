@@ -21,6 +21,7 @@ const MButtonDelete: React.FC<MButtonDeleteProps> = (props) => {
 			{...rest}
 		>
 			<MButton
+				tooltip='Delete'
 				type='primary'
 				style={{ backgroundColor: 'red' }}
 			>

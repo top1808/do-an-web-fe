@@ -22,6 +22,9 @@ const ProductApi = {
 	editProduct(body: Product) {
 		return axiosClient.put(URL + '/update/' + body._id, body);
 	},
+	getAllProduct() {
+		return axiosClient.get(URL + '/all');
+	},
 };
 
 export default ProductApi;

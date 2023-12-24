@@ -3,6 +3,9 @@ import { fork, put, call, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { CreateAction, DeleteAction } from '@/models/actionModel';
 import {
+	changeStatusOrderFailed,
+	changeStatusOrderSuccess,
+	changingStatusOrder,
 	createOrderFailed,
 	createOrderSuccess,
 	creatingOrder,
@@ -19,8 +22,9 @@ import {
 	gettingOrderInfo,
 	gettingOrders,
 } from '../reducers/orderReducer';
-import { Order, OrderParams } from '@/models/orderModel';
+import { Order, OrderParams, PayloadChangeStatusOrder } from '@/models/orderModel';
 import orderApi from '@/api/orderApi';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 function* onDeleteOrder(action: DeleteAction) {
 	try {
@@ -82,6 +86,17 @@ function* onEditOrder(action: CreateAction<Order>) {
 	}
 }
 
+function* onChangeStatusOrder(action: PayloadAction<PayloadChangeStatusOrder>) {
+	try {
+		const response: AxiosResponse = yield call(orderApi.changeStatusOrder, action.payload);
+		yield put(changeStatusOrderSuccess(response.data));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(changeStatusOrderFailed(error.response.data.message));
+	}
+}
+
 function* watchDeleteOrderFlow() {
 	const type: string = deletingOrder.type;
 	yield takeEvery(type, onDeleteOrder);
@@ -107,10 +122,16 @@ function* watchEditOrderFlow() {
 	yield takeEvery(type, onEditOrder);
 }
 
+function* watchChangeStatusOrderFlow() {
+	const type: string = changingStatusOrder.type;
+	yield takeEvery(type, onChangeStatusOrder);
+}
+
 export function* orderSaga() {
 	yield fork(watchGetOrdersFlow);
 	yield fork(watchCreateOrderFlow);
 	yield fork(watchDeleteOrderFlow);
 	yield fork(watchGetOrderFlow);
 	yield fork(watchEditOrderFlow);
+	yield fork(watchChangeStatusOrderFlow);
 }

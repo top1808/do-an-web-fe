@@ -1,7 +1,7 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { UserParams } from '@/models/userModel';
 import OrderTable from './components/Table';
 import { gettingOrders } from '@/redux/reducers/orderReducer';
@@ -20,7 +20,7 @@ const AdminOrderComponent = () => {
 			limit: limit as string,
 		};
 		dispatch(gettingOrders(params));
-	}, [dispatch, limit, offset]);
+	}, [dispatch, limit, offset, order.isChangingStatus]);
 
 	return (
 		<MSkeleton loading={order.loading}>
