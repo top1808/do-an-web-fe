@@ -1,6 +1,9 @@
-import { Product } from './productModels';
+import { Voucher } from './voucherModel';
 
-export interface Order {
+export interface OrderStatusModel {
+	status?: 'processing' | 'confirmed' | 'delivering' | 'delivered' | 'received' | 'canceled';
+}
+export interface Order extends OrderStatusModel {
 	_id?: string;
 	orderCode?: string;
 	customerCode?: string;
@@ -9,7 +12,6 @@ export interface Order {
 	customerPhone?: string;
 	products?: OrderProduct[] | null;
 	note?: string;
-	status?: string;
 	totalProductPrice?: number;
 	totalPrice?: number;
 	totalPaid?: number;
@@ -17,6 +19,7 @@ export interface Order {
 	deliveryAddress?: string;
 	deliveryDate?: Date | string;
 	deliveryFee?: number;
+	voucher?: Voucher;
 	voucherCode?: string;
 	voucherDiscount?: number;
 	createdAt?: Date | string;
@@ -29,6 +32,11 @@ export interface OrderProduct {
 	price?: number;
 	quantity?: number;
 	totalPrice?: number;
+}
+
+export interface PayloadChangeStatusOrder extends OrderStatusModel {
+	id?: string;
+	reason?: string;
 }
 
 export interface OrderParams {

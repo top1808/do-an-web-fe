@@ -9,6 +9,7 @@ import { customMoney, customNumber } from '@/utils/FuntionHelpers';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
 interface TableOrderProductProps {}
@@ -16,6 +17,8 @@ interface TableOrderProductProps {}
 const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
 	const { order } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
+	const pathname = usePathname();
+
 	const { orderPost } = order;
 
 	const columns: ColumnsType<OrderProduct> = [
@@ -86,7 +89,7 @@ const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
 
 	return (
 		<MTable
-			columns={columns}
+			columns={pathname.includes('view') ? columns?.filter((col) => col.key !== 'operation') : columns}
 			dataSource={orderPost?.products?.map((item, index) => ({ ...item, index: index + 1, key: index })) || []}
 			pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '20'] }}
 			className='mt-4'

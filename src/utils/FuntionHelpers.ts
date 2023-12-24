@@ -16,7 +16,7 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
 export const customMoney = (money: number) => {
-	return money.toLocaleString('vi-VN', {
+	return (money || 0).toLocaleString('vi-VN', {
 		style: 'currency',
 		currency: 'VND',
 	});

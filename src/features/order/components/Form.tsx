@@ -3,11 +3,11 @@ import MCol from '@/components/MCol';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
-import { STATUS_ORDER } from '@/constants';
+import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingCustomers } from '@/redux/reducers/customerReducer';
-import { changeDateStringToDayjs, generateCode } from '@/utils/FuntionHelpers';
+import { changeDateStringToDayjs } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
 import React, { useEffect } from 'react';
 import FormAddProduct from './FormAddProduct';
@@ -160,8 +160,9 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 									>
 										<MSelect
 											placeholder='Select status'
-											options={STATUS_ORDER}
+											options={ORDER_STATUS}
 											size='large'
+											disabled
 										/>
 									</Form.Item>
 								</MCol>
@@ -205,29 +206,6 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 					</MRow>
 				</Form>
 			)}
-			{/* <MRow
-				gutter={8}
-				justify='end'
-				className='mt-8'
-			>
-				<MCol>
-					<MButton
-						type='primary'
-						className='bg-gray-400'
-						isGoBack
-					>
-						Back
-					</MButton>
-				</MCol>
-				<MCol>
-					<MButton
-						type='primary'
-						onClick={onSubmit}
-					>
-						{pathname.includes('create') ? 'Create' : 'Update'}
-					</MButton>
-				</MCol>
-			</MRow> */}
 		</MSkeleton>
 	);
 };

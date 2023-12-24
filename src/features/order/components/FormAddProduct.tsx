@@ -6,7 +6,7 @@ import MSelect from '@/components/MSelect';
 import { OrderProduct } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { addOrderProduct, editOrderProductEdit, setOrderProductEdit, toggleAddOrderProductPage, toggleAddShipmentDetailPage } from '@/redux/reducers/orderReducer';
-import { gettingProduct } from '@/redux/reducers/productReducer';
+import { gettingAllProduct, gettingProduct } from '@/redux/reducers/productReducer';
 import { handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, InputNumber } from 'antd';
 import React, { useEffect } from 'react';
@@ -61,7 +61,7 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	}, [form, orderProductEdit]);
 
 	useEffect(() => {
-		dispatch(gettingProduct({}));
+		dispatch(gettingAllProduct());
 	}, [dispatch]);
 
 	return (
