@@ -9,11 +9,12 @@ import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingOrder } from '@/redux/reducers/orderReducer';
 import { customMoney, formatDate, formatPhonenumber } from '@/utils/FuntionHelpers';
-import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
 import React from 'react';
+import OrderActionButtonWrapper from './tableComponents/OrderActionButtonWrapper';
 
 type DataIndex = keyof Order;
 
@@ -95,6 +96,7 @@ const OrderTable = () => {
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
+			fixed: 'left',
 			width: 50,
 		},
 		{
@@ -178,10 +180,12 @@ const OrderTable = () => {
 			dataIndex: 'status',
 			key: 'status',
 			width: 150,
+			align: 'center',
+			fixed: 'right',
 			render: (item: string) => (
 				<MBadge
 					count={ORDER_STATUS.find((p) => p.value === item)?.label}
-					color='geekblue'
+					color={ORDER_STATUS.find((p) => p.value === item)?.color}
 				></MBadge>
 			),
 		},
@@ -190,20 +194,7 @@ const OrderTable = () => {
 			key: 'operation',
 			fixed: 'right',
 			width: 200,
-			render: (item) => (
-				<MSpace split={''}>
-					<MButton
-						type='primary'
-						link={`order/edit/${item._id}`}
-					>
-						<FontAwesomeIcon icon={faEdit} />
-					</MButton>
-					<MButtonDelete
-						title={`Delete order ${item.orderCode}? `}
-						onConfirm={() => dispatch(deletingOrder(item._id))}
-					></MButtonDelete>
-				</MSpace>
-			),
+			render: (item: Order) => <OrderActionButtonWrapper item={item} />,
 		},
 	] as ColumnsType<Order>;
 

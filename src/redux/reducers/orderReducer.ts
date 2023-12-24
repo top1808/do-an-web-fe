@@ -1,10 +1,29 @@
-import { Order, OrderParams, OrderProduct } from '@/models/orderModel';
+import { Order, OrderParams, OrderProduct, PayloadChangeStatusOrder } from '@/models/orderModel';
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { Voucher } from '@/models/voucherModel';
 import { formatDate, generateCode } from '@/utils/FuntionHelpers';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+
+const orderInitValue: Order = {
+	orderCode: generateCode(),
+	customerCode: '',
+	customerAddress: '',
+	customerPhone: '',
+	deliveryAddress: '',
+	products: [],
+	note: '',
+	status: 'confirmed',
+	totalProductPrice: 0,
+	totalPaid: 0,
+	totalPrice: 0,
+	paymentMethod: '',
+	deliveryDate: '',
+	deliveryFee: 30000,
+	voucherCode: '',
+	voucherDiscount: 0,
+	createdAt: formatDate(new Date()),
+};
 
 interface OrderState {
 	loading: boolean;
@@ -15,6 +34,7 @@ interface OrderState {
 	orderProductEdit?: OrderProduct | null;
 	isAddOrderProduct?: boolean;
 	isAddOrderShipmentDetail?: boolean;
+	isChangingStatus?: boolean;
 }
 
 const initialState: OrderState = {
@@ -22,48 +42,11 @@ const initialState: OrderState = {
 	status: 'pending',
 	data: [],
 	orderEdit: null,
-	orderPost: {
-		orderCode: generateCode(),
-		customerCode: '',
-		customerAddress: '',
-		customerPhone: '',
-		deliveryAddress: '',
-		products: [],
-		note: '',
-		status: 'delivering',
-		totalProductPrice: 0,
-		totalPaid: 0,
-		totalPrice: 0,
-		paymentMethod: '',
-		deliveryDate: '',
-		deliveryFee: 30000,
-		voucherCode: '',
-		voucherDiscount: 0,
-		createdAt: formatDate(new Date()),
-	},
+	orderPost: orderInitValue,
 	orderProductEdit: null,
 	isAddOrderProduct: false,
 	isAddOrderShipmentDetail: false,
-};
-
-const orderInitValue = {
-	orderCode: generateCode(),
-	customerCode: '',
-	customerAddress: '',
-	customerPhone: '',
-	deliveryAddress: '',
-	products: [],
-	note: '',
-	status: 'delivering',
-	totalProductPrice: 0,
-	totalPaid: 0,
-	totalPrice: 0,
-	paymentMethod: '',
-	deliveryDate: '',
-	deliveryFee: 30000,
-	voucherCode: '',
-	voucherDiscount: 0,
-	createdAt: formatDate(new Date()),
+	isChangingStatus: false,
 };
 
 const orderSlice = createSlice({
@@ -249,6 +232,18 @@ const orderSlice = createSlice({
 			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
+
+		changingStatusOrder: (state, action: PayloadAction<PayloadChangeStatusOrder>) => {
+			state.isChangingStatus = true;
+		},
+		changeStatusOrderSuccess: (state, action: PayloadAction<ReponseDeleteSuccess>) => {
+			state.isChangingStatus = false;
+			action.payload && toast.success(action.payload.message);
+		},
+		changeStatusOrderFailed: (state, action: PayloadAction<string>) => {
+			state.isChangingStatus = false;
+			action.payload && toast.error(action.payload);
+		},
 	},
 });
 
@@ -278,5 +273,8 @@ export const {
 	gettingOrders,
 	applyVoucher,
 	clearVoucher,
+	changingStatusOrder,
+	changeStatusOrderFailed,
+	changeStatusOrderSuccess,
 } = orderSlice.actions;
 export default orderSlice.reducer;

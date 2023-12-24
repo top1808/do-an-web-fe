@@ -1,6 +1,6 @@
 import { objectToQueryString } from '@/utils/FuntionHelpers';
 import axiosClient from './axiosClient';
-import { Order, OrderParams } from '@/models/orderModel';
+import { Order, OrderParams, PayloadChangeStatusOrder } from '@/models/orderModel';
 
 const URL = '/order';
 
@@ -20,6 +20,9 @@ const orderApi = {
 	},
 	edit(body: Order) {
 		return axiosClient.put(URL + '/update/' + body._id, body);
+	},
+	changeStatusOrder(body: PayloadChangeStatusOrder) {
+		return axiosClient.put(URL + '/change-status/' + body.id, body);
 	},
 };
 

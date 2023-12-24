@@ -43,6 +43,21 @@ const ProductSlice = createSlice({
 			action.payload && toast.error(action.payload);
 		},
 
+		gettingAllProduct: (state) => {
+			state.status = 'pending';
+			state.loading = true;
+			state.productEdit = null;
+		},
+		getAllProductSuccess: (state, action: PayloadAction<{ products?: Product[] }>) => {
+			state.loading = false;
+			state.data = action.payload.products;
+		},
+		getAllProductFailed: (state, action: PayloadAction<string>) => {
+			state.loading = false;
+			state.data = [];
+			action.payload && toast.error(action.payload);
+		},
+
 		creatingProduct: (state, action: PayloadAction<Product>) => {
 			state.loading = true;
 			state.status = 'pending';
@@ -117,5 +132,8 @@ export const {
 	gettingProduct,
 	getProductsFailed,
 	getProductsSuccess,
+	getAllProductFailed,
+	getAllProductSuccess,
+	gettingAllProduct,
 } = ProductSlice.actions;
 export default ProductSlice.reducer;

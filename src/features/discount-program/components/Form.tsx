@@ -4,12 +4,11 @@ import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
-import { STATUS_VOUCHER, TYPE_VOUCHER } from '@/constants';
-import FormAddProduct from '@/features/order/components/FormAddProduct';
+import { ORDER_STATUS } from '@/constants';
 import { DiscountProgram } from '@/models/discountProgramModel';
 import { useAppSelector } from '@/redux/hooks';
-import { changeDateStringToDayjs, generateVoucherCode, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
-import { DatePicker, Form, Input, InputNumber } from 'antd';
+import { changeDateStringToDayjs, generateVoucherCode } from '@/utils/FuntionHelpers';
+import { DatePicker, Form, Input } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -113,7 +112,7 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 						>
 							<MSelect
 								placeholder='Select status'
-								options={STATUS_VOUCHER}
+								options={ORDER_STATUS}
 								size='large'
 							/>
 						</Form.Item>

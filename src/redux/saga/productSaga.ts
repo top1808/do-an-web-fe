@@ -11,10 +11,13 @@ import {
 	editProductFailed,
 	editProductSuccess,
 	edittingProduct,
+	getAllProductFailed,
+	getAllProductSuccess,
 	getProductInfoFailed,
 	getProductInfoSuccess,
 	getProductsFailed,
 	getProductsSuccess,
+	gettingAllProduct,
 	gettingProduct,
 	gettingProductInfo,
 } from '../reducers/productReducer';
@@ -56,6 +59,18 @@ function* onGetProducts(action: PayloadAction<ProductParams>) {
 	}
 }
 
+function* onGetAllProduct() {
+	try {
+		const response: AxiosResponse = yield call(productApi.getAllProduct);
+		console.log('🚀 ~ file: productSaga.ts:65 ~ function*onGetAllProduct ~ response:', response);
+		yield put(getAllProductSuccess({ products: response?.data?.products }));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(getAllProductFailed(error.response.data.message));
+	}
+}
+
 function* onGetProductInfo(action: CreateAction<string>) {
 	try {
 		const id: string = action.payload as string;
@@ -92,6 +107,10 @@ function* watchGetProductFlow() {
 	yield takeEvery(gettingProduct.type, onGetProducts);
 }
 
+function* watchGetAllProductFlow() {
+	yield takeEvery(gettingAllProduct.type, onGetAllProduct);
+}
+
 function* watchGetProductInfoFlow() {
 	const type: string = gettingProductInfo.type;
 	yield takeEvery(type, onGetProductInfo);
@@ -104,6 +123,7 @@ function* watchEditProductFlow() {
 
 export function* ProductSaga() {
 	yield fork(watchGetProductFlow);
+	yield fork(watchGetAllProductFlow);
 	yield fork(watchCreateProductFlow);
 	yield fork(watchDeleteProductFlow);
 	yield fork(watchGetProductInfoFlow);

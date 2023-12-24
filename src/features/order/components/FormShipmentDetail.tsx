@@ -103,7 +103,6 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 						<Form.Item
 							name='totalPaid'
 							label='Paid Amount'
-							rules={[{ required: true }]}
 						>
 							<InputNumber
 								className='w-full'
