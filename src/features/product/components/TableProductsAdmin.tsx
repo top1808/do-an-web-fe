@@ -164,6 +164,7 @@ const TableProductsAdmin = () => {
 			key: 'description',
 			width: 400,
 			...getColumnSearchProps('decription'),
+			render: (item: string) => <div className='text-ellipsis-2'>{item}</div>,
 		},
 		{
 			title: 'Status',
