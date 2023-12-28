@@ -18,6 +18,7 @@ export interface Order extends OrderStatusModel {
 	paymentMethod?: string;
 	deliveryAddress?: string;
 	deliveryDate?: Date | string;
+	receivedDate?: Date | string;
 	deliveryFee?: number;
 	voucher?: Voucher;
 	voucherCode?: string;
@@ -36,6 +37,7 @@ export interface OrderProduct {
 
 export interface PayloadChangeStatusOrder extends OrderStatusModel {
 	id?: string;
+	body?: Order;
 	reason?: string;
 }
 

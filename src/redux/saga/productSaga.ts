@@ -62,7 +62,6 @@ function* onGetProducts(action: PayloadAction<ProductParams>) {
 function* onGetAllProduct() {
 	try {
 		const response: AxiosResponse = yield call(productApi.getAllProduct);
-		console.log('🚀 ~ file: productSaga.ts:65 ~ function*onGetAllProduct ~ response:', response);
 		yield put(getAllProductSuccess({ products: response?.data?.products }));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {

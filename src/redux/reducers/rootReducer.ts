@@ -10,6 +10,7 @@ import orderReducer from './orderReducer';
 import voucherReducer from './voucherReducer';
 import statisticReducer from './statisticReducer';
 import discountProgramReducer from './discountProgramReducer';
+import modalReducer from './modalReducer';
 
 const rootReducer = combineReducers({
 	sideBar: sideBarReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
 	voucher: voucherReducer,
 	discountProgram: discountProgramReducer,
 	role: roleReducer,
+	modal: modalReducer,
 	statistic: statisticReducer,
 });
 

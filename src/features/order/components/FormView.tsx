@@ -2,7 +2,7 @@ import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
-import { ORDER_STATUS } from '@/constants';
+import { ORDER_STATUS, PAYMENT_METHOD } from '@/constants';
 import { useAppSelector } from '@/redux/hooks';
 import { customMoney, formatDate, handleFormatterInputNumber } from '@/utils/FuntionHelpers';
 import { Form, Input, InputNumber } from 'antd';
@@ -26,7 +26,10 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 		if (orderPost) {
 			form.setFieldsValue({
 				...orderPost,
+				paymentMethod: PAYMENT_METHOD.find((pm) => pm.value === orderPost?.paymentMethod)?.label,
 				createdAt: formatDate(orderPost.createdAt as string, 'DD/MM/YYYY'),
+				receivedDate: formatDate(orderPost.receivedDate as string, 'DD/MM/YYYY'),
+				deliveryDate: formatDate(orderPost.deliveryDate as string, 'DD/MM/YYYY'),
 				status: ORDER_STATUS?.find((item) => item.value === orderPost.status)?.label,
 				voucherName: orderPost?.voucher?.name,
 				voucherDescription: orderPost?.voucher?.description,
@@ -175,7 +178,7 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 					<MCol span={6}>
 						<Form.Item
 							name='deliveryFee'
-							label='Delivery Free'
+							label='Delivery Fee'
 						>
 							<InputNumber
 								className='w-full'
@@ -184,37 +187,64 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							/>
 						</Form.Item>
 					</MCol>
-
 					<MCol span={6}>
 						<Form.Item
-							name='voucherCode'
-							label='Voucher Code'
+							name='deliveryDate'
+							label='Delivery Date'
 						>
-							<MInput size='large' />
-						</Form.Item>
-					</MCol>
-					<MCol span={6}>
-						<Form.Item
-							name='voucherName'
-							label='Voucher name'
-						>
-							<MInput
+							<InputNumber
+								className='w-full'
 								size='large'
-								disabled
 							/>
 						</Form.Item>
 					</MCol>
 					<MCol span={6}>
 						<Form.Item
-							name='voucherDescription'
-							label='Voucher description'
+							name='receivedDate'
+							label='Expected Delivery'
 						>
-							<MInput
+							<InputNumber
+								className='w-full'
 								size='large'
-								disabled
 							/>
 						</Form.Item>
 					</MCol>
+					{orderPost?.voucher && (
+						<>
+							<MCol span={6}>
+								<Form.Item
+									name='voucherCode'
+									label='Voucher Code'
+								>
+									<MInput size='large' />
+								</Form.Item>
+							</MCol>
+							<MCol span={6}>
+								<Form.Item
+									name='voucherName'
+									label='Voucher name'
+								>
+									<MInput
+										size='large'
+										disabled
+									/>
+								</Form.Item>
+							</MCol>
+							{orderPost?.status === 'canceled' && (
+								<MCol span={24}>
+									<Form.Item
+										name='reasonCancel'
+										label='Reason Cancel Order'
+									>
+										<Input.TextArea
+											size='large'
+											rows={3}
+										/>
+									</Form.Item>
+								</MCol>
+							)}
+						</>
+					)}
 				</MRow>
 				<MRow
 					gutter={8}
@@ -224,6 +254,7 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 					<MCol
 						offset={18}
 						span={6}
+						className='text-end'
 					>
 						<MText className='font-bold text-base'>
 							Subtotal: <MText className='text-red-500'>{customMoney(orderPost?.totalProductPrice as number)}</MText>
@@ -232,6 +263,7 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 					<MCol
 						offset={18}
 						span={6}
+						className='text-end'
 					>
 						<MText className='font-bold text-base'>
 							Delivery Fee: <MText className='text-red-500'>{customMoney(orderPost?.deliveryFee as number)}</MText>
@@ -241,23 +273,28 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 						<MCol
 							offset={18}
 							span={6}
+							className='text-end'
 						>
 							<MText className='font-bold text-base'>
 								Voucher: <MText className='text-red-500'>-{customMoney(orderPost?.voucherDiscount as number)}</MText>
 							</MText>
 						</MCol>
 					)}
+					{!!orderPost?.totalPaid && (
+						<MCol
+							offset={18}
+							span={6}
+							className='text-end'
+						>
+							<MText className='font-bold text-base'>
+								Paid Amount: <MText className='text-red-500'>{customMoney(orderPost?.totalPaid as number)}</MText>
+							</MText>
+						</MCol>
+					)}
 					<MCol
 						offset={18}
 						span={6}
-					>
-						<MText className='font-bold text-base'>
-							Paid Amount: <MText className='text-red-500'>{customMoney(orderPost?.totalPaid as number)}</MText>
-						</MText>
-					</MCol>
-					<MCol
-						offset={18}
-						span={6}
+						className='text-end'
 					>
 						<MText className='font-bold text-base'>
 							Total: <MText className='text-red-500'>{customMoney(orderPost?.totalPrice as number)}</MText>
