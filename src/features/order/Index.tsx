@@ -6,6 +6,7 @@ import { UserParams } from '@/models/userModel';
 import OrderTable from './components/Table';
 import { gettingOrders } from '@/redux/reducers/orderReducer';
 import MSkeleton from '@/components/MSkeleton';
+import ModalTransport from './components/modal/ModalTransport';
 
 const AdminOrderComponent = () => {
 	const { order } = useAppSelector((state) => state);
@@ -24,6 +25,7 @@ const AdminOrderComponent = () => {
 
 	return (
 		<MSkeleton loading={order.loading}>
+			<ModalTransport />
 			<OrderTable />
 		</MSkeleton>
 	);

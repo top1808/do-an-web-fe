@@ -4,8 +4,9 @@ import MPopconfirm from '@/components/MPopconfirm';
 import MSpace from '@/components/MSpace';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch } from '@/redux/hooks';
+import { toggleModalTransport } from '@/redux/reducers/modalReducer';
 import { changingStatusOrder, deletingOrder } from '@/redux/reducers/orderReducer';
-import { faBan, faCheck, faCheckToSlot, faEdit, faEye, faTruck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBan, faCheck, faCheckToSlot, faEdit, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import Swal from 'sweetalert2';
@@ -16,7 +17,6 @@ interface OrderActionButtonWrapperProps {
 
 const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 	const { item } = props;
-
 	const dispatch = useAppDispatch();
 
 	const onCancelOrder = () => {
@@ -63,21 +63,13 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 				</MPopconfirm>
 			)}
 			{item?.status === 'confirmed' && (
-				<MPopconfirm
-					title={`Transport order ${item?.orderCode}`}
-					description='Are you sure to transport?'
-					onConfirm={() => dispatch(changingStatusOrder({ id: item?._id || '', status: 'delivering' }))}
-					okText='Yes'
-					cancelText='No'
-					placement='bottom'
+				<MButton
+					tooltip='Transport order'
+					className='text-white bg-yellow-500 hover:bg-yellow-300'
+					onClick={() => dispatch(toggleModalTransport(item))}
 				>
-					<MButton
-						tooltip='Transport order'
-						className='text-white bg-yellow-500 hover:bg-yellow-300'
-					>
-						<FontAwesomeIcon icon={faTruck} />
-					</MButton>
-				</MPopconfirm>
+					<FontAwesomeIcon icon={faTruck} />
+				</MButton>
 			)}
 			{item?.status === 'processing' && (
 				<MPopconfirm
