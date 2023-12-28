@@ -13,6 +13,7 @@ import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 import FormAddProductDiscount from './FormAddProductDiscount';
+import dayjs from 'dayjs';
 
 type DiscountProgramFormProps = {
 	onSubmit?: (data: DiscountProgram) => void;
@@ -40,7 +41,7 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 	useEffect(() => {
 		form.setFieldsValue(
 			discountProgramEdit
-				? { ...discountProgramEdit, dateEnd: changeDateStringToDayjs(discountProgramEdit.dateEnd as string), dateStart: changeDateStringToDayjs(discountProgramEdit.dateStart as string) }
+				? { ...discountProgramEdit, date: [changeDateStringToDayjs(discountProgramEdit.dateStart as string), changeDateStringToDayjs(discountProgramEdit.dateEnd as string)] }
 				: { ...INITIAL_VALUE, code: generateVoucherCode() },
 		);
 	}, [form, discountProgramEdit]);
@@ -54,7 +55,7 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 	return (
 		<MSkeleton loading={discountProgram.loading}>
 			<Form
-				// onFinish={onSubmit}
+				onFinish={onSubmit}
 				layout='vertical'
 				form={form}
 			>
@@ -72,34 +73,21 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 						</Form.Item>
 					</MCol>
 
-					<MCol span={6}>
+					<MCol span={12}>
 						<Form.Item
-							name='dateStart'
-							label='Start'
+							name='date'
+							label='From - To'
 							rules={[{ required: true }]}
 						>
-							<DatePicker
+							<DatePicker.RangePicker
 								format='DD/MM/YYYY'
-								placeholder='DD/MM/YYYY'
 								allowClear={false}
 								size='large'
-								className='w-full'
-							/>
-						</Form.Item>
-					</MCol>
-
-					<MCol span={6}>
-						<Form.Item
-							name='dateEnd'
-							label='End'
-							rules={[{ required: true }]}
-						>
-							<DatePicker
-								format='DD/MM/YYYY'
-								placeholder='DD/MM/YYYY'
-								allowClear={false}
-								size='large'
-								className='w-full'
+								style={{ width: '100%' }}
+								placeholder={['From', 'To']}
+								disabledDate={(current) => {
+									return dayjs().add(-1, 'days') >= current;
+								}}
 							/>
 						</Form.Item>
 					</MCol>
@@ -149,7 +137,7 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 				<MCol>
 					<MButton
 						type='primary'
-						onClick={() => onSubmit?.(form.getFieldsValue() as DiscountProgram)}
+						onClick={() => form.submit()}
 					>
 						{pathname.includes('create') ? 'Create' : 'Update'}
 					</MButton>
