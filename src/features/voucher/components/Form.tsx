@@ -4,7 +4,7 @@ import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
-import { ORDER_STATUS, TYPE_VOUCHER } from '@/constants';
+import { STATUS_VOUCHER, TYPE_VOUCHER } from '@/constants';
 import { Voucher } from '@/models/voucherModel';
 import { useAppSelector } from '@/redux/hooks';
 import { changeDateStringToDayjs, generateVoucherCode, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
@@ -197,7 +197,7 @@ const VoucherForm: React.FC<VoucherFormProps> = (props) => {
 						>
 							<MSelect
 								placeholder='Select status'
-								options={ORDER_STATUS}
+								options={STATUS_VOUCHER}
 								size='large'
 							/>
 						</Form.Item>

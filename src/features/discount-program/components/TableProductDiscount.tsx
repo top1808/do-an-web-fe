@@ -86,7 +86,7 @@ const TableProductDiscount: React.FC<TableProductDiscountProps> = (props) => {
 						</MButton>
 						<MButtonDelete
 							title={`Delete product ${item.productName}? `}
-							onConfirm={() => dispatch(deleteDiscountProgramProduct(item?.index || null))}
+							onConfirm={() => dispatch(deleteDiscountProgramProduct((item?.index || 0) - 1))}
 						></MButtonDelete>
 					</MSpace>
 				);

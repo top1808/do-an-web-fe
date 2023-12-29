@@ -230,20 +230,20 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 									/>
 								</Form.Item>
 							</MCol>
-							{orderPost?.status === 'canceled' && (
-								<MCol span={24}>
-									<Form.Item
-										name='reasonCancel'
-										label='Reason Cancel Order'
-									>
-										<Input.TextArea
-											size='large'
-											rows={3}
-										/>
-									</Form.Item>
-								</MCol>
-							)}
 						</>
+					)}
+					{orderPost?.status === 'canceled' && (
+						<MCol span={24}>
+							<Form.Item
+								name='reasonCancel'
+								label='Reason Cancel Order'
+							>
+								<Input.TextArea
+									size='large'
+									rows={3}
+								/>
+							</Form.Item>
+						</MCol>
 					)}
 				</MRow>
 				<MRow
