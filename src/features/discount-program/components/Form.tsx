@@ -4,7 +4,7 @@ import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
-import { ORDER_STATUS } from '@/constants';
+import { STATUS_VOUCHER } from '@/constants';
 import { DiscountProgram } from '@/models/discountProgramModel';
 import { useAppSelector } from '@/redux/hooks';
 import { changeDateStringToDayjs, generateVoucherCode } from '@/utils/FuntionHelpers';
@@ -100,7 +100,7 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 						>
 							<MSelect
 								placeholder='Select status'
-								options={ORDER_STATUS}
+								options={STATUS_VOUCHER}
 								size='large'
 							/>
 						</Form.Item>
