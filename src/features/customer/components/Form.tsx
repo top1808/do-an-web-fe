@@ -5,8 +5,8 @@ import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSkeleton from '@/components/MSkeleton';
 import { Customer } from '@/models/customerModel';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { changeDateStringToDayjs } from '@/utils/FuntionHelpers';
+import { useAppSelector } from '@/redux/hooks';
+import { changeDateStringToDayjs, checkPhoneNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
@@ -128,6 +128,7 @@ const CustomerForm: React.FC<CustomerFormProps> = (props) => {
 								<Form.Item
 									name='phoneNumber'
 									label='Phone Number'
+									rules={[{ validator: (_, value) => checkPhoneNumber(value) }]}
 								>
 									<MInput
 										placeholder='Enter phone number...'

@@ -7,7 +7,7 @@ import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingCustomers } from '@/redux/reducers/customerReducer';
-import { changeDateStringToDayjs } from '@/utils/FuntionHelpers';
+import { changeDateStringToDayjs, checkPhoneNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
 import React, { useEffect } from 'react';
 import FormAddProduct from './FormAddProduct';
@@ -118,6 +118,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 									<Form.Item
 										name='customerPhone'
 										label='Customer Phone'
+										rules={[{ validator: (_, value) => checkPhoneNumber(value) }]}
 									>
 										<MInput
 											placeholder='Enter Customer Phone...'

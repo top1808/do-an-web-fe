@@ -79,7 +79,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 					</MCol>
 					<MCol span={21}>
 						<MRow gutter={12}>
-							<MCol span={6}>
+							<MCol span={12}>
 								<Form.Item
 									name='name'
 									label='Name'
@@ -91,21 +91,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 									/>
 								</Form.Item>
 							</MCol>
-							<MCol span={6}>
-								<Form.Item
-									name='price'
-									label='Price'
-									rules={[{ required: true }]}
-								>
-									<InputNumber
-										placeholder='Enter price...'
-										className='w-full'
-										size='large'
-										formatter={handleFormatterInputNumber}
-										parser={handleParserInputNumber}
-									/>
-								</Form.Item>
-							</MCol>
+
 							<MCol span={12}>
 								<Form.Item
 									name='categoryIds'
@@ -121,6 +107,23 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 											value: c._id,
 											label: c.name,
 										}))}
+									/>
+								</Form.Item>
+							</MCol>
+
+							<MCol span={6}>
+								<Form.Item
+									name='price'
+									label='Price'
+									rules={[{ required: true }]}
+								>
+									<InputNumber
+										placeholder='Enter price...'
+										className='w-full'
+										size='large'
+										formatter={handleFormatterInputNumber}
+										parser={handleParserInputNumber}
+										step={1000}
 									/>
 								</Form.Item>
 							</MCol>
