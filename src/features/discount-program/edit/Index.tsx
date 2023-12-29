@@ -3,9 +3,9 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
-import { Voucher } from '@/models/voucherModel';
 import DiscountProgramForm from '../components/Form';
 import { edittingDiscountProgram, gettingDiscountProgramInfo } from '@/redux/reducers/discountProgramReducer';
+import { DiscountProgram } from '@/models/discountProgramModel';
 
 const AdminEditDiscountProgramComponent = () => {
 	const { id } = useParams();
@@ -13,13 +13,14 @@ const AdminEditDiscountProgramComponent = () => {
 	const { discountProgramPost } = discountProgram;
 	const dispatch = useAppDispatch();
 
-	const onSubmit = (data: Voucher) => {
-		data.dateEnd = dayjs(data.dateEnd).format('YYYY-MM-DD');
-		data.dateStart = dayjs(data.dateStart).format('YYYY-MM-DD');
+	const onSubmit = (data: DiscountProgram) => {
+		data.dateEnd = dayjs(data?.date?.[1]).format('YYYY-MM-DD');
+		data.dateStart = dayjs(data?.date?.[0]).format('YYYY-MM-DD');
 		const dataPost = {
 			...discountProgramPost,
 			...data,
 		};
+		delete dataPost?.date;
 		dispatch(edittingDiscountProgram({ ...dataPost, _id: id as string }));
 	};
 

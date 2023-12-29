@@ -9,6 +9,7 @@ import { Voucher } from '@/models/voucherModel';
 import { useAppSelector } from '@/redux/hooks';
 import { changeDateStringToDayjs, generateVoucherCode, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input, InputNumber } from 'antd';
+import dayjs from 'dayjs';
 import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -44,7 +45,7 @@ const VoucherForm: React.FC<VoucherFormProps> = (props) => {
 	useEffect(() => {
 		form.setFieldsValue(
 			voucherEdit
-				? { ...voucherEdit, dateEnd: changeDateStringToDayjs(voucherEdit.dateEnd as string), dateStart: changeDateStringToDayjs(voucherEdit.dateStart as string) }
+				? { ...voucherEdit, date: [changeDateStringToDayjs(voucherEdit.dateStart as string), changeDateStringToDayjs(voucherEdit.dateEnd as string)] }
 				: { ...INITIAL_VALUE, code: generateVoucherCode() },
 		);
 	}, [form, voucherEdit]);
@@ -169,34 +170,21 @@ const VoucherForm: React.FC<VoucherFormProps> = (props) => {
 						</Form.Item>
 					</MCol>
 
-					<MCol span={6}>
+					<MCol span={12}>
 						<Form.Item
-							name='dateStart'
-							label='Start'
+							name='date'
+							label='From - To'
 							rules={[{ required: true }]}
 						>
-							<DatePicker
+							<DatePicker.RangePicker
 								format='DD/MM/YYYY'
-								placeholder='DD/MM/YYYY'
 								allowClear={false}
 								size='large'
-								className='w-full'
-							/>
-						</Form.Item>
-					</MCol>
-
-					<MCol span={6}>
-						<Form.Item
-							name='dateEnd'
-							label='End'
-							rules={[{ required: true }]}
-						>
-							<DatePicker
-								format='DD/MM/YYYY'
-								placeholder='DD/MM/YYYY'
-								allowClear={false}
-								size='large'
-								className='w-full'
+								style={{ width: '100%' }}
+								placeholder={['From', 'To']}
+								disabledDate={(current) => {
+									return dayjs().add(-1, 'days') >= current;
+								}}
 							/>
 						</Form.Item>
 					</MCol>

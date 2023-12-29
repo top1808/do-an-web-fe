@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<MLayout>
-			<div className='p-12'>{children}</div>
+			<div className='px-12 py-4'>{children}</div>
 		</MLayout>
 	);
 }
