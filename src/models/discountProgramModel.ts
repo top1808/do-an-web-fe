@@ -1,4 +1,5 @@
 export interface DiscountProgramProduct {
+	index?: number | null;
 	productCode?: string;
 	productName?: string;
 	price?: number;
