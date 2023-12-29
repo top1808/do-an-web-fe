@@ -109,14 +109,14 @@ const TableProductsAdmin = () => {
 			dataIndex: 'index',
 			key: 'index',
 			width: 60,
-			fixed: 'left',
+			// fixed: 'left',
 		},
 		{
 			title: 'Image',
 			dataIndex: 'image',
 			key: 'image',
 			width: 100,
-			fixed: 'left',
+			// fixed: 'left',
 			render: (item) => (
 				<MImage
 					src={item}
@@ -157,14 +157,6 @@ const TableProductsAdmin = () => {
 					))}
 				</div>
 			),
-		},
-		{
-			title: 'Description',
-			dataIndex: 'description',
-			key: 'description',
-			width: 400,
-			...getColumnSearchProps('decription'),
-			render: (item: string) => <div className='text-ellipsis-2'>{item}</div>,
 		},
 		{
 			title: 'Status',
