@@ -10,6 +10,7 @@ export interface Voucher {
 	description?: string;
 	dateStart?: string | Date;
 	dateEnd?: string | Date;
+	date?: Date[];
 	status?: string;
 }
 

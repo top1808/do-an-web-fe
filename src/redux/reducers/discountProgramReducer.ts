@@ -35,13 +35,13 @@ const discountProgramSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		addDiscountProgramProduct: (state, action: PayloadAction<DiscountProgramProduct | null>) => {
-			const newProducts = [...(state.discountProgramPost?.products as DiscountProgramProduct[]), action.payload];
+			const newProducts = [action.payload, ...(state.discountProgramPost?.products as DiscountProgramProduct[])];
 			state.discountProgramPost = {
 				...state.discountProgramPost,
 				products: newProducts as DiscountProgramProduct[],
 			};
 		},
-		deleteDiscountProgramProduct: (state, action: PayloadAction<number>) => {
+		deleteDiscountProgramProduct: (state, action: PayloadAction<number | null>) => {
 			const newProducts = (state.discountProgramPost?.products as DiscountProgramProduct[]).filter((p, i) => i !== action.payload);
 			state.discountProgramPost = {
 				...state.discountProgramPost,
@@ -68,6 +68,7 @@ const discountProgramSlice = createSlice({
 
 		gettingDiscountPrograms: (state, action: PayloadAction<DiscountProgramParams>) => {
 			state.discountProgramEdit = null;
+			state.discountProgramPost = discountProgramInitValue;
 			state.loading = true;
 			state.status = 'pending';
 		},

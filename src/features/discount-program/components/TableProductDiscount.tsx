@@ -75,20 +75,22 @@ const TableProductDiscount: React.FC<TableProductDiscountProps> = (props) => {
 			fixed: 'right',
 			align: 'center',
 			width: 100,
-			render: (item, record, index) => (
-				<MSpace split={''}>
-					<MButton
-						type='primary'
-						onClick={() => dispatch(setDiscountProgramProductEdit(item))}
-					>
-						<FontAwesomeIcon icon={faEdit} />
-					</MButton>
-					<MButtonDelete
-						title={`Delete product ${item.productName}? `}
-						onConfirm={() => dispatch(deleteDiscountProgramProduct(index))}
-					></MButtonDelete>
-				</MSpace>
-			),
+			render: (item: DiscountProgramProduct, record, index: number) => {
+				return (
+					<MSpace split={''}>
+						<MButton
+							type='primary'
+							onClick={() => dispatch(setDiscountProgramProductEdit(item))}
+						>
+							<FontAwesomeIcon icon={faEdit} />
+						</MButton>
+						<MButtonDelete
+							title={`Delete product ${item.productName}? `}
+							onConfirm={() => dispatch(deleteDiscountProgramProduct(item?.index || null))}
+						></MButtonDelete>
+					</MSpace>
+				);
+			},
 		},
 	] as ColumnsType<DiscountProgramProduct>;
 

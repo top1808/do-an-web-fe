@@ -12,8 +12,9 @@ const AdminEditVoucherComponent = () => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: Voucher) => {
-		data.dateEnd = dayjs(data.dateEnd).format('YYYY-MM-DD');
-		data.dateStart = dayjs(data.dateStart).format('YYYY-MM-DD');
+		data.dateEnd = dayjs(data?.date?.[1]).format('YYYY-MM-DD');
+		data.dateStart = dayjs(data?.date?.[0]).format('YYYY-MM-DD');
+		delete data.date;
 		dispatch(edittingVoucher({ ...data, _id: id as string }));
 	};
 

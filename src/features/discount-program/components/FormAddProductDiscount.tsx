@@ -8,10 +8,10 @@ import { Form, InputNumber } from 'antd';
 import React, { useCallback, useEffect } from 'react';
 import TableProductDiscount from './TableProductDiscount';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { DiscountProgram, DiscountProgramProduct } from '@/models/discountProgramModel';
+import { DiscountProgramProduct } from '@/models/discountProgramModel';
 import { gettingProduct } from '@/redux/reducers/productReducer';
 import { TYPE_VOUCHER } from '@/constants';
-import { addDiscountProgramProduct, editDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
+import { addDiscountProgramProduct, editDiscountProgramProductEdit, setDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
 import { toast } from 'react-toastify';
 
 interface FormAddProductDiscountProps {}
@@ -60,7 +60,12 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 	useEffect(() => {
 		if (type && value && price) {
 			const promotionPrice = type === 'percent' ? Math.round((price * (100 - value)) / 100) : price - value;
-			form.setFieldValue('promotionPrice', promotionPrice);
+			if (promotionPrice < 0) {
+				form.setFieldValue('value', price);
+				form.setFieldValue('promotionPrice', 0);
+			} else {
+				form.setFieldValue('promotionPrice', promotionPrice);
+			}
 		} else {
 			form.setFieldValue('promotionPrice', '');
 		}
@@ -198,7 +203,7 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 								type='primary'
 								className='bg-red-500'
 								onClick={() => {
-									// dispatch(setdiscountProgramProductEdit(null));
+									dispatch(setDiscountProgramProductEdit(null));
 									onResetForm();
 								}}
 							>

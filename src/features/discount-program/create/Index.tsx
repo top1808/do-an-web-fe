@@ -14,12 +14,13 @@ const AdminCreateDiscountProgramComponent = () => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: DiscountProgram) => {
-		data.dateEnd = dayjs(data.dateEnd).format('YYYY-MM-DD');
-		data.dateStart = dayjs(data.dateStart).format('YYYY-MM-DD');
+		data.dateEnd = dayjs(data?.date?.[1]).format('YYYY-MM-DD');
+		data.dateStart = dayjs(data?.date?.[0]).format('YYYY-MM-DD');
 		const dataPost = {
 			...discountProgramPost,
 			...data,
 		};
+		delete dataPost?.date;
 
 		dispatch(creatingDiscountProgram(dataPost));
 	};

@@ -1,4 +1,5 @@
 export interface DiscountProgramProduct {
+	index?: number | null;
 	productCode?: string;
 	productName?: string;
 	price?: number;
@@ -15,6 +16,7 @@ export interface DiscountProgram {
 	dateStart?: string | Date;
 	dateEnd?: string | Date;
 	status?: string;
+	date?: Date[];
 }
 
 export interface DiscountProgramParams {

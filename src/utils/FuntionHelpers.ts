@@ -15,6 +15,8 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
+export const vietnamesePhoneNumberRegex = /(0|\+84)(\d{9})\b/;
+
 export const customMoney = (money: number) => {
 	return (money || 0).toLocaleString('vi-VN', {
 		style: 'currency',
@@ -58,6 +60,13 @@ export const changeDateStringToDayjs = (date: string | Date) => {
 
 export const formatPhonenumber = (phoneNumber: string) => {
 	return phoneNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+};
+
+export const checkPhoneNumber = (phoneNumber: string) => {
+	if (!vietnamesePhoneNumberRegex.test(phoneNumber)) {
+		return Promise.reject('Please enter a valid phone number');
+	}
+	return Promise.resolve();
 };
 
 export const generateCode = () => {
