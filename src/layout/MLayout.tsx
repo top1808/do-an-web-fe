@@ -8,6 +8,8 @@ import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
+import { getMessagingToken, onMessageListener, registerServiceWorker } from '@/lib/firebase';
+import { toast } from 'react-toastify';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -17,13 +19,29 @@ interface LayoutProps {
 
 const MLayout: React.FC<LayoutProps> = ({ children }) => {
 	const { sideBar, auth } = useAppSelector((state) => state);
+
 	const router = useRouter();
 
 	useEffect(() => {
 		if (!auth.isLoggedIn) {
-			window.location.assign('/admin/login');
+			window.location.assign('/login');
 		}
 	}, [auth, router]);
+
+	useEffect(() => {
+		registerServiceWorker();
+		getMessagingToken();
+	}, []);
+
+	useEffect(() => {
+		onMessageListener()
+			.then((payload) => {
+				console.log('🚀 ~ useEffect ~ payload:', payload);
+			})
+			.catch((err) => {
+				console.log('🚀 ~ useEffect ~ err:', err);
+			});
+	});
 
 	return !auth.isLoggedIn ? (
 		<></>

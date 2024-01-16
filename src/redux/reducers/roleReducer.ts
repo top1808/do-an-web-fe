@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 interface RoleState {
 	loading?: boolean;
+	isChagingPermission?: boolean;
 	roles?: Role[] | null;
 	permissions?: Permission[] | null;
 	webPermissions?: CheckPermissionState[] | null;
@@ -12,6 +13,7 @@ interface RoleState {
 
 const initialState: RoleState = {
 	loading: false,
+	isChagingPermission: false,
 	roles: null,
 	permissions: null,
 	webPermissions: [],
@@ -44,15 +46,15 @@ const roleSlice = createSlice({
 			action.payload && toast.error(action.payload);
 		},
 		settingPermissionForRole: (state, action: PayloadAction<SetPermissionAction>) => {
-			state.loading = true;
+			state.isChagingPermission = true;
 		},
 		setPermissionForRoleSuccess: (state, action: PayloadAction<ReponseState<Role[]>>) => {
-			state.loading = false;
+			state.isChagingPermission = false;
 			state.roles = action.payload.data;
 			action.payload && toast.success(action.payload.message);
 		},
 		setPermissionForRoleFailed: (state, action: PayloadAction<string>) => {
-			state.loading = false;
+			state.isChagingPermission = false;
 			action.payload && toast.error(action.payload);
 		},
 		checkingPermission: (state, action: PayloadAction<string>) => {

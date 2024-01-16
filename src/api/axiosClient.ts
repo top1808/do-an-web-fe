@@ -6,6 +6,7 @@ import { User } from '@/models/userModel';
 import { loginSuccess, logoutSuccess } from '@/redux/reducers/authReducer';
 import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '@/models/jwtModel';
+import { getMessagingToken } from '@/lib/firebase';
 interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
 	headers: AxiosRequestHeaders;
 }
@@ -43,6 +44,13 @@ const refreshToken = async () => {
 axiosClient.interceptors.request.use(
 	async (config: AdaptAxiosRequestConfig) => {
 		const { currentUser } = store.getState().auth;
+		const { token } = store.getState().notification;
+		if (!token) {
+			const newToken = await getMessagingToken();
+			config.headers.messagingToken = newToken;
+		} else {
+			config.headers.messagingToken = token;
+		}
 
 		if (currentUser?.accessToken) {
 			const currentTime = new Date().getTime() / 1000;
