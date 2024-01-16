@@ -11,6 +11,7 @@ import voucherReducer from './voucherReducer';
 import statisticReducer from './statisticReducer';
 import discountProgramReducer from './discountProgramReducer';
 import modalReducer from './modalReducer';
+import notificationReducer from './notificationReducer';
 
 const rootReducer = combineReducers({
 	sideBar: sideBarReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
 	role: roleReducer,
 	modal: modalReducer,
 	statistic: statisticReducer,
+	notification: notificationReducer,
 });
 
 export default rootReducer;
