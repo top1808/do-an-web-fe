@@ -1,6 +1,6 @@
 import { firebaseConfig } from '@/constants';
 import { NotificationModel } from '@/models/notificationModel';
-import { setToken } from '@/redux/reducers/notificationReducer';
+import { gettingNotifications, setToken } from '@/redux/reducers/notificationReducer';
 import { store } from '@/redux/store';
 import { notification } from 'antd';
 
@@ -24,7 +24,9 @@ if (typeof window !== 'undefined') {
 export const registerServiceWorker = () => {
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.addEventListener('message', (event) => {
+			// console.log('🚀 ~ navigator.serviceWorker.addEventListener ~ event:', event);
 			const { currentUser } = store.getState().auth;
+			store.dispatch(gettingNotifications({ offset: '0', limit: '10' }));
 			if (currentUser?._id !== event.data?.data?.fromUser) {
 				const data: NotificationModel = event.data.notification;
 
@@ -39,16 +41,27 @@ export const registerServiceWorker = () => {
 	}
 };
 
+export const requestPermission = async () => {
+	let permission = '';
+	try {
+		permission = await Notification.requestPermission();
+	} catch (error) {
+		// console.log('An error occurred while retrieving token. ', error);
+	}
+
+	return permission;
+};
+
 export const getMessagingToken = async () => {
 	let currentToken = '';
 	if (!messaging) return;
 	try {
 		currentToken = await messaging.getToken({
-			vapidKey: 'BFeYWzVaczTM9j8pNox83J3HtbEb_Tyr9_x8Km4T0HkXZRDajgENVqShl-6N6fAjWLGgjmNBUORqRnXA6ze-8gM',
+			vapidKey: process.env.FIREBASE_VAPID_KEY,
 		});
 		store.dispatch(setToken(currentToken));
 	} catch (error) {
-		console.log('An error occurred while retrieving token. ', error);
+		// console.log('An error occurred while retrieving token. ', error);
 	}
 	return currentToken;
 };

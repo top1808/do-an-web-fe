@@ -87,7 +87,7 @@ const ORDER_STATUS = [
 ];
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyB64kFtwaXYBwjh13h0YgRHKlufJsPPRHc',
+	apiKey: process.env.FIREBASE_API_KEY,
 	authDomain: 'do-an-web-7e477.firebaseapp.com',
 	databaseURL: 'https://do-an-web-7e477-default-rtdb.asia-southeast1.firebasedatabase.app',
 	projectId: 'do-an-web-7e477',

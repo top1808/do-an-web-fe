@@ -4,7 +4,7 @@ import { faArrowRight, faArrowRightFromBracket, faBars, faEllipsis, faPen, faPlu
 import { faBell, faEnvelope, faMessage, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Badge, Col, Drawer, Dropdown, Image, Row, Tabs, TabsProps } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/layout.module.css';
 import type { MenuProps } from 'antd';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -12,6 +12,8 @@ import { toggle } from '../redux/reducers/sideBarReducer';
 
 import MButton from '@/components/MButton';
 import { logouting } from '@/redux/reducers/authReducer';
+import { gettingNotifications } from '@/redux/reducers/notificationReducer';
+import Link from 'next/link';
 
 const tabItems: TabsProps['items'] = [
 	{
@@ -183,36 +185,10 @@ const tabItems: TabsProps['items'] = [
 ];
 
 const HeaderAdmin: React.FC = () => {
-	const { sideBar, auth } = useAppSelector((state) => state);
+	const { sideBar, auth, notification } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
-	const notificationItems: MenuProps['items'] = [
-		{
-			label: (
-				<Row
-					gutter={[4, 4]}
-					className='w-72'
-					align='middle'
-				>
-					<Col
-						span={4}
-						className='flex items-center'
-					>
-						<Image
-							alt='img'
-							src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAc-mV8O2JkwzeiCH6f0-fDTIiYD4XRY9b8nCa0MG15A&s'
-							preview={false}
-						/>
-					</Col>
-					<Col span={20}>
-						<div className='text-sm'>Top top top</div>
-						<div className='text-xs text-gray-500'>Top top top</div>
-					</Col>
-				</Row>
-			),
-			key: '0',
-		},
-	];
+	const [notificationItems, setNotificationItems] = useState<MenuProps['items']>([]);
 
 	const profileItems: MenuProps['items'] = [
 		// {
@@ -263,6 +239,53 @@ const HeaderAdmin: React.FC = () => {
 		console.log(key);
 	};
 
+	useEffect(() => {
+		if (notification?.data) {
+			setNotificationItems(
+				notification?.data?.length <= 0
+					? [
+							{
+								label: 'No notifications.',
+								key: 'no_notificaitons.',
+							},
+					  ]
+					: notification?.data?.map((item) => ({
+							label: (
+								<Link href={item?.link || '/'}>
+									<Row
+										gutter={[4, 4]}
+										className='w-72'
+										align='middle'
+									>
+										{item?.image && (
+											<Col
+												span={4}
+												className='flex items-center'
+											>
+												<Image
+													alt='img'
+													src={item?.image}
+													preview={false}
+												/>
+											</Col>
+										)}
+										<Col span={20}>
+											<div className='text-sm'>{item?.title}</div>
+											<div className='text-xs text-gray-500 text-ellipsis-2'>{item?.body}</div>
+										</Col>
+									</Row>
+								</Link>
+							),
+							key: item?._id || '',
+					  })),
+			);
+		}
+	}, [notification?.data]);
+
+	useEffect(() => {
+		dispatch(gettingNotifications({ offset: '0', limit: '10' }));
+	}, [dispatch]);
+
 	return (
 		<div className={styles.header}>
 			<div className='flex items-center'>
@@ -286,20 +309,22 @@ const HeaderAdmin: React.FC = () => {
 				/>
 			</div>
 			<div className='flex items-center'>
-				{/* <Dropdown
+				<Dropdown
 					menu={{ items: notificationItems }}
 					trigger={['click']}
 					placement='bottomRight'
 				>
-					<MButton
-						icon={<FontAwesomeIcon icon={faBell} />}
-						size='large'
-						shape='circle'
-						style={{ backgroundColor: '#fff' }}
-						onClick={(e) => e.preventDefault()}
-					/>
+					<Badge count={notification.data?.length}>
+						<MButton
+							icon={<FontAwesomeIcon icon={faBell} />}
+							size='large'
+							shape='circle'
+							style={{ backgroundColor: '#fff' }}
+							onClick={(e) => e.preventDefault()}
+						/>
+					</Badge>
 				</Dropdown>
-				<MButton
+				{/* <MButton
 					icon={<FontAwesomeIcon icon={faMessage} />}
 					size='large'
 					shape='circle'
