@@ -8,8 +8,8 @@ import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
-import { getMessagingToken, onMessageListener, registerServiceWorker } from '@/lib/firebase';
-import { toast } from 'react-toastify';
+import { getMessagingToken, registerServiceWorker, requestPermission } from '@/lib/firebase';
+import { onGetPusherNotification } from '@/lib/pusher';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -29,19 +29,15 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 	}, [auth, router]);
 
 	useEffect(() => {
-		registerServiceWorker();
-		getMessagingToken();
+		requestPermission().then((permisison) => {
+			if (permisison === 'granted') {
+				registerServiceWorker();
+				getMessagingToken();
+			} else {
+				onGetPusherNotification();
+			}
+		});
 	}, []);
-
-	useEffect(() => {
-		onMessageListener()
-			.then((payload) => {
-				console.log('🚀 ~ useEffect ~ payload:', payload);
-			})
-			.catch((err) => {
-				console.log('🚀 ~ useEffect ~ err:', err);
-			});
-	});
 
 	return !auth.isLoggedIn ? (
 		<></>

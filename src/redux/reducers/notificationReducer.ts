@@ -1,4 +1,4 @@
-import { NotificationModel } from '@/models/notificationModel';
+import { NotificationModel, NotificationParams } from '@/models/notificationModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
@@ -21,8 +21,33 @@ const notificationSlice = createSlice({
 		setToken(state, action: PayloadAction<string>) {
 			state.token = action.payload;
 		},
+
+		gettingNotifications: (state, action: PayloadAction<NotificationParams | null>) => {
+			state.isLoading = true;
+		},
+		getNotificationsSuccess: (state, action: PayloadAction<NotificationModel[]>) => {
+			state.isLoading = false;
+			state.data = action.payload;
+		},
+		getNotificationsFailed: (state, action: PayloadAction<string>) => {
+			state.isLoading = false;
+			state.data = [];
+			action.payload && toast.error(action.payload);
+		},
+
+		readingNotifications: (state, action: PayloadAction<string>) => {
+			state.isLoading = true;
+		},
+		readNotificationsSuccess: (state) => {
+			state.isLoading = false;
+		},
+		readNotificationsFailed: (state, action: PayloadAction<string>) => {
+			state.isLoading = false;
+			state.data = [];
+			action.payload && toast.error(action.payload);
+		},
 	},
 });
 
-export const { setToken } = notificationSlice.actions;
+export const { setToken, getNotificationsFailed, getNotificationsSuccess, gettingNotifications, readNotificationsFailed, readNotificationsSuccess, readingNotifications } = notificationSlice.actions;
 export default notificationSlice.reducer;
