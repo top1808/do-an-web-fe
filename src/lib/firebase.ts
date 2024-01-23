@@ -1,8 +1,6 @@
 import { firebaseConfig } from '@/constants';
-import { NotificationModel } from '@/models/notificationModel';
-import { gettingNotifications, setToken } from '@/redux/reducers/notificationReducer';
+import { setToken } from '@/redux/reducers/notificationReducer';
 import { store } from '@/redux/store';
-import { notification } from 'antd';
 
 import firebase from 'firebase/app';
 import 'firebase/messaging';
@@ -25,18 +23,6 @@ export const registerServiceWorker = () => {
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.addEventListener('message', (event) => {
 			// console.log('🚀 ~ navigator.serviceWorker.addEventListener ~ event:', event);
-			const { currentUser } = store.getState().auth;
-			store.dispatch(gettingNotifications({ offset: '0', limit: '10' }));
-			if (currentUser?._id !== event.data?.data?.fromUser) {
-				const data: NotificationModel = event.data.notification;
-
-				notification.open({
-					message: data?.title,
-					description: data?.body,
-					duration: 3,
-					onClick: () => window.location.assign(data?.link || ''),
-				});
-			}
 		});
 	}
 };
@@ -59,6 +45,7 @@ export const getMessagingToken = async () => {
 		currentToken = await messaging.getToken({
 			vapidKey: process.env.FIREBASE_VAPID_KEY,
 		});
+		// console.log('🚀 ~ getMessagingToken ~ currentToken:', currentToken);
 		store.dispatch(setToken(currentToken));
 	} catch (error) {
 		// console.log('An error occurred while retrieving token. ', error);

@@ -14,6 +14,7 @@ import MButton from '@/components/MButton';
 import { logouting } from '@/redux/reducers/authReducer';
 import { gettingNotifications } from '@/redux/reducers/notificationReducer';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const tabItems: TabsProps['items'] = [
 	{
@@ -188,6 +189,8 @@ const HeaderAdmin: React.FC = () => {
 	const { sideBar, auth, notification } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 
+	const pathname = usePathname();
+
 	const [notificationItems, setNotificationItems] = useState<MenuProps['items']>([]);
 
 	const profileItems: MenuProps['items'] = [
@@ -257,19 +260,7 @@ const HeaderAdmin: React.FC = () => {
 										className='w-72'
 										align='middle'
 									>
-										{item?.image && (
-											<Col
-												span={4}
-												className='flex items-center'
-											>
-												<Image
-													alt='img'
-													src={item?.image}
-													preview={false}
-												/>
-											</Col>
-										)}
-										<Col span={20}>
+										<Col span={24}>
 											<div className='text-sm'>{item?.title}</div>
 											<div className='text-xs text-gray-500 text-ellipsis-2'>{item?.body}</div>
 										</Col>
@@ -283,8 +274,10 @@ const HeaderAdmin: React.FC = () => {
 	}, [notification?.data]);
 
 	useEffect(() => {
-		dispatch(gettingNotifications({ offset: '0', limit: '10' }));
-	}, [dispatch]);
+		if (pathname !== '/notification') {
+			dispatch(gettingNotifications({ offset: '0', limit: '10' }));
+		}
+	}, [dispatch, pathname]);
 
 	return (
 		<div className={styles.header}>
@@ -310,11 +303,24 @@ const HeaderAdmin: React.FC = () => {
 			</div>
 			<div className='flex items-center'>
 				<Dropdown
-					menu={{ items: notificationItems }}
+					menu={{
+						items: [
+							...(notificationItems || []),
+							{
+								label: (
+									<Link href='/notification'>
+										<div className='text-xs text-center text-blue-600'>View all</div>
+									</Link>
+								),
+								key: 'view_all',
+							},
+						],
+					}}
 					trigger={['click']}
 					placement='bottomRight'
+					disabled={pathname === '/notification'}
 				>
-					<Badge count={notification.data?.length}>
+					<Badge count={notification.pagination?.total}>
 						<MButton
 							icon={<FontAwesomeIcon icon={faBell} />}
 							size='large'

@@ -29,14 +29,9 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 	}, [auth, router]);
 
 	useEffect(() => {
-		requestPermission().then((permisison) => {
-			if (permisison === 'granted') {
-				registerServiceWorker();
-				getMessagingToken();
-			} else {
-				onGetPusherNotification();
-			}
-		});
+		registerServiceWorker();
+		getMessagingToken();
+		onGetPusherNotification();
 	}, []);
 
 	return !auth.isLoggedIn ? (
