@@ -1,4 +1,5 @@
-import MCard from '@/components/MCard';
+'use client';
+
 import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
