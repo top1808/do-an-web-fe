@@ -35,7 +35,7 @@ const NotificationPageComponent = () => {
 							align='middle'
 							className='bg-white p-2 hover:bg-slate-100'
 						>
-							{item?.image && (
+							{/* {item?.image && (
 								<Col
 									span={4}
 									className='flex items-center'
@@ -46,8 +46,8 @@ const NotificationPageComponent = () => {
 										preview={false}
 									/>
 								</Col>
-							)}
-							<Col span={20}>
+							)} */}
+							<Col span={24}>
 								<div className='text-sm'>{item?.title}</div>
 								<div className='text-xs text-gray-500 text-ellipsis-2'>{item?.body}</div>
 							</Col>
