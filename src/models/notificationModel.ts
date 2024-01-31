@@ -6,6 +6,7 @@ export interface NotificationModel {
 	link?: string;
 	fromUser?: string;
 	toUser?: string;
+	isRead?: boolean;
 }
 
 export interface NotificationParams {

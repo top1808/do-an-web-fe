@@ -15,11 +15,12 @@ export const onGetPusherNotification = () => {
 		store.dispatch(gettingNotifications({ offset: '0', limit: '10' }));
 		const { currentUser } = store.getState().auth;
 		if (currentUser?._id !== event.data?.fromUser) {
-			const data: NotificationModel = event.notification;
+			const notify: NotificationModel = event.notification;
+			const data: NotificationModel = event.data;
 
 			notification.open({
-				message: data?.title,
-				description: data?.body,
+				message: notify?.title,
+				description: notify?.body,
 				duration: 3,
 				onClick: () => window.location.assign(data?.link || ''),
 			});

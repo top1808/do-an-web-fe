@@ -12,7 +12,7 @@ import { toggle } from '../redux/reducers/sideBarReducer';
 
 import MButton from '@/components/MButton';
 import { logouting } from '@/redux/reducers/authReducer';
-import { gettingNotifications } from '@/redux/reducers/notificationReducer';
+import { gettingNotifications, readingNotifications } from '@/redux/reducers/notificationReducer';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -254,15 +254,24 @@ const HeaderAdmin: React.FC = () => {
 					  ]
 					: notification?.data?.map((item) => ({
 							label: (
-								<Link href={item?.link || '/'}>
+								<Link
+									href={item?.link || '/'}
+									onClick={() => dispatch(readingNotifications(item?._id || ''))}
+								>
 									<Row
 										gutter={[4, 4]}
-										className='w-72'
 										align='middle'
+										className='w-96'
 									>
-										<Col span={24}>
-											<div className='text-sm'>{item?.title}</div>
-											<div className='text-xs text-gray-500 text-ellipsis-2'>{item?.body}</div>
+										<Col span={2}>
+											<Badge dot={!item.isRead} />
+										</Col>
+										<Col
+											span={22}
+											className={`${item.isRead ? 'text-slate-400' : 'text-black'}`}
+										>
+											<div className='text-sm font-semibold'>{item?.title}</div>
+											<div className='text-xs text-ellipsis-2'>{item?.body}</div>
 										</Col>
 									</Row>
 								</Link>
@@ -271,7 +280,7 @@ const HeaderAdmin: React.FC = () => {
 					  })),
 			);
 		}
-	}, [notification?.data]);
+	}, [dispatch, notification?.data]);
 
 	useEffect(() => {
 		if (pathname !== '/notification') {
@@ -320,7 +329,7 @@ const HeaderAdmin: React.FC = () => {
 					placement='bottomRight'
 					disabled={pathname === '/notification'}
 				>
-					<Badge count={notification.pagination?.total}>
+					<Badge count={notification.pagination?.totalNew}>
 						<MButton
 							icon={<FontAwesomeIcon icon={faBell} />}
 							size='large'

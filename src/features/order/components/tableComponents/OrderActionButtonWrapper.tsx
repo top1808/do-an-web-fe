@@ -88,7 +88,7 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 					</MButton>
 				</MPopconfirm>
 			)}
-			{item?.status !== 'delivered' && item?.status !== 'received' && item?.status !== 'canceled' && (
+			{item?.status !== 'received' && item?.status !== 'canceled' && (
 				<MButton
 					tooltip='Cancel order'
 					className='text-white bg-red-600 hover:bg-red-400'

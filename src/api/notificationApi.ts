@@ -10,7 +10,7 @@ const notificationApi = {
 		return axiosClient.get(URL + query);
 	},
 	read(id: string) {
-		return axiosClient.put(URL + `/${id}`);
+		return axiosClient.put(URL + `/read/${id}`);
 	},
 };
 

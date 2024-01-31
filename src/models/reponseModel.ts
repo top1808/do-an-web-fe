@@ -5,6 +5,7 @@ interface ReponseDeleteSuccess {
 
 interface PaginationModel {
 	total?: number;
+	totalNew?: number;
 	offset?: number;
 	limit?: number;
 	page?: number;
