@@ -18,6 +18,7 @@ const initialState: NotificationState = {
 	data: [],
 	pagination: {
 		total: 0,
+		totalNew: 0,
 		offset: 0,
 		limit: 10,
 		page: 1,
@@ -67,7 +68,6 @@ const notificationSlice = createSlice({
 		},
 		readNotificationsFailed: (state, action: PayloadAction<string>) => {
 			state.isLoading = false;
-			state.data = [];
 			action.payload && toast.error(action.payload);
 		},
 	},
