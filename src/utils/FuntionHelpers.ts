@@ -7,6 +7,10 @@ import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
+import { ContentState, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import { RawDraftContentState } from 'react-draft-wysiwyg';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -16,6 +20,19 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
 export const vietnamesePhoneNumberRegex = /(0|\+84)(\d{9})\b/;
+
+export const editorToHtml = (rawContentState: RawDraftContentState | null) => {
+	if (!rawContentState) return '';
+	return draftToHtml(rawContentState);
+};
+
+export const htmlToEditor = (html: string) => {
+	if (!html) return EditorState.createEmpty();
+	const blocksFromHtml = htmlToDraft(html);
+	const { contentBlocks, entityMap } = blocksFromHtml;
+	const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+	return EditorState.createWithContent(contentState);
+};
 
 export const customMoney = (money: number) => {
 	return (money || 0).toLocaleString('vi-VN', {

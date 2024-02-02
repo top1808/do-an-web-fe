@@ -1,4 +1,5 @@
 import { MenuProps } from 'antd';
+import { EditorState, RawDraftContentState } from 'draft-js';
 
 export interface InforProduct {
 	id: string;
@@ -16,7 +17,8 @@ export interface Product {
 	price?: number;
 	quantity?: number;
 	category_id?: string[];
-	decription?: string;
+	description?: string;
+	descriptionDraft?: RawDraftContentState | EditorState | null;
 	status?: string;
 }
 
