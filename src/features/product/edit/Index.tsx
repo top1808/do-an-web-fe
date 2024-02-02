@@ -5,12 +5,16 @@ import { useParams } from 'next/navigation';
 import { Product } from '@/models/productModels';
 import FormCreateProduct from '../components/FormCreateProduct';
 import { edittingProduct, gettingProductInfo } from '@/redux/reducers/productReducer';
+import { editorToHtml } from '@/utils/FuntionHelpers';
+import { RawDraftContentState } from 'draft-js';
 
 const AdminEditProductComponent = () => {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: Product) => {
+		data.description = editorToHtml(data.descriptionDraft as RawDraftContentState);
+		delete data.descriptionDraft;
 		dispatch(edittingProduct({ ...data, _id: id as string }));
 	};
 

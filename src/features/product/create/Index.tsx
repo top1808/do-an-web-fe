@@ -4,11 +4,15 @@ import React from 'react';
 import FormCreateProduct from '../components/FormCreateProduct';
 import { creatingProduct } from '@/redux/reducers/productReducer';
 import { Product } from '@/models/productModels';
+import { editorToHtml } from '@/utils/FuntionHelpers';
+import { RawDraftContentState } from 'draft-js';
 
 const CreateProductComponent = () => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: Product) => {
+		data.description = editorToHtml(data.descriptionDraft as RawDraftContentState);
+		delete data.descriptionDraft;
 		dispatch(creatingProduct(data));
 	};
 

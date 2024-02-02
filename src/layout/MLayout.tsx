@@ -3,7 +3,7 @@
 import React, { Suspense, useEffect } from 'react';
 import HeaderComponent from './Header';
 import FooterComponent from './Footer';
-import { Layout } from 'antd';
+import { FloatButton, Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
@@ -83,6 +83,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 					>
 						{children}
 					</Suspense>
+					<FloatButton.BackTop type='primary' />
 				</Content>
 				<Footer>
 					<FooterComponent />

@@ -9,12 +9,11 @@ import MTable from '@/components/MTable';
 import { Category } from '@/models/categoryModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingCategory } from '@/redux/reducers/categoryReducer';
-import { compareAlphabet } from '@/utils/FuntionHelpers';
-import { faCheck, faEdit, faMagnifyingGlass, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type DataIndex = keyof Category;
 
@@ -141,8 +140,7 @@ const TableCategories = () => {
 		{
 			title: 'Action',
 			key: 'operation',
-			fixed: 'right',
-			width: 50,
+			width: 100,
 			render: (item) => (
 				<MSpace split={''}>
 					<MButton
@@ -165,6 +163,7 @@ const TableCategories = () => {
 			columns={columns}
 			dataSource={category?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			scroll={{ y: '55vh' }}
 		/>
 	);
 };

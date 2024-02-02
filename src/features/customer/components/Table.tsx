@@ -7,7 +7,7 @@ import MTable from '@/components/MTable';
 import { Customer } from '@/models/customerModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingCustomer } from '@/redux/reducers/customerReducer';
-import { formatDate, formatPhonenumber } from '@/utils/FuntionHelpers';
+import { formatDateToRender, formatPhonenumber } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
@@ -94,13 +94,13 @@ const CustomerTable = () => {
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: '2%',
+			width: 60,
 		},
 		{
 			title: 'Avatar',
 			dataIndex: 'image',
 			key: 'image',
-			width: 60,
+			width: 100,
 			render: (item) => (
 				<MImage
 					src={item}
@@ -120,7 +120,7 @@ const CustomerTable = () => {
 			title: 'Email',
 			dataIndex: 'email',
 			key: 'email',
-			width: 100,
+			width: 240,
 			...getColumnSearchProps('email'),
 		},
 		{
@@ -129,13 +129,13 @@ const CustomerTable = () => {
 			key: 'birthday',
 			width: 100,
 			...getColumnSearchProps('birthday'),
-			render: (item: string) => formatDate(item, 'DD/MM/YYYY'),
+			render: formatDateToRender,
 		},
 		{
 			title: 'Phone number',
 			dataIndex: 'phoneNumber',
 			key: 'phoneNumber',
-			width: 100,
+			width: 140,
 			...getColumnSearchProps('phoneNumber'),
 			render: (item) => formatPhonenumber(item),
 		},
@@ -143,14 +143,14 @@ const CustomerTable = () => {
 			title: 'Address',
 			dataIndex: 'address',
 			key: 'address',
-			width: 100,
+			width: 300,
 			...getColumnSearchProps('address'),
 		},
 		{
 			title: 'Action',
 			key: 'operation',
 			fixed: 'right',
-			width: 100,
+			width: 150,
 			render: (item) => (
 				<MSpace split={''}>
 					<MButton
@@ -173,6 +173,7 @@ const CustomerTable = () => {
 			columns={columns}
 			dataSource={customer?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			scroll={{ x: 1200, y: '55vh' }}
 		/>
 	);
 };

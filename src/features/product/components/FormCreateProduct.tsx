@@ -1,5 +1,6 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
+import MEditor from '@/components/MEditor';
 import MForm from '@/components/MForm';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
@@ -9,12 +10,13 @@ import { STATUS_PRODUCT } from '@/constants';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingCategory } from '@/redux/reducers/categoryReducer';
-import { handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
+import { handleFormatterInputNumber, handleParserInputNumber, htmlToEditor } from '@/utils/FuntionHelpers';
 
-import { Form, Input, InputNumber } from 'antd';
+import { Form, InputNumber } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { EditorState } from 'react-draft-wysiwyg';
 
 type ProductFormProps = {
 	onSubmit?: (data: Product) => void;
@@ -24,7 +26,8 @@ const inititalValue: Product = {
 	image: '',
 	name: '',
 	price: 0,
-	decription: '',
+	description: '',
+	descriptionDraft: htmlToEditor(''),
 	status: 'active',
 };
 
@@ -33,15 +36,17 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 	const { productEdit } = product;
 
 	const dispatch = useAppDispatch();
-
 	const router = useRouter();
 
 	const { onSubmit } = props;
 	const pathname = usePathname();
 	const [form] = Form.useForm();
 
+	const [editorState, setEditorState] = useState<EditorState>();
+
 	useEffect(() => {
-		form.setFieldsValue(productEdit ? productEdit : inititalValue);
+		setEditorState(htmlToEditor(productEdit?.description || ''));
+		form.setFieldsValue(productEdit ? { ...productEdit, descriptionDraft: htmlToEditor(productEdit?.description || '') } : inititalValue);
 	}, [form, productEdit]);
 
 	useEffect(() => {
@@ -55,7 +60,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 	}, [product.status, router]);
 
 	return (
-		<MSkeleton loading={product.loading}>
+		<MSkeleton loading={product.isGettingInfo}>
 			<Form
 				onFinish={onSubmit}
 				layout='vertical'
@@ -143,13 +148,12 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 							</MCol>
 							<MCol span={24}>
 								<Form.Item
-									name='description'
+									name='descriptionDraft'
 									label='Description'
 								>
-									<Input.TextArea
-										placeholder='Enter description...'
-										size='large'
-										rows={3}
+									<MEditor
+										editorState={editorState}
+										onEditorStateChange={setEditorState}
 									/>
 								</Form.Item>
 							</MCol>

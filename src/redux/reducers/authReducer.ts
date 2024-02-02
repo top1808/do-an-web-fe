@@ -1,4 +1,3 @@
-import authApi from '@/api/authApi';
 import { FormLogin } from '@/models/authModel';
 import { User } from '@/models/userModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';

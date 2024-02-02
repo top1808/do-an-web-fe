@@ -7,6 +7,7 @@ import MTable from '@/components/MTable';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingUser } from '@/redux/reducers/userReducer';
+import { formatDateTimeToRender } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
@@ -128,6 +129,13 @@ const UserTable = () => {
 			key: 'username',
 			width: 100,
 			...getColumnSearchProps('username'),
+		},
+		{
+			title: 'Last login',
+			dataIndex: 'lastLogin',
+			key: 'lastLogin',
+			width: 100,
+			render: formatDateTimeToRender,
 		},
 		{
 			title: 'Action',
