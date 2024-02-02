@@ -180,6 +180,7 @@ const VoucherTable = () => {
 			title: 'Status',
 			dataIndex: 'status',
 			key: 'status',
+			fixed: 'right',
 			width: 100,
 			render: (status) => (
 				<MBadge
@@ -216,8 +217,7 @@ const VoucherTable = () => {
 			columns={columns}
 			dataSource={voucher?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
-			scroll={{ x: 2000, y: 2000 }}
-			virtual
+			scroll={{ x: 1700, y: '55vh' }}
 			className='w-full'
 		/>
 	);

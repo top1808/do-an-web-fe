@@ -2,8 +2,10 @@ import { Product, ProductParams } from '@/models/productModels';
 import { PaginationModel, ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+
 interface ProductState {
 	loading: boolean;
+	isGettingInfo: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: Product[];
 	pagination?: PaginationModel;
@@ -12,6 +14,7 @@ interface ProductState {
 
 const initialState: ProductState = {
 	loading: false,
+	isGettingInfo: false,
 	status: 'pending',
 	data: [],
 	productEdit: null,
@@ -87,15 +90,15 @@ const ProductSlice = createSlice({
 		},
 
 		gettingProductInfo: (state, action: PayloadAction<string>) => {
-			state.loading = true;
+			state.isGettingInfo = true;
 			state.productEdit = null;
 		},
 		getProductInfoSuccess: (state, action: PayloadAction<Product>) => {
-			state.loading = false;
+			state.isGettingInfo = false;
 			state.productEdit = action.payload;
 		},
 		getProductInfoFailed: (state, action: PayloadAction<string>) => {
-			state.loading = false;
+			state.isGettingInfo = false;
 			action.payload && toast.error(action.payload);
 		},
 

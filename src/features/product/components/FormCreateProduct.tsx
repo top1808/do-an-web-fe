@@ -60,7 +60,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 	}, [product.status, router]);
 
 	return (
-		<MSkeleton loading={product.loading}>
+		<MSkeleton loading={product.isGettingInfo}>
 			<Form
 				onFinish={onSubmit}
 				layout='vertical'

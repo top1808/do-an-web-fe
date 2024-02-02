@@ -112,20 +112,6 @@ const TableProductsAdmin = () => {
 			// fixed: 'left',
 		},
 		{
-			title: 'Image',
-			dataIndex: 'image',
-			key: 'image',
-			width: 100,
-			// fixed: 'left',
-			render: (item) => (
-				<MImage
-					src={item}
-					alt='avatar'
-					style={{ height: 50 }}
-				/>
-			),
-		},
-		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
@@ -174,7 +160,7 @@ const TableProductsAdmin = () => {
 		{
 			title: 'Action',
 			key: 'operation',
-			fixed: 'right',
+			// fixed: 'right',
 			width: 200,
 			render: (item: Product) => (
 				<MSpace split={''}>
@@ -205,8 +191,7 @@ const TableProductsAdmin = () => {
 				current: product.pagination?.page,
 			}}
 			onChange={onChangeTable}
-			scroll={{ x: 4000, y: 500 }}
-			virtual
+			scroll={{ y: '55vh' }}
 		/>
 	);
 };

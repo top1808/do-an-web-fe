@@ -71,6 +71,16 @@ export const formatDate = (date?: Date | string, format?: string) => {
 	return dayjs(date || new Date()).format(format || 'YYYY-MM-DD');
 };
 
+export const formatDateToRender = (date?: Date | string) => {
+	if (!date) return '';
+	return formatDate(date, 'DD/MM/YYYY');
+};
+
+export const formatDateTimeToRender = (date?: Date | string) => {
+	if (!date) return '';
+	return formatDate(date, 'DD/MM/YYYY HH:mm');
+};
+
 export const changeDateStringToDayjs = (date: string | Date) => {
 	return dayjs(date || new Date());
 };
