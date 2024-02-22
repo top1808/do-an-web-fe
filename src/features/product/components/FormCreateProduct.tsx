@@ -1,7 +1,7 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MEditor from '@/components/MEditor';
-import MForm from '@/components/MForm';
+
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
@@ -9,31 +9,39 @@ import MSkeleton from '@/components/MSkeleton';
 import { STATUS_PRODUCT } from '@/constants';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingCategory } from '@/redux/reducers/categoryReducer';
-import { handleFormatterInputNumber, handleParserInputNumber, htmlToEditor } from '@/utils/FuntionHelpers';
+import { getCategoryState, gettingCategory } from '@/redux/reducers/categoryReducer';
+import { htmlToEditor } from '@/utils/FuntionHelpers';
 
-import { Form, InputNumber } from 'antd';
+import { Form } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { EditorState } from 'react-draft-wysiwyg';
+import React, { useEffect } from 'react';
+
+import ProductGroupOptions from './ProductGroupOptions';
+import { getProductState } from '@/redux/reducers/productReducer';
+import MUploadImageMultiple from '@/components/MUploadImageMultiple';
+import { convertToRaw } from 'draft-js';
 
 type ProductFormProps = {
 	onSubmit?: (data: Product) => void;
 };
 
 const inititalValue: Product = {
-	image: '',
+	images: [],
 	name: '',
 	price: 0,
 	description: '',
 	descriptionDraft: htmlToEditor(''),
 	status: 'active',
+	groupOptions: [],
 };
 
 const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
-	const { product, category } = useAppSelector((state) => state);
+	const product = useAppSelector(getProductState);
+
+	const category = useAppSelector(getCategoryState);
 	const { productEdit } = product;
+	// console.log('🚀 ~ productEdit:', productEdit);
 
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -42,11 +50,30 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 	const pathname = usePathname();
 	const [form] = Form.useForm();
 
-	const [editorState, setEditorState] = useState<EditorState>();
-
 	useEffect(() => {
-		setEditorState(htmlToEditor(productEdit?.description || ''));
-		form.setFieldsValue(productEdit ? { ...productEdit, descriptionDraft: htmlToEditor(productEdit?.description || '') } : inititalValue);
+		form.setFieldsValue(
+			productEdit
+				? {
+						...productEdit,
+						imageUploads: productEdit?.images?.map((item, i) => ({
+							thumbUrl: item,
+							uid: i + '',
+							name: item,
+						})),
+						descriptionDraft: convertToRaw(htmlToEditor(productEdit?.description || '').getCurrentContent()),
+				  }
+				: inititalValue,
+		);
+
+		if (productEdit?.productSKUList) {
+			const productSKU = productEdit?.productSKUList?.reduce((acc, item) => {
+				const key = { option1: item.option1, option2: item.option2 };
+				if (!key.option2) delete key.option2;
+				acc = { ...acc, [JSON.stringify(key)]: item.price };
+				return acc;
+			}, {});
+			form.setFieldValue('productSKU', productSKU);
+		}
 	}, [form, productEdit]);
 
 	useEffect(() => {
@@ -67,22 +94,10 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 				form={form}
 			>
 				<MRow gutter={12}>
-					<MCol span={3}>
-						<MForm.UploadImage
-							formLabel='Image'
-							formName='image'
-							name='image'
-							action={`${process.env.API_UPLOAD_URL}image/upload`}
-							accept='image/*'
-							listType='picture-card'
-							multiple={false}
-							initImage={productEdit?.image}
-							showUploadList={false}
-						>
-							Upload
-						</MForm.UploadImage>
+					<MCol span={24}>
+						<MUploadImageMultiple initFileList={productEdit?.images}>Upload</MUploadImageMultiple>
 					</MCol>
-					<MCol span={21}>
+					<MCol span={24}>
 						<MRow gutter={12}>
 							<MCol span={12}>
 								<Form.Item
@@ -97,7 +112,21 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 								</Form.Item>
 							</MCol>
 
-							<MCol span={12}>
+							<MCol span={6}>
+								<Form.Item
+									name='status'
+									label='Status'
+									rules={[{ required: true }]}
+								>
+									<MSelect
+										placeholder='Select type'
+										options={STATUS_PRODUCT}
+										size='large'
+									/>
+								</Form.Item>
+							</MCol>
+
+							<MCol span={24}>
 								<Form.Item
 									name='categoryIds'
 									label='Categories'
@@ -116,73 +145,46 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 								</Form.Item>
 							</MCol>
 
-							<MCol span={6}>
-								<Form.Item
-									name='price'
-									label='Price'
-									rules={[{ required: true }]}
-								>
-									<InputNumber
-										placeholder='Enter price...'
-										className='w-full'
-										size='large'
-										formatter={handleFormatterInputNumber}
-										parser={handleParserInputNumber}
-										step={1000}
-									/>
-								</Form.Item>
-							</MCol>
-
-							<MCol span={6}>
-								<Form.Item
-									name='status'
-									label='Status'
-									rules={[{ required: true }]}
-								>
-									<MSelect
-										placeholder='Select type'
-										options={STATUS_PRODUCT}
-										size='large'
-									/>
-								</Form.Item>
-							</MCol>
 							<MCol span={24}>
 								<Form.Item
 									name='descriptionDraft'
 									label='Description'
 								>
-									<MEditor
-										editorState={editorState}
-										onEditorStateChange={setEditorState}
-									/>
+									<MEditor defaultEditorState={htmlToEditor(productEdit?.description || '')} />
 								</Form.Item>
+							</MCol>
+							<MCol span={24}>
+								<ProductGroupOptions form={form} />
 							</MCol>
 						</MRow>
 					</MCol>
 				</MRow>
-				<MRow
-					gutter={8}
-					justify='end'
-				>
-					<MCol>
-						<MButton
-							type='primary'
-							className='bg-gray-400'
-							isGoBack
-						>
-							Back
-						</MButton>
-					</MCol>
-					<MCol>
-						<MButton
-							type='primary'
-							htmlType='submit'
-						>
-							{pathname.includes('create') ? 'Create' : 'Update'}
-						</MButton>
-					</MCol>
-				</MRow>
 			</Form>
+
+			<MRow
+				gutter={8}
+				justify='end'
+				className='mt-4'
+			>
+				<MCol>
+					<MButton
+						type='primary'
+						className='bg-gray-400'
+						isGoBack
+					>
+						Back
+					</MButton>
+				</MCol>
+				<MCol>
+					<MButton
+						type='primary'
+						onClick={() => form.submit()}
+						loading={product.loading}
+					>
+						{pathname.includes('create') ? 'Create' : 'Update'}
+					</MButton>
+				</MCol>
+			</MRow>
 		</MSkeleton>
 	);
 };

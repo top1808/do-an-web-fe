@@ -3,7 +3,7 @@
 import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingStatistic } from '@/redux/reducers/statisticReducer';
+import { getStatisticState, gettingStatistic } from '@/redux/reducers/statisticReducer';
 import { faBox, faBoxesStacked, faDolly, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 interface DashboardComponentProps {}
 
 const DashboardComponent = (props: DashboardComponentProps) => {
-	const { statistic } = useAppSelector((state) => state);
+	const statistic = useAppSelector(getStatisticState);
 	const dispatch = useAppDispatch();
 
 	const items = [

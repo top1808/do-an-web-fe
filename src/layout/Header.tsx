@@ -8,11 +8,11 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/layout.module.css';
 import type { MenuProps } from 'antd';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { toggle } from '../redux/reducers/sideBarReducer';
+import { getSideBarState, toggle } from '../redux/reducers/sideBarReducer';
 
 import MButton from '@/components/MButton';
-import { logouting } from '@/redux/reducers/authReducer';
-import { gettingNotifications, readingNotifications } from '@/redux/reducers/notificationReducer';
+import { getAuthState, logouting } from '@/redux/reducers/authReducer';
+import { getNotificationState, gettingNotifications, readingNotifications } from '@/redux/reducers/notificationReducer';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -186,7 +186,10 @@ const tabItems: TabsProps['items'] = [
 ];
 
 const HeaderAdmin: React.FC = () => {
-	const { sideBar, auth, notification } = useAppSelector((state) => state);
+	const sideBar = useAppSelector(getSideBarState);
+	const auth = useAppSelector(getAuthState);
+	const notification = useAppSelector(getNotificationState);
+
 	const dispatch = useAppDispatch();
 
 	const pathname = usePathname();

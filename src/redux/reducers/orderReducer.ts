@@ -4,6 +4,7 @@ import { Voucher } from '@/models/voucherModel';
 import { formatDate, generateCode } from '@/utils/FuntionHelpers';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 
 const orderInitValue: Order = {
 	orderCode: generateCode(),
@@ -277,4 +278,5 @@ export const {
 	changeStatusOrderFailed,
 	changeStatusOrderSuccess,
 } = orderSlice.actions;
+export const getOrderState = (state: RootState) => state.order;
 export default orderSlice.reducer;

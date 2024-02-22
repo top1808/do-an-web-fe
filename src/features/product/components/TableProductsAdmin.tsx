@@ -116,16 +116,25 @@ const TableProductsAdmin = () => {
 			dataIndex: 'name',
 			key: 'name',
 			width: 400,
-			...getColumnSearchProps('name'),
+			// ...getColumnSearchProps('name'),
 		},
 		{
 			title: 'Price',
-			dataIndex: 'price',
+			// dataIndex: 'price',
 			key: 'price',
 			align: 'right',
 			width: 140,
-			sorter: (a, b) => (a.price || 0) - (b.price || 0),
-			render: customMoney,
+			// sorter: (a, b) => (a.price || 0) - (b.price || 0),
+			render: (item: Product) => {
+				if (item.minPrice && item.maxPrice) {
+					if (item.minPrice !== item.maxPrice) {
+						return `${customMoney(item.minPrice)} - ${customMoney(item.maxPrice)}`;
+					} else {
+						return customMoney(item?.minPrice || 0);
+					}
+				}
+				return customMoney(item?.price || 0);
+			},
 		},
 		{
 			title: 'Categories',

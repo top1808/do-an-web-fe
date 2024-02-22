@@ -1,4 +1,4 @@
-import { MenuProps } from 'antd';
+import { MenuProps, UploadFile } from 'antd';
 import { EditorState, RawDraftContentState } from 'draft-js';
 
 export interface InforProduct {
@@ -12,14 +12,39 @@ export interface InforProduct {
 
 export interface Product {
 	_id?: string;
-	image?: string;
+	images?: string[];
+	imageUploads?: UploadFile[];
 	name?: string;
+	minPrice?: number;
+	maxPrice?: number;
 	price?: number;
 	quantity?: number;
 	category_id?: string[];
 	description?: string;
 	descriptionDraft?: RawDraftContentState | EditorState | null;
 	status?: string;
+	groupOptions?: ProductGroupOption[];
+	productSKUList?: ProductSKU[];
+}
+
+export interface ProductSKU extends Product {
+	barcode?: string;
+	image?: string;
+	option1?: string;
+	option2?: string;
+	price?: number;
+	productId?: string;
+}
+
+export interface ProductGroupOption {
+	groupName?: string;
+	options?: string[];
+	initPrice?: number;
+}
+
+export interface OptionDetail {
+	optionName?: string;
+	price?: number;
 }
 
 export interface ProductParams {

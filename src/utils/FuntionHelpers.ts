@@ -7,7 +7,7 @@ import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
-import { ContentState, EditorState } from 'draft-js';
+import { ContentState, convertFromHTML, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { RawDraftContentState } from 'react-draft-wysiwyg';
@@ -63,6 +63,15 @@ export const handleParserInputNumber = (value: string | undefined) => {
 	return 1;
 };
 
+export const checkInputMoney = (value: number) => {
+	if (!value) {
+		return Promise.reject('Please enter a price');
+	} else if (value < 1000) {
+		return Promise.reject('Price is greater than 1000');
+	}
+	return Promise.resolve();
+};
+
 export const objectToQueryString = <T>(object: T): string => {
 	return '?' + new URLSearchParams(object as any).toString();
 };
@@ -107,6 +116,18 @@ export const generateVoucherCode = () => {
 		randomString += characters.charAt(Math.floor(Math.random() * characters.length));
 	}
 	return randomString;
+};
+
+export const dataURLtoFile = (dataurl: string, filename: string) => {
+	const arr = dataurl.split(','),
+		mime = arr[0]?.match(/:(.*?);/)?.[1],
+		bstr = atob(arr[arr.length - 1]);
+	let n = bstr.length;
+	const u8arr = new Uint8Array(n);
+	while (n--) {
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+	return new File([u8arr], filename, { type: mime });
 };
 
 export function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): MenuItem {
