@@ -2,6 +2,7 @@ import { ReponseState } from '@/models/actionModel';
 import { Permission, Role, SetPermissionAction, CheckPermissionState } from '@/models/roleModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 
 interface RoleState {
 	loading?: boolean;
@@ -87,4 +88,5 @@ export const {
 	checkPermissionSuccess,
 	checkingPermission,
 } = roleSlice.actions;
+export const getRoleState = (state: RootState) => state.role;
 export default roleSlice.reducer;

@@ -2,6 +2,7 @@ import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { Voucher, VoucherParams } from '@/models/voucherModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 
 interface VoucherState {
 	loading: boolean;
@@ -111,4 +112,5 @@ export const {
 	gettingVoucherInfo,
 	gettingVouchers,
 } = voucherSlice.actions;
+export const getVoucherState = (state: RootState) => state.voucher;
 export default voucherSlice.reducer;

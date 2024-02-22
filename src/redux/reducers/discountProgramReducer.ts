@@ -2,6 +2,7 @@ import { DiscountProgram, DiscountProgramParams, DiscountProgramProduct } from '
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 
 interface DiscountProgramState {
 	loading: boolean;
@@ -164,4 +165,5 @@ export const {
 	editDiscountProgramProductEdit,
 	setDiscountProgramProductEdit,
 } = discountProgramSlice.actions;
+export const getDiscountProgramState = (state: RootState) => state.discountProgram;
 export default discountProgramSlice.reducer;

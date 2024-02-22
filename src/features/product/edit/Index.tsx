@@ -13,7 +13,9 @@ const AdminEditProductComponent = () => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: Product) => {
+		data.images = data.imageUploads?.map((item) => item.thumbUrl || '');
 		data.description = editorToHtml(data.descriptionDraft as RawDraftContentState);
+		delete data.imageUploads;
 		delete data.descriptionDraft;
 		dispatch(edittingProduct({ ...data, _id: id as string }));
 	};

@@ -1,5 +1,6 @@
 import { Order } from '@/models/orderModel';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 interface ModalState {
 	isOpen?: boolean;
@@ -22,4 +23,5 @@ const modalSlice = createSlice({
 	},
 });
 export const { toggleModalTransport } = modalSlice.actions;
+export const getModalState = (state: RootState) => state.modal;
 export default modalSlice.reducer;

@@ -8,8 +8,10 @@ import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
-import { getMessagingToken, registerServiceWorker, requestPermission } from '@/lib/firebase';
+import { getMessagingToken, registerServiceWorker } from '@/lib/firebase';
 import { onGetPusherNotification } from '@/lib/pusher';
+import { getAuthState } from '@/redux/reducers/authReducer';
+import { getSideBarState } from '@/redux/reducers/sideBarReducer';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -18,7 +20,8 @@ interface LayoutProps {
 }
 
 const MLayout: React.FC<LayoutProps> = ({ children }) => {
-	const { sideBar, auth } = useAppSelector((state) => state);
+	const auth = useAppSelector(getAuthState);
+	const sideBar = useAppSelector(getSideBarState);
 
 	const router = useRouter();
 
