@@ -39,7 +39,6 @@ export interface ProductSKU extends Product {
 export interface ProductGroupOption {
 	groupName?: string;
 	options?: string[];
-	initPrice?: number;
 }
 
 export interface OptionDetail {

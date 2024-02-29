@@ -46,7 +46,18 @@ const ProductGroupOptions = (props: ProductGroupOptionsProps) => {
 															{...restField}
 															name={[name, 'groupName']}
 															label='Group Name'
-															rules={[{ required: true, message: 'Group name is not null' }]}
+															rules={[
+																{ required: true, message: 'Group name is not null' },
+																{
+																	validator(_, value) {
+																		if (value && groupOptions.filter((d) => d.groupName === value).length !== 1) {
+																			return Promise.reject(new Error('Duplicate values are not allowed.'));
+																		} else {
+																			return Promise.resolve();
+																		}
+																	},
+																},
+															]}
 														>
 															<MInput
 																placeholder='Enter Group Name'
@@ -79,13 +90,25 @@ const ProductGroupOptions = (props: ProductGroupOptionsProps) => {
 																>
 																	{(fields, { add, remove }) => (
 																		<MRow gutter={[12, 12]}>
-																			{fields.map(({ key, name, ...restField }) => (
+																			{fields.map(({ key, name: name1, ...restField }) => (
 																				<React.Fragment key={key}>
 																					<MCol span={6}>
 																						<Form.Item
 																							{...restField}
-																							name={[name]}
-																							rules={[{ required: true, message: 'Option is not null' }]}
+																							name={[name1]}
+																							rules={[
+																								{ required: true, message: 'Option is not null' },
+																								({ getFieldValue }) => ({
+																									validator(_, value) {
+																										const values: string[] = getFieldValue(['groupOptions', name, 'options']);
+																										if (value && values.filter((d) => d === value).length !== 1) {
+																											return Promise.reject(new Error('Duplicate values are not allowed.'));
+																										} else {
+																											return Promise.resolve();
+																										}
+																									},
+																								}),
+																							]}
 																						>
 																							<MInput
 																								placeholder='Enter Option'
@@ -97,7 +120,7 @@ const ProductGroupOptions = (props: ProductGroupOptionsProps) => {
 																						<MCol span={2}>
 																							<MButton
 																								type='text'
-																								onClick={() => remove(name)}
+																								onClick={() => remove(name1)}
 																								className='px-1'
 																							>
 																								<FontAwesomeIcon
