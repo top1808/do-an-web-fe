@@ -7,7 +7,15 @@ interface MInputProps extends InputProps {
 
 const MInput: React.FC<MInputProps> = (props) => {
 	const { children, ...rest } = props;
-	return <Input {...rest}>{children}</Input>;
+	return (
+		<Input
+			showCount
+			maxLength={100}
+			{...rest}
+		>
+			{children}
+		</Input>
+	);
 };
 
 export default MInput;

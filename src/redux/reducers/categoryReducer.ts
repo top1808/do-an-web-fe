@@ -2,6 +2,7 @@ import { Category } from '@/models/categoryModels';
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 interface CategoryState {
 	loading: boolean;
 	status: 'pending' | 'completed' | 'failed';
@@ -110,4 +111,5 @@ export const {
 	getCategorieSuccess,
 	gettingCategory,
 } = categorySlice.actions;
+export const getCategoryState = (state: RootState) => state.category;
 export default categorySlice.reducer;

@@ -1,8 +1,8 @@
-import authApi from '@/api/authApi';
 import { FormLogin } from '@/models/authModel';
 import { User } from '@/models/userModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 
 interface AuthState {
 	isLoggedIn: boolean;
@@ -56,4 +56,5 @@ const authSlice = createSlice({
 });
 
 export const { login, loginSuccess, loginFailed, logouting, logoutFailed, logoutSuccess } = authSlice.actions;
+export const getAuthState = (state: RootState) => state.auth;
 export default authSlice.reducer;

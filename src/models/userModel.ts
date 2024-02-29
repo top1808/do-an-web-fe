@@ -9,6 +9,7 @@ export interface User {
 	roleId?: string;
 	image?: string;
 	accessToken?: string;
+	lastLogin?: string;
 }
 
 export interface ChangePasswordModel {

@@ -20,3 +20,13 @@
     background-color: #F4F7FF;
     cursor: pointer;
 }
+
+.table-border, .table-border th, .table-border td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+.table-border thead {
+    background-color: #ebe0e0;
+}

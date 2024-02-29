@@ -1,15 +1,13 @@
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
-import MButtonDelete from '@/components/MButtonDelete';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingOrder } from '@/redux/reducers/orderReducer';
+import { useAppSelector } from '@/redux/hooks';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { customMoney, formatDate, formatPhonenumber } from '@/utils/FuntionHelpers';
-import { faCheck, faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -20,8 +18,6 @@ type DataIndex = keyof Order;
 
 const OrderTable = () => {
 	const { order } = useAppSelector((state) => state);
-
-	const dispatch = useAppDispatch();
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
@@ -179,8 +175,7 @@ const OrderTable = () => {
 			columns={columns}
 			dataSource={order?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
-			virtual
-			scroll={{ x: 4000, y: 800 }}
+			scroll={{ x: 1600, y: '55vh' }}
 		/>
 	);
 };

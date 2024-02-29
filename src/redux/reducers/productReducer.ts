@@ -1,17 +1,22 @@
-import { Product, ProductParams } from '@/models/productModels';
+import { Product, ProductGroupOption, ProductParams } from '@/models/productModels';
 import { PaginationModel, ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
+
 interface ProductState {
 	loading: boolean;
+	isGettingInfo: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: Product[];
 	pagination?: PaginationModel;
 	productEdit?: Product | null;
+	productDataPost?: Product;
 }
 
 const initialState: ProductState = {
 	loading: false,
+	isGettingInfo: false,
 	status: 'pending',
 	data: [],
 	productEdit: null,
@@ -20,6 +25,17 @@ const initialState: ProductState = {
 		offset: 0,
 		limit: 10,
 		page: 1,
+	},
+	productDataPost: {
+		images: [],
+		name: '',
+		price: 0,
+		category_id: [],
+		description: '',
+		descriptionDraft: null,
+		status: 'active',
+		groupOptions: [],
+		productSKU: [],
 	},
 };
 
@@ -87,15 +103,15 @@ const ProductSlice = createSlice({
 		},
 
 		gettingProductInfo: (state, action: PayloadAction<string>) => {
-			state.loading = true;
+			state.isGettingInfo = true;
 			state.productEdit = null;
 		},
 		getProductInfoSuccess: (state, action: PayloadAction<Product>) => {
-			state.loading = false;
+			state.isGettingInfo = false;
 			state.productEdit = action.payload;
 		},
 		getProductInfoFailed: (state, action: PayloadAction<string>) => {
-			state.loading = false;
+			state.isGettingInfo = false;
 			action.payload && toast.error(action.payload);
 		},
 
@@ -113,10 +129,31 @@ const ProductSlice = createSlice({
 			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
+
+		setProductDataPost: (state, action: PayloadAction<Product>) => {
+			let newState = { ...state.productDataPost, ...action.payload };
+			newState = {
+				...newState,
+				groupOptions: newState?.groupOptions?.map((group) => ({
+					...group,
+					options: group?.options?.[group?.options?.length - 1]?.trim() !== '' ? [...(group?.options || []), ''] : group?.options,
+				})),
+			};
+			state.productDataPost = newState;
+		},
+		addGroupOption: (state) => {
+			const groupOption = {
+				groupName: '',
+				options: [''],
+			};
+			state.productDataPost = { ...state.productDataPost, groupOptions: [...(state.productDataPost?.groupOptions || []), groupOption] };
+		},
 	},
 });
 
 export const {
+	addGroupOption,
+	setProductDataPost,
 	editProductFailed,
 	editProductSuccess,
 	edittingProduct,
@@ -136,4 +173,5 @@ export const {
 	getAllProductSuccess,
 	gettingAllProduct,
 } = ProductSlice.actions;
+export const getProductState = (state: RootState) => state.product;
 export default ProductSlice.reducer;

@@ -11,6 +11,8 @@ import { ToastContainer } from 'react-toastify';
 import { Inter } from 'next/font/google';
 import { Providers } from '@/redux/provider';
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

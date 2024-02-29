@@ -64,7 +64,7 @@ const PermissionPageComponent = () => {
 	}, [dispatch]);
 
 	return (
-		<>
+		<MSkeleton loading={roleState.loading}>
 			<MRow
 				gutter={0}
 				className='bg-slate-300 p-4 rounded-t'
@@ -107,7 +107,7 @@ const PermissionPageComponent = () => {
 										checked={r.permissionIds?.includes(p._id as string)}
 										checkedChildren={p.name}
 										unCheckedChildren={p.name}
-										loading={roleState.loading}
+										loading={roleState.isChagingPermission}
 										onChange={() => handleChangePermission(r, p, r.permissionIds?.includes(p._id as string))}
 										style={{ width: 72 }}
 									/>
@@ -117,7 +117,7 @@ const PermissionPageComponent = () => {
 					))}
 				</MRow>
 			))}
-		</>
+		</MSkeleton>
 	);
 };
 

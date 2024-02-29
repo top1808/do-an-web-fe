@@ -9,7 +9,7 @@ const persistConfig = {
 	key: 'do-an-web',
 	version: 1,
 	storage,
-	whitelist: ['auth'],
+	whitelist: ['auth', 'notification.token'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

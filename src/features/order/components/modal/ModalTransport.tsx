@@ -28,6 +28,7 @@ const ModalTransport = () => {
 			receivedDate: formatDate(date[1]),
 			status: 'delivering',
 		};
+		delete body.date;
 		dispatch(changingStatusOrder({ id: itemOrder?._id, ...body }));
 		dispatch(toggleModalTransport(null));
 	};
@@ -50,6 +51,7 @@ const ModalTransport = () => {
 			onCancel={() => dispatch(toggleModalTransport(null))}
 			onOk={() => btnSubmitRef.current?.click()}
 			confirmLoading={order.isChangingStatus}
+			forceRender
 		>
 			<Form
 				onFinish={onSubmit}

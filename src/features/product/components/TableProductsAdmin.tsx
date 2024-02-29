@@ -112,34 +112,29 @@ const TableProductsAdmin = () => {
 			// fixed: 'left',
 		},
 		{
-			title: 'Image',
-			dataIndex: 'image',
-			key: 'image',
-			width: 100,
-			// fixed: 'left',
-			render: (item) => (
-				<MImage
-					src={item}
-					alt='avatar'
-					style={{ height: 50 }}
-				/>
-			),
-		},
-		{
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
 			width: 400,
-			...getColumnSearchProps('name'),
+			// ...getColumnSearchProps('name'),
 		},
 		{
 			title: 'Price',
-			dataIndex: 'price',
+			// dataIndex: 'price',
 			key: 'price',
 			align: 'right',
 			width: 140,
-			sorter: (a, b) => (a.price || 0) - (b.price || 0),
-			render: customMoney,
+			// sorter: (a, b) => (a.price || 0) - (b.price || 0),
+			render: (item: Product) => {
+				if (item.minPrice && item.maxPrice) {
+					if (item.minPrice !== item.maxPrice) {
+						return `${customMoney(item.minPrice)} - ${customMoney(item.maxPrice)}`;
+					} else {
+						return customMoney(item?.minPrice || 0);
+					}
+				}
+				return customMoney(item?.price || 0);
+			},
 		},
 		{
 			title: 'Categories',
@@ -174,7 +169,7 @@ const TableProductsAdmin = () => {
 		{
 			title: 'Action',
 			key: 'operation',
-			fixed: 'right',
+			// fixed: 'right',
 			width: 200,
 			render: (item: Product) => (
 				<MSpace split={''}>
@@ -205,8 +200,7 @@ const TableProductsAdmin = () => {
 				current: product.pagination?.page,
 			}}
 			onChange={onChangeTable}
-			scroll={{ x: 4000, y: 500 }}
-			virtual
+			scroll={{ y: '55vh' }}
 		/>
 	);
 };

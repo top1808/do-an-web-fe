@@ -6,9 +6,8 @@ import { useAppSelector } from '../redux/hooks';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
 import usePermission from '@/hooks/usePermission';
-import logo from '../../public/images/logo.png';
-import MImage from '@/components/MImage';
 import Link from 'next/link';
+import { getSideBarState } from '@/redux/reducers/sideBarReducer';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -44,7 +43,7 @@ export const routes: MenuItem[] = [
 ];
 
 const SideBarAdmin: React.FC = () => {
-	const { sideBar } = useAppSelector((state) => state);
+	const sideBar = useAppSelector(getSideBarState);
 	const router = useRouter();
 	const pathname = usePathname();
 	// const webPermissions = usePermission();

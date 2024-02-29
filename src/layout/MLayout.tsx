@@ -3,11 +3,15 @@
 import React, { Suspense, useEffect } from 'react';
 import HeaderComponent from './Header';
 import FooterComponent from './Footer';
-import { Layout } from 'antd';
+import { FloatButton, Layout } from 'antd';
 import SideBar from './SideBar';
 import { useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
+import { getMessagingToken, registerServiceWorker } from '@/lib/firebase';
+import { onGetPusherNotification } from '@/lib/pusher';
+import { getAuthState } from '@/redux/reducers/authReducer';
+import { getSideBarState } from '@/redux/reducers/sideBarReducer';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -16,14 +20,22 @@ interface LayoutProps {
 }
 
 const MLayout: React.FC<LayoutProps> = ({ children }) => {
-	const { sideBar, auth } = useAppSelector((state) => state);
+	const auth = useAppSelector(getAuthState);
+	const sideBar = useAppSelector(getSideBarState);
+
 	const router = useRouter();
 
 	useEffect(() => {
 		if (!auth.isLoggedIn) {
-			window.location.assign('/admin/login');
+			window.location.assign('/login');
 		}
 	}, [auth, router]);
+
+	useEffect(() => {
+		registerServiceWorker();
+		getMessagingToken();
+		onGetPusherNotification();
+	}, []);
 
 	return !auth.isLoggedIn ? (
 		<></>
@@ -74,6 +86,7 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 					>
 						{children}
 					</Suspense>
+					<FloatButton.BackTop type='primary' />
 				</Content>
 				<Footer>
 					<FooterComponent />

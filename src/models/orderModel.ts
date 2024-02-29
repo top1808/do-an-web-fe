@@ -24,6 +24,7 @@ export interface Order extends OrderStatusModel {
 	voucherCode?: string;
 	voucherDiscount?: number;
 	createdAt?: Date | string;
+	date?: Date | string;
 }
 
 export interface OrderProduct {

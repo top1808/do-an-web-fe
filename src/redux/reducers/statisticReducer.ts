@@ -1,6 +1,7 @@
 import { StatisticModel } from '@/models/statisticModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { RootState } from '../store';
 
 interface StatisticState {
 	loading?: boolean;
@@ -40,4 +41,5 @@ const statisticSlice = createSlice({
 });
 
 export const { getStatisticFailed, getStatisticSuccess, gettingStatistic } = statisticSlice.actions;
+export const getStatisticState = (state: RootState) => state.statistic;
 export default statisticSlice.reducer;

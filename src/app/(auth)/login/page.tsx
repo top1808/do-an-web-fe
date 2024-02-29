@@ -10,7 +10,7 @@ const AdminLoginPage = () => {
 
 	useEffect(() => {
 		if (auth.isLoggedIn) {
-			window.location.assign('/admin');
+			window.location.assign('/');
 		}
 	}, [auth, router]);
 
