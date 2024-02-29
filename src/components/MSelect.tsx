@@ -7,7 +7,14 @@ interface MSelectProps extends SelectProps {
 
 const MSelect: React.FC<MSelectProps> = (props) => {
 	const { children, ...rest } = props;
-	return <Select {...rest}>{children}</Select>;
+	return (
+		<Select
+			showSearch
+			{...rest}
+		>
+			{children}
+		</Select>
+	);
 };
 
 export default MSelect;

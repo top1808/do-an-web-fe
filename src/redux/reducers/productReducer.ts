@@ -35,7 +35,6 @@ const initialState: ProductState = {
 		descriptionDraft: null,
 		status: 'active',
 		groupOptions: [],
-		productSKU: [],
 	},
 };
 

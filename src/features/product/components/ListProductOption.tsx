@@ -41,6 +41,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 			...form.getFieldsValue(),
 			productSKU,
 		});
+		setPriceAll(null);
 	};
 
 	return (
@@ -57,8 +58,10 @@ const ListProductOption = (props: ListProductOptionProps) => {
 					className='w-full'
 					formatter={handleFormatterInputNumber}
 					parser={handleParserInputNumber}
+					maxLength={13}
 					step={1000}
 					onChange={(value) => setPriceAll(value)}
+					value={priceAll}
 				/>
 			</MCol>
 			<MCol span={4}>
