@@ -11,7 +11,7 @@ import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deletingProduct } from '@/redux/reducers/productReducer';
 import { customMoney, objectToQueryString } from '@/utils/FuntionHelpers';
-import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps, TablePaginationConfig } from 'antd/es/table/interface';
@@ -174,6 +174,14 @@ const TableProductsAdmin = () => {
 			render: (item: Product) => (
 				<MSpace split={''}>
 					<MButton
+						tooltip='View'
+						link={`product/view/${item?._id}`}
+						className='text-white bg-purple-600 hover:bg-purple-300'
+					>
+						<FontAwesomeIcon icon={faEye} />
+					</MButton>
+					<MButton
+						tooltip='Edit'
 						type='primary'
 						link={`product/edit/${item._id}`}
 					>

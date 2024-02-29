@@ -55,7 +55,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 	}, [dispatch]);
 
 	return (
-		<MSkeleton loading={order.loading}>
+		<MSkeleton loading={order.loading || customer.loading}>
 			{order.isAddOrderShipmentDetail ? (
 				<FormShipmentDetail />
 			) : order.isAddOrderProduct ? (
@@ -111,6 +111,12 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 											}))}
 											size='large'
 											onChange={onChangeCustomer}
+											filterOption={(input, option) =>
+												(option?.label || '')
+													?.toString()
+													?.toLowerCase()
+													?.includes(input?.toLowerCase())
+											}
 										/>
 									</Form.Item>
 								</MCol>

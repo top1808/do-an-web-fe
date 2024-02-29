@@ -6,13 +6,14 @@ import MSelect from '@/components/MSelect';
 import { OrderProduct } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { addOrderProduct, editOrderProductEdit, setOrderProductEdit, toggleAddOrderProductPage, toggleAddShipmentDetailPage } from '@/redux/reducers/orderReducer';
-import { gettingAllProduct, gettingProduct } from '@/redux/reducers/productReducer';
+import { gettingAllProduct } from '@/redux/reducers/productReducer';
 import { handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, InputNumber } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import TableOrderProduct from './TableOrderProduct';
 import MSkeleton from '@/components/MSkeleton';
+import { Product } from '@/models/productModels';
 
 interface FormAddProductProps {}
 
@@ -20,6 +21,8 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	const { product, order } = useAppSelector((state) => state);
 
 	const { orderProductEdit } = order;
+
+	const [productSelect, setProductSelect] = useState<Product | null>(null);
 
 	const dispatch = useAppDispatch();
 
@@ -30,6 +33,7 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	};
 
 	const onSubmit = (data: OrderProduct) => {
+		console.log('🚀 ~ onSubmit ~ data:', data);
 		data.totalPrice = (data.price || 0) * (data.quantity || 0);
 		if (!orderProductEdit) {
 			dispatch(addOrderProduct(data));
@@ -43,12 +47,39 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 
 	const onChangeProduct = (id?: string) => {
 		const productSelected = product.data?.find((c) => c._id === id);
+		setProductSelect(productSelected as Product);
 		if (productSelected) {
 			form.setFieldsValue({
 				productName: productSelected?.name,
 				productCode: productSelected?._id,
 				productQuantity: productSelected?.quantity,
 				price: productSelected?.price,
+			});
+		}
+	};
+
+	const onChangeProductSKU = (barcode?: string) => {
+		const productSKUSelected = productSelect?.productSKUList?.find((c) => c.barcode === barcode);
+		if (productSKUSelected) {
+			form.setFieldsValue({
+				...form.getFieldsValue(),
+				option1: productSKUSelected?.option1,
+				option2: productSKUSelected?.option2,
+				price: productSKUSelected?.price,
+			});
+		}
+	};
+
+	const onChangeProductSKUOption = () => {
+		const option1 = form.getFieldValue('option1') || '';
+		const option2 = form.getFieldValue('option2') || '';
+		const productSKUSelected = productSelect?.productSKUList?.find((c) => c.option1 === option1 && c.option2 === option2);
+
+		if (productSKUSelected) {
+			form.setFieldsValue({
+				...form.getFieldsValue(),
+				productSKUBarcode: productSKUSelected?.barcode,
+				price: productSKUSelected?.price,
 			});
 		}
 	};
@@ -108,10 +139,62 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 									}))}
 									size='large'
 									onChange={onChangeProduct}
+									filterOption={(input, option) =>
+										(option?.label || '')
+											?.toString()
+											?.toLowerCase()
+											?.includes(input?.toLowerCase())
+									}
 									disabled={!!orderProductEdit}
 								/>
 							</Form.Item>
 						</MCol>
+
+						{(productSelect?.productSKUList?.length || 0) > 0 && (
+							<>
+								<MCol span={6}>
+									<Form.Item
+										name='productSKUBarcode'
+										label='Product SKU Barcode'
+										rules={[{ required: true }]}
+									>
+										<MSelect
+											placeholder='Select a product SKU'
+											options={productSelect?.productSKUList?.map((c) => ({
+												value: c.barcode,
+												label: c.barcode,
+											}))}
+											size='large'
+											onChange={onChangeProductSKU}
+											disabled={!!orderProductEdit}
+										/>
+									</Form.Item>
+								</MCol>
+								{productSelect?.groupOptions?.map((group, index) => (
+									<MCol
+										span={6}
+										key={group?.groupName}
+									>
+										<Form.Item
+											name={'option' + (index + 1)}
+											label={group?.groupName}
+											rules={[{ required: true }]}
+										>
+											<MSelect
+												placeholder={'Select ' + group?.groupName}
+												options={group?.options?.map((c) => ({
+													value: c,
+													label: c,
+												}))}
+												size='large'
+												onChange={onChangeProductSKUOption}
+												disabled={!!orderProductEdit}
+											/>
+										</Form.Item>
+									</MCol>
+								))}
+							</>
+						)}
 
 						<MCol span={6}>
 							<Form.Item

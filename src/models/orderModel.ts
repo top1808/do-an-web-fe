@@ -30,6 +30,9 @@ export interface Order extends OrderStatusModel {
 export interface OrderProduct {
 	productCode?: string;
 	productName?: string;
+	productSKUBarcode?: string;
+	option1?: string;
+	option2?: string;
 	productQuantity?: number;
 	price?: number;
 	quantity?: number;
