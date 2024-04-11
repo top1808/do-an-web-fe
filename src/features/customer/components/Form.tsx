@@ -1,9 +1,9 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
-import MForm from '@/components/MForm';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSkeleton from '@/components/MSkeleton';
+import MUploadImage from '@/components/MUploadImage';
 import { Customer } from '@/models/customerModel';
 import { useAppSelector } from '@/redux/hooks';
 import { changeDateStringToDayjs, checkPhoneNumber } from '@/utils/FuntionHelpers';
@@ -55,19 +55,10 @@ const CustomerForm: React.FC<CustomerFormProps> = (props) => {
 			>
 				<MRow gutter={8}>
 					<MCol span={3}>
-						<MForm.UploadImage
-							formLabel='Avatar'
+						<MUploadImage
+							image={customerEdit?.image || ''}
 							formName='image'
-							name='image'
-							action={`${process.env.API_UPLOAD_URL}image/upload`}
-							accept='image/*'
-							listType='picture-card'
-							initImage={customerEdit?.image}
-							multiple={false}
-							showUploadList={false}
-						>
-							Upload
-						</MForm.UploadImage>
+						/>
 					</MCol>
 					<MCol span={21}>
 						<MRow gutter={12}>
@@ -128,7 +119,7 @@ const CustomerForm: React.FC<CustomerFormProps> = (props) => {
 								<Form.Item
 									name='phoneNumber'
 									label='Phone Number'
-									rules={[{ validator: (_, value) => checkPhoneNumber(value) }]}
+									rules={[{ required: true, validator: (_, value) => checkPhoneNumber(value) }]}
 								>
 									<MInput
 										placeholder='Enter phone number...'

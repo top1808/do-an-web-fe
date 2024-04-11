@@ -13,7 +13,8 @@ const AdminEditProductComponent = () => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: Product) => {
-		data.images = data.imageUploads?.map((item) => item.thumbUrl || '');
+		console.log('🚀 ~ onSubmit ~ data:', data);
+		data.images = data.imageUploads?.map((item) => item?.response?.image || item?.thumbUrl || '');
 		data.description = editorToHtml(data.descriptionDraft as RawDraftContentState);
 		delete data.imageUploads;
 		delete data.descriptionDraft;

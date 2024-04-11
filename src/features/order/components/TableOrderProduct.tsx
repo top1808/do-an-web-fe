@@ -20,6 +20,7 @@ const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
 	const pathname = usePathname();
 
 	const { orderPost } = order;
+	console.log('🚀 ~ orderPost:', orderPost);
 
 	const columns: ColumnsType<OrderProduct> = [
 		{

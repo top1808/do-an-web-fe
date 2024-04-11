@@ -13,7 +13,7 @@ import MLoadingThreeDot from './MLoadingThreeDot';
 const MChatComponent = () => {
 	const modal = useAppSelector(getModalState);
 	const chatbot = useAppSelector(getChatbotState);
-	console.log('🚀 ~ MChatComponent ~ chatbot:', chatbot);
+
 	const dispatch = useAppDispatch();
 	const [form] = Form.useForm();
 	const handlePressKey = (e: React.KeyboardEvent) => {

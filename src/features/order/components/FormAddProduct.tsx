@@ -74,6 +74,7 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 		const option1 = form.getFieldValue('option1') || '';
 		const option2 = form.getFieldValue('option2') || '';
 		const productSKUSelected = productSelect?.productSKUList?.find((c) => c.option1 === option1 && c.option2 === option2);
+		console.log('🚀 ~ onChangeProductSKUOption ~ productSKUSelected:', productSKUSelected);
 
 		if (productSKUSelected) {
 			form.setFieldsValue({

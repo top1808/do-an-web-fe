@@ -2,6 +2,7 @@ import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import MText from '@/components/MText';
+import MUploadImage from '@/components/MUploadImage';
 import { ProductGroupOption } from '@/models/productModels';
 import { checkInputMoney, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, FormInstance, InputNumber } from 'antd';
@@ -89,6 +90,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 								</th>
 							))}
 							<th className='w-60'>Giá</th>
+							{/* <th className='w-60'>Ảnh</th> */}
 						</tr>
 					</thead>
 					<tbody>
@@ -116,6 +118,14 @@ const ListProductOption = (props: ListProductOptionProps) => {
 														/>
 													</Form.Item>
 												</td>
+												{/* <td className='text-center'>
+													<MUploadImage
+														image=''
+														formName={['productSKU', 'image']}
+														disableTitle
+														notRequired
+													/>
+												</td> */}
 											</tr>
 										))
 									) : (
@@ -134,6 +144,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 													/>
 												</Form.Item>
 											</td>
+											{/* <td className='text-center'>image</td> */}
 										</tr>
 									)}
 								</React.Fragment>

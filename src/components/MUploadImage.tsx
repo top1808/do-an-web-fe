@@ -1,30 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
-import MButton from './MButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
-import uploadApi from '@/api/uploadApi';
-import Image from 'next/image';
-import { Upload, UploadProps } from 'antd';
-
+import React, { useEffect, useState } from 'react';
+import { Form, Upload, UploadProps, Image } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 interface MUploadImageProps extends UploadProps {
-	onUploadSuccess?: (data: string) => void;
 	image?: string;
+	formName?: string | string[];
+	disableTitle?: boolean;
+	notRequired?: boolean;
 }
 
-const MUploadImage: React.FC<MUploadImageProps> = ({ onUploadSuccess, image, ...rest }) => {
-	const uploadRef = useRef<HTMLInputElement | null>(null);
-
+const MUploadImage: React.FC<MUploadImageProps> = ({ image, formName, disableTitle, notRequired, ...rest }) => {
 	const [imageLocal, setImageLocal] = useState<string>('');
 
-	const onUploadImage = async (e: any) => {
-		const file = e.target.files[0];
-		if (file) {
-			const formData = new FormData();
-			formData.append('image', file);
-			const res = await uploadApi.uploadImage(formData);
-			setImageLocal(res.data.image.data);
-			onUploadSuccess?.(res.data.image.data);
+	const [loading, setLoading] = useState(false);
+
+	const handleChange: UploadProps['onChange'] = (info) => {
+		if (info.file.status === 'uploading') {
+			setLoading(true);
+			return;
 		}
+		if (info.file.status === 'done') {
+			setLoading(false);
+			setImageLocal(info.file?.response?.image);
+		}
+	};
+
+	const getFile = (e: UploadProps) => {
+		if (Array.isArray(e)) {
+			return e;
+		}
+		return e && e?.fileList?.[e?.fileList?.length - 1 || 0]?.response?.image;
 	};
 
 	useEffect(() => {
@@ -32,37 +36,45 @@ const MUploadImage: React.FC<MUploadImageProps> = ({ onUploadSuccess, image, ...
 	}, [image]);
 
 	return (
-		<div className='flex flex-col items-center justify-center'>
-			<div
-				className='mb-2 border-2 border-dashed border-gray-400 bg-gray-100 flex justify-center items-center'
-				style={{ width: 150, height: 150 }}
+		<Form.Item
+			label={disableTitle ? '' : 'Image'}
+			name={formName || 'imageUpload'}
+			getValueFromEvent={getFile}
+			rules={[
+				{
+					required: !notRequired,
+					message: 'Image is required',
+				},
+			]}
+		>
+			<Upload
+				name='image'
+				listType='picture-card'
+				className='avatar-uploader'
+				showUploadList={false}
+				action={`${process.env.API_UPLOAD_URL}image/upload`}
+				onChange={handleChange}
+				accept='image/*'
+				{...rest}
 			>
-				{imageLocal && (
+				{imageLocal ? (
 					<Image
 						src={imageLocal}
-						alt='123'
-						width={144}
-						height={140}
-						style={{ objectFit: 'contain' }}
+						alt='avatar'
+						style={{ width: '100%' }}
+						preview={false}
 					/>
+				) : (
+					<button
+						style={{ border: 0, background: 'none' }}
+						type='button'
+					>
+						{loading ? <LoadingOutlined /> : <PlusOutlined />}
+						<div style={{ marginTop: 8 }}>Upload</div>
+					</button>
 				)}
-			</div>
-
-			<MButton
-				type='primary'
-				icon={<FontAwesomeIcon icon={faImage} />}
-				onClick={() => uploadRef?.current?.click()}
-			>
-				Upload
-			</MButton>
-
-			<input
-				ref={uploadRef}
-				type='file'
-				onChange={onUploadImage}
-				style={{ display: 'none' }}
-			/>
-		</div>
+			</Upload>
+		</Form.Item>
 	);
 };
 
