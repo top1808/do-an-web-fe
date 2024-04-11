@@ -10,7 +10,8 @@ import { voucherSaga } from './voucherSaga';
 import { statisticSaga } from './statisticSaga';
 import { DiscountProgramSaga } from './discountProgramSaga';
 import { NotificationSaga } from './notificationSaga';
+import { chatbotSaga } from './chatbotSaga';
 
 export function* rootSaga() {
-	yield all([authSaga(), userSaga(), customerSaga(), CategorySaga(), ProductSaga(), RoleSaga(), orderSaga(), voucherSaga(), DiscountProgramSaga(), statisticSaga(), NotificationSaga()]);
+	yield all([authSaga(), userSaga(), customerSaga(), CategorySaga(), ProductSaga(), RoleSaga(), orderSaga(), voucherSaga(), DiscountProgramSaga(), statisticSaga(), NotificationSaga(), chatbotSaga()]);
 }

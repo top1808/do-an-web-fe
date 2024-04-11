@@ -1,4 +1,4 @@
-import { fork, put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
+import { fork, put, call, takeEvery } from 'redux-saga/effects';
 import userApi from '@/api/userApi';
 import {
 	changingPasswordUser,
