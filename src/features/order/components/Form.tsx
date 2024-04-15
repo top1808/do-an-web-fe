@@ -20,6 +20,7 @@ interface OrderFormProps {}
 const OrderForm: React.FC<OrderFormProps> = (props) => {
 	const { customer, order } = useAppSelector((state) => state);
 	const { orderPost } = order;
+	console.log('🚀 ~ orderPost:', orderPost);
 
 	const dispatch = useAppDispatch();
 
@@ -124,7 +125,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
 									<Form.Item
 										name='customerPhone'
 										label='Customer Phone'
-										rules={[{ validator: (_, value) => checkPhoneNumber(value) }]}
+										// rules={[{ validator: (_, value) => checkPhoneNumber(value) }]}
 									>
 										<MInput
 											placeholder='Enter Customer Phone...'

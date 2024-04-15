@@ -1,7 +1,7 @@
 import { Order, OrderParams, OrderProduct, PayloadChangeStatusOrder } from '@/models/orderModel';
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { Voucher } from '@/models/voucherModel';
-import { formatDate, generateCode } from '@/utils/FuntionHelpers';
+import { formatDate, generateCode, parseOptionToJson } from '@/utils/FuntionHelpers';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { RootState } from '../store';
@@ -211,8 +211,18 @@ const orderSlice = createSlice({
 		},
 		getOrderInfoSuccess: (state, action: PayloadAction<Order>) => {
 			state.loading = false;
-			state.orderEdit = action.payload;
-			state.orderPost = action.payload;
+			const data: Order = {
+				...action.payload,
+				products: action.payload.products?.map((item, index) => ({
+					...item,
+					index: index + 1,
+					key: index,
+					option1: item?.option1 || parseOptionToJson(item.options?.[0]),
+					option2: item?.option2 || parseOptionToJson(item.options?.[1]),
+				})),
+			};
+			state.orderEdit = data;
+			state.orderPost = data;
 		},
 		getOrderInfoFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;

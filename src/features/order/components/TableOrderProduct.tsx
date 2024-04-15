@@ -5,7 +5,7 @@ import MTable from '@/components/MTable';
 import { OrderProduct } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deleteOrderProduct, setOrderProductEdit } from '@/redux/reducers/orderReducer';
-import { customMoney, customNumber } from '@/utils/FuntionHelpers';
+import { customMoney, customNumber, parseOptionToJson } from '@/utils/FuntionHelpers';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
@@ -20,7 +20,6 @@ const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
 	const pathname = usePathname();
 
 	const { orderPost } = order;
-	console.log('🚀 ~ orderPost:', orderPost);
 
 	const columns: ColumnsType<OrderProduct> = [
 		{
@@ -40,6 +39,26 @@ const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
 			dataIndex: 'productName',
 			key: 'productName',
 			width: 100,
+		},
+		{
+			title: 'Product SKU Barcode',
+			dataIndex: 'productSKUBarcode',
+			key: 'productSKUBarcode',
+			width: 100,
+		},
+		{
+			title: 'Option 1',
+			dataIndex: 'option1',
+			key: 'option1',
+			width: 100,
+			render: (item) => (item ? `${Object.keys(JSON.parse(item))[0]}: ${Object.values(JSON.parse(item))[0]}` : ''),
+		},
+		{
+			title: 'Option 2',
+			dataIndex: 'option2',
+			key: 'option2',
+			width: 100,
+			render: (item) => (item ? `${Object.keys(JSON.parse(item))[0]}: ${Object.values(JSON.parse(item))[0]}` : ''),
 		},
 		{
 			title: 'Price',
@@ -91,7 +110,13 @@ const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
 	return (
 		<MTable
 			columns={pathname.includes('view') ? columns?.filter((col) => col.key !== 'operation') : columns}
-			dataSource={orderPost?.products?.map((item, index) => ({ ...item, index: index + 1, key: index })) || []}
+			dataSource={
+				orderPost?.products?.map((item, index) => ({
+					...item,
+					index: index + 1,
+					key: index,
+				})) || []
+			}
 			pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '20'] }}
 			className='mt-4'
 		/>

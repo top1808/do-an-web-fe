@@ -26,7 +26,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 				groupOptions?.[1]?.options?.map((item) => {
 					productSKU = {
 						...productSKU,
-						[JSON.stringify({ option1: option, option2: item })]: priceAll,
+						[JSON.stringify({ [groupOptions[0]?.groupName || 'option1']: option, [groupOptions[1]?.groupName || 'option2']: item })]: priceAll,
 					};
 				});
 			});
@@ -34,7 +34,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 			groupOptions?.[0]?.options?.forEach((option) => {
 				productSKU = {
 					...productSKU,
-					[JSON.stringify({ option1: option })]: priceAll,
+					[JSON.stringify({ [groupOptions[0]?.groupName || 'option1']: option })]: priceAll,
 				};
 			});
 		}
@@ -106,7 +106,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 												<td>{item}</td>
 												<td>
 													<Form.Item
-														name={['productSKU', JSON.stringify({ option1: option, option2: item })]}
+														name={['productSKU', JSON.stringify({ [groupOptions[0]?.groupName || 'option1']: option, [groupOptions[1]?.groupName || 'option2']: item })]}
 														rules={[{ required: true, validator: (_, value) => checkInputMoney(value) }]}
 													>
 														<InputNumber
@@ -132,7 +132,7 @@ const ListProductOption = (props: ListProductOptionProps) => {
 										<tr>
 											<td>
 												<Form.Item
-													name={['productSKU', JSON.stringify({ option1: option })]}
+													name={['productSKU', JSON.stringify({ [groupOptions[0]?.groupName || 'option1']: option })]}
 													rules={[{ required: true, validator: (_, value) => checkInputMoney(value) }]}
 												>
 													<InputNumber

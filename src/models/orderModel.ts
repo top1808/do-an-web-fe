@@ -1,3 +1,4 @@
+import { ProductSKUOption } from './productModels';
 import { Voucher } from './voucherModel';
 
 export interface OrderStatusModel {
@@ -33,6 +34,7 @@ export interface OrderProduct {
 	productSKUBarcode?: string;
 	option1?: string;
 	option2?: string;
+	options?: ProductSKUOption[];
 	productQuantity?: number;
 	price?: number;
 	quantity?: number;

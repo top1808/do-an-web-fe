@@ -11,6 +11,7 @@ const CreateProductComponent = () => {
 	const dispatch = useAppDispatch();
 
 	const onSubmit = (data: Product) => {
+		console.log('🚀 ~ onSubmit ~ data:', data);
 		data.images = data.imageUploads?.map((item) => item?.response?.image || '');
 		data.description = editorToHtml(data.descriptionDraft as RawDraftContentState);
 		delete data.descriptionDraft;
