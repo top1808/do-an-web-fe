@@ -185,7 +185,7 @@ const VoucherTable = () => {
 			render: (status) => (
 				<MBadge
 					count={status}
-					color={status === 'active' ? 'green' : 'red'}
+					color={status === 'active' ? 'green' : status === 'incoming' ? 'yellow' : 'red'}
 					style={{ width: 70 }}
 				/>
 			),
