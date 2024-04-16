@@ -15,12 +15,14 @@ const AdminDiscountProgramComponent = () => {
 	const offset = myParams.get('offset');
 
 	useEffect(() => {
-		const params: DiscountProgramParams = {
-			offset: offset as string,
-			limit: limit as string,
-		};
-		dispatch(gettingDiscountPrograms(params));
-	}, [dispatch, limit, offset]);
+		if (!discountProgram.isChangingStatus) {
+			const params: DiscountProgramParams = {
+				offset: offset as string,
+				limit: limit as string,
+			};
+			dispatch(gettingDiscountPrograms(params));
+		}
+	}, [dispatch, limit, offset, discountProgram.isChangingStatus]);
 
 	return (
 		<MSkeleton loading={discountProgram.loading}>

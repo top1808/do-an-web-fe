@@ -1,4 +1,4 @@
-import { DiscountProgram, DiscountProgramParams, DiscountProgramProduct } from '@/models/discountProgramModel';
+import { DiscountProgram, DiscountProgramParams, DiscountProgramProduct, PayloadChangeStatusDiscountProgram } from '@/models/discountProgramModel';
 import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
@@ -7,6 +7,7 @@ import { parseOptionToJson } from '@/utils/FuntionHelpers';
 
 interface DiscountProgramState {
 	loading: boolean;
+	isChangingStatus: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: DiscountProgram[];
 	discountProgramEdit?: DiscountProgram | null;
@@ -25,6 +26,7 @@ const discountProgramInitValue = {
 
 const initialState: DiscountProgramState = {
 	loading: false,
+	isChangingStatus: false,
 	status: 'pending',
 	data: [],
 	discountProgramEdit: null,
@@ -160,6 +162,18 @@ const discountProgramSlice = createSlice({
 			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
+
+		changingStatusDiscountProgram: (state, action: PayloadAction<PayloadChangeStatusDiscountProgram>) => {
+			state.isChangingStatus = true;
+		},
+		changeStatusDiscountProgramSuccess: (state, action: PayloadAction<ReponseDeleteSuccess>) => {
+			state.isChangingStatus = false;
+			action.payload && toast.success(action.payload.message);
+		},
+		changeStatusDiscountProgramFailed: (state, action: PayloadAction<string>) => {
+			state.isChangingStatus = false;
+			action.payload && toast.error(action.payload);
+		},
 	},
 });
 
@@ -183,6 +197,9 @@ export const {
 	deleteDiscountProgramProduct,
 	editDiscountProgramProductEdit,
 	setDiscountProgramProductEdit,
+	changeStatusDiscountProgramFailed,
+	changeStatusDiscountProgramSuccess,
+	changingStatusDiscountProgram,
 } = discountProgramSlice.actions;
 export const getDiscountProgramState = (state: RootState) => state.discountProgram;
 export default discountProgramSlice.reducer;

@@ -102,6 +102,7 @@ const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
 								placeholder='Select status'
 								options={STATUS_VOUCHER}
 								size='large'
+								disabled={!!discountProgramEdit}
 							/>
 						</Form.Item>
 					</MCol>

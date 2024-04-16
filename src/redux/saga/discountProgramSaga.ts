@@ -3,6 +3,9 @@ import { fork, put, call, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { CreateAction, DeleteAction } from '@/models/actionModel';
 import {
+	changeStatusDiscountProgramFailed,
+	changeStatusDiscountProgramSuccess,
+	changingStatusDiscountProgram,
 	createDiscountProgramFailed,
 	createDiscountProgramSuccess,
 	creatingDiscountProgram,
@@ -19,8 +22,9 @@ import {
 	gettingDiscountProgramInfo,
 	gettingDiscountPrograms,
 } from '../reducers/discountProgramReducer';
-import { DiscountProgram, DiscountProgramParams } from '@/models/discountProgramModel';
+import { DiscountProgram, DiscountProgramParams, PayloadChangeStatusDiscountProgram } from '@/models/discountProgramModel';
 import discountProgramApi from '@/api/discountProgramApi';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 function* onDeleteDiscountProgram(action: DeleteAction) {
 	try {
@@ -82,6 +86,17 @@ function* onEditDiscountProgram(action: CreateAction<DiscountProgram>) {
 	}
 }
 
+function* onChangeStatusDiscountProgram(action: PayloadAction<PayloadChangeStatusDiscountProgram>) {
+	try {
+		const response: AxiosResponse = yield call(discountProgramApi.changeStatusDiscountProgram, action.payload);
+		yield put(changeStatusDiscountProgramSuccess(response.data));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		if (error?.response?.status === 403) return;
+		yield put(changeStatusDiscountProgramFailed(error.response.data.message));
+	}
+}
+
 function* watchDeleteDiscountProgramFlow() {
 	const type: string = deletingDiscountProgram.type;
 	yield takeEvery(type, onDeleteDiscountProgram);
@@ -107,10 +122,16 @@ function* watchEditDiscountProgramFlow() {
 	yield takeEvery(type, onEditDiscountProgram);
 }
 
+function* watchChangeStatusDiscountProgramFlow() {
+	const type: string = changingStatusDiscountProgram.type;
+	yield takeEvery(type, onChangeStatusDiscountProgram);
+}
+
 export function* DiscountProgramSaga() {
 	yield fork(watchGetDiscountProgramsFlow);
 	yield fork(watchCreateDiscountProgramFlow);
 	yield fork(watchDeleteDiscountProgramFlow);
 	yield fork(watchGetDiscountProgramInfoFlow);
 	yield fork(watchEditDiscountProgramFlow);
+	yield fork(watchChangeStatusDiscountProgramFlow);
 }
