@@ -12,6 +12,7 @@ import statisticReducer from './statisticReducer';
 import discountProgramReducer from './discountProgramReducer';
 import modalReducer from './modalReducer';
 import notificationReducer from './notificationReducer';
+import chatbotReducer from './chatbotReducer';
 
 const rootReducer = combineReducers({
 	sideBar: sideBarReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
 	modal: modalReducer,
 	statistic: statisticReducer,
 	notification: notificationReducer,
+	chatbot: chatbotReducer,
 });
 
 export default rootReducer;

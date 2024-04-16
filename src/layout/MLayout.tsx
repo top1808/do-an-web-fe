@@ -5,13 +5,18 @@ import HeaderComponent from './Header';
 import FooterComponent from './Footer';
 import { FloatButton, Layout } from 'antd';
 import SideBar from './SideBar';
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { useRouter } from 'next-nprogress-bar';
 import MSpin from '@/components/MSpin';
 import { getMessagingToken, registerServiceWorker } from '@/lib/firebase';
 import { onGetPusherNotification } from '@/lib/pusher';
 import { getAuthState } from '@/redux/reducers/authReducer';
 import { getSideBarState } from '@/redux/reducers/sideBarReducer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
+import MChatComponent from '@/components/MChatComponent';
+import { toggleChat } from '@/redux/reducers/modalReducer';
+import { clearAllChat } from '@/redux/reducers/chatbotReducer';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -23,13 +28,16 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 	const auth = useAppSelector(getAuthState);
 	const sideBar = useAppSelector(getSideBarState);
 
+	const dispatch = useAppDispatch();
+
 	const router = useRouter();
 
 	useEffect(() => {
 		if (!auth.isLoggedIn) {
 			window.location.assign('/login');
+			dispatch(clearAllChat());
 		}
-	}, [auth, router]);
+	}, [auth, dispatch, router]);
 
 	useEffect(() => {
 		registerServiceWorker();
@@ -85,6 +93,14 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 						}
 					>
 						{children}
+						{/* <FloatButton
+							shape='circle'
+							type='primary'
+							icon={<FontAwesomeIcon icon={faMessage} />}
+							style={{ width: 60, height: 60 }}
+							onClick={() => dispatch(toggleChat())}
+						/>
+						<MChatComponent /> */}
 					</Suspense>
 					<FloatButton.BackTop type='primary' />
 				</Content>

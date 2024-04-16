@@ -28,8 +28,8 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 				...orderPost,
 				paymentMethod: PAYMENT_METHOD.find((pm) => pm.value === orderPost?.paymentMethod)?.label,
 				createdAt: formatDate(orderPost.createdAt as string, 'DD/MM/YYYY'),
-				receivedDate: formatDate(orderPost.receivedDate as string, 'DD/MM/YYYY'),
-				deliveryDate: formatDate(orderPost.deliveryDate as string, 'DD/MM/YYYY'),
+				receivedDate: orderPost.receivedDate ? formatDate(orderPost.receivedDate as string, 'DD/MM/YYYY') : '',
+				deliveryDate: orderPost.deliveryDate ? formatDate(orderPost.deliveryDate as string, 'DD/MM/YYYY') : '',
 				status: ORDER_STATUS?.find((item) => item.value === orderPost.status)?.label,
 				voucherName: orderPost?.voucher?.name,
 				voucherDescription: orderPost?.voucher?.description,
@@ -192,7 +192,7 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							name='deliveryDate'
 							label='Delivery Date'
 						>
-							<InputNumber
+							<Input
 								className='w-full'
 								size='large'
 							/>
@@ -203,7 +203,7 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							name='receivedDate'
 							label='Expected Delivery'
 						>
-							<InputNumber
+							<Input
 								className='w-full'
 								size='large'
 							/>

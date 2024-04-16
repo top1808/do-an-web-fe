@@ -242,7 +242,7 @@ const HeaderAdmin: React.FC = () => {
 	};
 
 	const onChange = (key: string) => {
-		console.log(key);
+		// console.log(key);
 	};
 
 	useEffect(() => {

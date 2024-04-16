@@ -29,11 +29,11 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	const [form] = Form.useForm<OrderProduct>();
 
 	const onResetForm = () => {
+		setProductSelect(null);
 		form.resetFields();
 	};
 
 	const onSubmit = (data: OrderProduct) => {
-		console.log('🚀 ~ onSubmit ~ data:', data);
 		data.totalPrice = (data.price || 0) * (data.quantity || 0);
 		if (!orderProductEdit) {
 			dispatch(addOrderProduct(data));
@@ -46,6 +46,7 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 	};
 
 	const onChangeProduct = (id?: string) => {
+		onResetForm();
 		const productSelected = product.data?.find((c) => c._id === id);
 		setProductSelect(productSelected as Product);
 		if (productSelected) {
@@ -63,22 +64,27 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 		if (productSKUSelected) {
 			form.setFieldsValue({
 				...form.getFieldsValue(),
-				option1: productSKUSelected?.option1,
-				option2: productSKUSelected?.option2,
+				option1: JSON.stringify({ [productSKUSelected?.options[0]?.groupName || '']: productSKUSelected?.options[0]?.option }),
+				option2: JSON.stringify({ [productSKUSelected?.options[1]?.groupName || '']: productSKUSelected?.options[1]?.option }),
 				price: productSKUSelected?.price,
 			});
 		}
 	};
 
 	const onChangeProductSKUOption = () => {
-		const option1 = form.getFieldValue('option1') || '';
-		const option2 = form.getFieldValue('option2') || '';
-		const productSKUSelected = productSelect?.productSKUList?.find((c) => c.option1 === option1 && c.option2 === option2);
+		const option1 = form.getFieldValue('option1') ? JSON.parse(form.getFieldValue('option1')) : '';
+		const option2 = form.getFieldValue('option2') ? JSON.parse(form.getFieldValue('option2')) : '';
+
+		const productSKUSelected = productSelect?.productSKUList?.find(
+			(c) => c.options[0]?.option === option1[c.options[0]?.groupName || ''] && (c.options[1] ? c.options[1]?.option === option2[c.options[1]?.groupName || ''] : true),
+		);
 
 		if (productSKUSelected) {
 			form.setFieldsValue({
 				...form.getFieldsValue(),
 				productSKUBarcode: productSKUSelected?.barcode,
+				option1: JSON.stringify({ [productSKUSelected?.options[0]?.groupName || '']: productSKUSelected?.options[0]?.option }),
+				option2: JSON.stringify({ [productSKUSelected?.options[1]?.groupName || '']: productSKUSelected?.options[1]?.option }),
 				price: productSKUSelected?.price,
 			});
 		}
@@ -183,7 +189,7 @@ const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
 											<MSelect
 												placeholder={'Select ' + group?.groupName}
 												options={group?.options?.map((c) => ({
-													value: c,
+													value: JSON.stringify({ [group?.groupName || '']: c }),
 													label: c,
 												}))}
 												size='large'

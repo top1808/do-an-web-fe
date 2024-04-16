@@ -34,7 +34,29 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 		const dataSubmit: Order = {
 			...orderPost,
 			...data,
+			products: orderPost?.products?.map((item) => {
+				let option1 = item?.option1 ? JSON.parse(item?.option1 || '') : null;
+				option1 = option1
+					? {
+							groupName: Object.keys(option1)[0],
+							option: Object.values(option1)[0],
+					  }
+					: null;
+				let option2 = item?.option2 ? JSON.parse(item?.option2 || '') : null;
+				option2 = option2
+					? {
+							groupName: Object.keys(option2)[0],
+							option: Object.values(option2)[0],
+					  }
+					: null;
+				const options = [option1, option2]?.filter((item) => item);
+				return {
+					...item,
+					options: options,
+				};
+			}),
 		};
+
 		if (pathname.includes('create')) {
 			dispatch(creatingOrder(dataSubmit));
 		} else {

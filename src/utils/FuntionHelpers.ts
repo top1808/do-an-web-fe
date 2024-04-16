@@ -1,4 +1,4 @@
-import { MenuItem } from '@/models/productModels';
+import { MenuItem, ProductSKUOption } from '@/models/productModels';
 import dayjs from 'dayjs';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
@@ -42,7 +42,7 @@ export const customMoney = (money: number) => {
 };
 
 export const customNumber = (number: number) => {
-	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+	return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
 export const compareAlphabet = <T>(array: T[], key: keyof T, direction: 'asc' | 'desc' = 'asc'): T[] => {
@@ -139,3 +139,14 @@ export function getItem(label: React.ReactNode, key: React.Key, icon?: React.Rea
 		type,
 	} as MenuItem;
 }
+
+export const parseOptionToJson = (item?: ProductSKUOption) => {
+	if (item) {
+		const { groupName, option } = item;
+		const transformedObj = {
+			[groupName || '']: option?.toLowerCase(),
+		};
+		return JSON.stringify(transformedObj);
+	}
+	return '';
+};

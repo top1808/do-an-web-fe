@@ -16,7 +16,7 @@ const MUploadImageMultiple: React.FC<MUploadImageMultipleProps> = (props) => {
 	const handleCancel = () => setPreviewOpen(false);
 
 	const handlePreview = async (file: UploadFile) => {
-		setPreviewImage(file.thumbUrl || '');
+		setPreviewImage(file?.response?.image || file?.thumbUrl || '');
 		setPreviewOpen(true);
 	};
 
@@ -67,8 +67,8 @@ const MUploadImageMultiple: React.FC<MUploadImageMultipleProps> = (props) => {
 				]}
 			>
 				<MUpload
-					name='images'
-					action={`${process.env.API_UPLOAD_URL}image/upload-list`}
+					name='image'
+					action={`${process.env.API_UPLOAD_URL}image/upload`}
 					listType='picture-card'
 					fileList={fileList}
 					onChange={onChange}

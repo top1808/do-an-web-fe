@@ -3,6 +3,7 @@ import { ReponseDeleteSuccess } from '@/models/reponseModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { RootState } from '../store';
+import { parseOptionToJson } from '@/utils/FuntionHelpers';
 
 interface DiscountProgramState {
 	loading: boolean;
@@ -119,8 +120,26 @@ const discountProgramSlice = createSlice({
 		},
 		getDiscountProgramInfoSuccess: (state, action: PayloadAction<DiscountProgram>) => {
 			state.loading = false;
-			state.discountProgramEdit = action.payload;
-			state.discountProgramPost = action.payload;
+			state.discountProgramEdit = {
+				...action.payload,
+				products: action.payload.products?.map((item, index) => ({
+					...item,
+					index: index + 1,
+					key: index,
+					option1: item?.option1 || parseOptionToJson(item.options?.[0]),
+					option2: item?.option2 || parseOptionToJson(item.options?.[1]),
+				})),
+			};
+			state.discountProgramPost = {
+				...action.payload,
+				products: action.payload.products?.map((item, index) => ({
+					...item,
+					index: index + 1,
+					key: index,
+					option1: item?.option1 || parseOptionToJson(item.options?.[0]),
+					option2: item?.option2 || parseOptionToJson(item.options?.[1]),
+				})),
+			};
 		},
 		getDiscountProgramInfoFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;

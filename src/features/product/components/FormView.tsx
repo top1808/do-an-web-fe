@@ -1,6 +1,5 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
-import MEditor from '@/components/MEditor';
 
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
@@ -14,7 +13,7 @@ import { htmlToEditor } from '@/utils/FuntionHelpers';
 
 import { Form } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
-import { usePathname } from 'next/navigation';
+
 import React, { useEffect } from 'react';
 
 import ProductGroupOptions from './ProductGroupOptions';
@@ -47,7 +46,7 @@ const FormViewProduct: React.FC<ProductFormProps> = (props) => {
 	const router = useRouter();
 
 	const { onSubmit } = props;
-	const pathname = usePathname();
+
 	const [form] = Form.useForm();
 
 	useEffect(() => {

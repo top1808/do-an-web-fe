@@ -5,6 +5,7 @@ import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
+import MUploadImage from '@/components/MUploadImage';
 import { CATEGORY_TYPE, STATUS_PRODUCT } from '@/constants';
 import { Category } from '@/models/categoryModels';
 import { useAppSelector } from '@/redux/hooks';
@@ -27,6 +28,7 @@ const inititalValue: Category = {
 const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 	const { category } = useAppSelector((state) => state);
 	const { categoryEdit } = category;
+
 	const router = useRouter();
 
 	const { onSubmit } = props;
@@ -53,19 +55,10 @@ const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 			>
 				<MRow gutter={12}>
 					<MCol span={3}>
-						<MForm.UploadImage
-							formLabel='Image'
+						<MUploadImage
+							image={categoryEdit?.image || ''}
 							formName='image'
-							name='image'
-							action={`${process.env.API_UPLOAD_URL}image/upload`}
-							accept='image/*'
-							listType='picture-card'
-							multiple={false}
-							showUploadList={false}
-							initImage={categoryEdit?.image}
-						>
-							Upload
-						</MForm.UploadImage>
+						/>
 					</MCol>
 					<MCol span={21}>
 						<MRow gutter={12}>

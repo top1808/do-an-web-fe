@@ -41,7 +41,6 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 
 	const category = useAppSelector(getCategoryState);
 	const { productEdit } = product;
-	// console.log('🚀 ~ productEdit:', productEdit);
 
 	const dispatch = useAppDispatch();
 	const router = useRouter();
@@ -67,8 +66,7 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 
 		if (productEdit?.productSKUList) {
 			const productSKU = productEdit?.productSKUList?.reduce((acc, item) => {
-				const key = { option1: item.option1, option2: item.option2 };
-				if (!key.option2) delete key.option2;
+				const key = { [item?.options?.[0]?.groupName || 'option1']: item?.options?.[0]?.option, [item?.options?.[1]?.groupName || 'option1']: item?.options?.[1]?.option };
 				acc = { ...acc, [JSON.stringify(key)]: item.price };
 				return acc;
 			}, {});

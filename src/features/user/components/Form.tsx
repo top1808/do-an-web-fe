@@ -1,15 +1,15 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
-import MForm from '@/components/MForm';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
+import MUploadImage from '@/components/MUploadImage';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingRole } from '@/redux/reducers/roleReducer';
 import { Form, Input } from 'antd';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 type UserFormProps = {
@@ -49,19 +49,10 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 			>
 				<MRow gutter={8}>
 					<MCol span={3}>
-						<MForm.UploadImage
-							formLabel='Avatar'
+						<MUploadImage
+							image={userEdit?.image || ''}
 							formName='image'
-							name='image'
-							action={`${process.env.API_UPLOAD_URL}image/upload`}
-							accept='image/*'
-							listType='picture-card'
-							initImage={userEdit?.image}
-							multiple={false}
-							showUploadList={false}
-						>
-							Upload
-						</MForm.UploadImage>
+						/>
 					</MCol>
 					<MCol span={21}>
 						<MRow gutter={12}>
