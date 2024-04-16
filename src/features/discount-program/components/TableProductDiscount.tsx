@@ -9,6 +9,7 @@ import { customMoney, customNumber } from '@/utils/FuntionHelpers';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
 interface TableProductDiscountProps {}
@@ -17,6 +18,7 @@ const TableProductDiscount: React.FC<TableProductDiscountProps> = (props) => {
 	const { discountProgram } = useAppSelector((state) => state);
 	const dispatch = useAppDispatch();
 	const { discountProgramPost } = discountProgram;
+	const pathname = usePathname();
 
 	const columns: ColumnsType<DiscountProgramProduct> = [
 		{
@@ -110,7 +112,7 @@ const TableProductDiscount: React.FC<TableProductDiscountProps> = (props) => {
 
 	return (
 		<MTable
-			columns={columns}
+			columns={pathname.includes('view') ? columns?.filter((col) => col.key !== 'operation') : columns}
 			dataSource={discountProgramPost?.products?.map((item, index) => ({ ...item, index: index + 1, key: index })) || []}
 			pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '20'] }}
 			className='mt-4'

@@ -8,7 +8,7 @@ import { DiscountProgram } from '@/models/discountProgramModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { changingStatusDiscountProgram, deletingDiscountProgram } from '@/redux/reducers/discountProgramReducer';
 import { formatDate } from '@/utils/FuntionHelpers';
-import { faEdit, faLock, faMagnifyingGlass, faUnlock } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faLock, faMagnifyingGlass, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -146,6 +146,13 @@ const DiscountProgramTable = () => {
 			render: (item: DiscountProgram) => (
 				<MSpace split={''}>
 					<MButton
+						tooltip='View order'
+						link={`discount-program/view/${item?._id}`}
+						className='text-white bg-purple-600 hover:bg-purple-300'
+					>
+						<FontAwesomeIcon icon={faEye} />
+					</MButton>
+					<MButton
 						type='primary'
 						className={`${item.status === 'disable' ? 'bg-green-500' : 'bg-yellow-500'}`}
 						onClick={() => dispatch(changingStatusDiscountProgram({ id: item._id, status: item.status === 'disable' ? 'active' : 'disable' }))}
@@ -161,10 +168,12 @@ const DiscountProgramTable = () => {
 							<FontAwesomeIcon icon={faEdit} />
 						</MButton>
 					)}
-					<MButtonDelete
-						title={`Delete discount program ${item.name}? `}
-						onConfirm={() => dispatch(deletingDiscountProgram(item._id || ''))}
-					></MButtonDelete>
+					{item.status !== 'active' && (
+						<MButtonDelete
+							title={`Delete discount program ${item.name}? `}
+							onConfirm={() => dispatch(deletingDiscountProgram(item._id || ''))}
+						></MButtonDelete>
+					)}
 				</MSpace>
 			),
 		},
