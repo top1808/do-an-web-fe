@@ -38,6 +38,20 @@ const TableProductDiscount: React.FC<TableProductDiscountProps> = (props) => {
 			width: 150,
 		},
 		{
+			title: 'Option 1',
+			dataIndex: 'option1',
+			key: 'option1',
+			width: 100,
+			render: (item) => (item ? `${Object.keys(JSON.parse(item))[0]}: ${Object.values(JSON.parse(item))[0]}` : ''),
+		},
+		{
+			title: 'Option 2',
+			dataIndex: 'option2',
+			key: 'option2',
+			width: 100,
+			render: (item) => (item ? `${Object.keys(JSON.parse(item))[0]}: ${Object.values(JSON.parse(item))[0]}` : ''),
+		},
+		{
 			title: 'Price',
 			dataIndex: 'price',
 			key: 'price',

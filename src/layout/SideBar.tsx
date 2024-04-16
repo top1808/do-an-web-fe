@@ -31,7 +31,7 @@ export const routes: MenuItem[] = [
 	getItem('Voucher', '/voucher', <FontAwesomeIcon icon={faTicket} />),
 	getItem('Discount Program', '/discount-program', <FontAwesomeIcon icon={faPercent} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
-	getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [getItem('Intents', '/chatbot/intents'), getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')]),
+	// getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [getItem('Intents', '/chatbot/intents'), getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')]),
 ];
 
 const SideBarAdmin: React.FC = () => {

@@ -1,3 +1,5 @@
+import { ProductSKUOption } from './productModels';
+
 export interface DiscountProgramProduct {
 	index?: number | null;
 	productCode?: string;
@@ -6,6 +8,13 @@ export interface DiscountProgramProduct {
 	promotionPrice?: number;
 	type?: string;
 	value?: number;
+	productSKUBarcode?: string;
+	option1?: string;
+	option2?: string;
+	options?: ProductSKUOption[];
+	productQuantity?: number;
+	quantity?: number;
+	totalPrice?: number;
 }
 
 export interface DiscountProgram {

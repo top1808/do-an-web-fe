@@ -41,7 +41,6 @@ const FormCreateProduct: React.FC<ProductFormProps> = (props) => {
 
 	const category = useAppSelector(getCategoryState);
 	const { productEdit } = product;
-	console.log('🚀 ~ productEdit:', productEdit);
 
 	const dispatch = useAppDispatch();
 	const router = useRouter();

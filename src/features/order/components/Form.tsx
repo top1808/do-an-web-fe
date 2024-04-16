@@ -7,7 +7,7 @@ import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { gettingCustomers } from '@/redux/reducers/customerReducer';
-import { changeDateStringToDayjs, checkPhoneNumber } from '@/utils/FuntionHelpers';
+import { changeDateStringToDayjs } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
 import React, { useEffect } from 'react';
 import FormAddProduct from './FormAddProduct';
@@ -20,7 +20,6 @@ interface OrderFormProps {}
 const OrderForm: React.FC<OrderFormProps> = (props) => {
 	const { customer, order } = useAppSelector((state) => state);
 	const { orderPost } = order;
-	console.log('🚀 ~ orderPost:', orderPost);
 
 	const dispatch = useAppDispatch();
 

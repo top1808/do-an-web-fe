@@ -93,14 +93,14 @@ const MLayout: React.FC<LayoutProps> = ({ children }) => {
 						}
 					>
 						{children}
-						<FloatButton
+						{/* <FloatButton
 							shape='circle'
 							type='primary'
 							icon={<FontAwesomeIcon icon={faMessage} />}
 							style={{ width: 60, height: 60 }}
 							onClick={() => dispatch(toggleChat())}
 						/>
-						<MChatComponent />
+						<MChatComponent /> */}
 					</Suspense>
 					<FloatButton.BackTop type='primary' />
 				</Content>

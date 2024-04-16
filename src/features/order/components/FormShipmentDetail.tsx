@@ -56,7 +56,7 @@ const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
 				};
 			}),
 		};
-		console.log('🚀 ~ onSubmit ~ dataSubmit:', dataSubmit);
+
 		if (pathname.includes('create')) {
 			dispatch(creatingOrder(dataSubmit));
 		} else {

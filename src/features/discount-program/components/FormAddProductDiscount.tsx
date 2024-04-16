@@ -5,14 +5,15 @@ import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import { handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, InputNumber } from 'antd';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TableProductDiscount from './TableProductDiscount';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { DiscountProgramProduct } from '@/models/discountProgramModel';
-import { gettingProduct } from '@/redux/reducers/productReducer';
+import { gettingAllProduct } from '@/redux/reducers/productReducer';
 import { TYPE_VOUCHER } from '@/constants';
 import { addDiscountProgramProduct, editDiscountProgramProductEdit, setDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
 import { toast } from 'react-toastify';
+import { Product } from '@/models/productModels';
 
 interface FormAddProductDiscountProps {}
 
@@ -23,14 +24,17 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 
 	const dispatch = useAppDispatch();
 
+	const [productSelect, setProductSelect] = useState<Product | null>(null);
+
 	const [form] = Form.useForm<DiscountProgramProduct>();
 	const type = Form.useWatch('type', form);
 	const value = Form.useWatch('value', form);
 	const price = Form.useWatch('price', form);
 
-	const onResetForm = () => {
+	const onResetForm = useCallback(() => {
+		setProductSelect(null);
 		form.resetFields();
-	};
+	}, [form]);
 
 	const onSubmit = (data: DiscountProgramProduct) => {
 		if (!discountProgramProductEdit) {
@@ -45,17 +49,51 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 
 	const onChangeProduct = useCallback(
 		(id?: string) => {
+			onResetForm();
 			const productSelected = product.data?.find((c) => c._id === id);
+			setProductSelect(productSelected as Product);
 			if (productSelected) {
 				form.setFieldsValue({
 					productName: productSelected?.name,
 					productCode: productSelected?._id,
+					productQuantity: productSelected?.quantity,
 					price: productSelected?.price,
 				});
 			}
 		},
-		[form, product.data],
+		[form, onResetForm, product.data],
 	);
+
+	const onChangeProductSKU = (barcode?: string) => {
+		const productSKUSelected = productSelect?.productSKUList?.find((c) => c.barcode === barcode);
+		if (productSKUSelected) {
+			form.setFieldsValue({
+				...form.getFieldsValue(),
+				option1: JSON.stringify({ [productSKUSelected?.options[0]?.groupName || '']: productSKUSelected?.options[0]?.option }),
+				option2: JSON.stringify({ [productSKUSelected?.options[1]?.groupName || '']: productSKUSelected?.options[1]?.option }),
+				price: productSKUSelected?.price,
+			});
+		}
+	};
+
+	const onChangeProductSKUOption = () => {
+		const option1 = form.getFieldValue('option1') ? JSON.parse(form.getFieldValue('option1')) : '';
+		const option2 = form.getFieldValue('option2') ? JSON.parse(form.getFieldValue('option2')) : '';
+
+		const productSKUSelected = productSelect?.productSKUList?.find(
+			(c) => c.options[0]?.option === option1[c.options[0]?.groupName || ''] && (c.options[1] ? c.options[1]?.option === option2[c.options[1]?.groupName || ''] : true),
+		);
+
+		if (productSKUSelected) {
+			form.setFieldsValue({
+				...form.getFieldsValue(),
+				productSKUBarcode: productSKUSelected?.barcode,
+				option1: JSON.stringify({ [productSKUSelected?.options[0]?.groupName || '']: productSKUSelected?.options[0]?.option }),
+				option2: JSON.stringify({ [productSKUSelected?.options[1]?.groupName || '']: productSKUSelected?.options[1]?.option }),
+				price: productSKUSelected?.price,
+			});
+		}
+	};
 
 	useEffect(() => {
 		if (type && value && price) {
@@ -79,7 +117,7 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 	}, [form, discountProgramProductEdit, onChangeProduct]);
 
 	useEffect(() => {
-		dispatch(gettingProduct({}));
+		dispatch(gettingAllProduct());
 	}, [dispatch]);
 
 	return (
@@ -129,6 +167,52 @@ const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
 							/>
 						</Form.Item>
 					</MCol>
+
+					{(productSelect?.productSKUList?.length || 0) > 0 && (
+						<>
+							<MCol span={6}>
+								<Form.Item
+									name='productSKUBarcode'
+									label='Product SKU Barcode'
+									rules={[{ required: true }]}
+								>
+									<MSelect
+										placeholder='Select a product SKU'
+										options={productSelect?.productSKUList?.map((c) => ({
+											value: c.barcode,
+											label: c.barcode,
+										}))}
+										size='large'
+										onChange={onChangeProductSKU}
+										disabled={!!discountProgramProductEdit}
+									/>
+								</Form.Item>
+							</MCol>
+							{productSelect?.groupOptions?.map((group, index) => (
+								<MCol
+									span={6}
+									key={group?.groupName}
+								>
+									<Form.Item
+										name={'option' + (index + 1)}
+										label={group?.groupName}
+										rules={[{ required: true }]}
+									>
+										<MSelect
+											placeholder={'Select ' + group?.groupName}
+											options={group?.options?.map((c) => ({
+												value: JSON.stringify({ [group?.groupName || '']: c }),
+												label: c,
+											}))}
+											size='large'
+											onChange={onChangeProductSKUOption}
+											disabled={!!discountProgramProductEdit}
+										/>
+									</Form.Item>
+								</MCol>
+							))}
+						</>
+					)}
 
 					<MCol span={6}>
 						<Form.Item
