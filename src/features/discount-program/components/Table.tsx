@@ -6,9 +6,9 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { DiscountProgram } from '@/models/discountProgramModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingDiscountProgram } from '@/redux/reducers/discountProgramReducer';
+import { changingStatusDiscountProgram, deletingDiscountProgram } from '@/redux/reducers/discountProgramReducer';
 import { formatDate } from '@/utils/FuntionHelpers';
-import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faLock, faMagnifyingGlass, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -133,7 +133,7 @@ const DiscountProgramTable = () => {
 			render: (status) => (
 				<MBadge
 					count={status}
-					color={status === 'active' ? 'green' : 'red'}
+					color={status === 'active' ? 'green' : status === 'incoming' ? 'yellow' : 'red'}
 					style={{ width: 70 }}
 				/>
 			),
@@ -143,18 +143,37 @@ const DiscountProgramTable = () => {
 			key: 'operation',
 			fixed: 'right',
 			width: 200,
-			render: (item) => (
+			render: (item: DiscountProgram) => (
 				<MSpace split={''}>
 					<MButton
-						type='primary'
-						link={`discount-program/edit/${item._id}`}
+						tooltip='View order'
+						link={`discount-program/view/${item?._id}`}
+						className='text-white bg-purple-600 hover:bg-purple-300'
 					>
-						<FontAwesomeIcon icon={faEdit} />
+						<FontAwesomeIcon icon={faEye} />
 					</MButton>
-					<MButtonDelete
-						title={`Delete discount program ${item.name}? `}
-						onConfirm={() => dispatch(deletingDiscountProgram(item._id))}
-					></MButtonDelete>
+					<MButton
+						type='primary'
+						className={`${item.status === 'disable' ? 'bg-green-500' : 'bg-yellow-500'}`}
+						onClick={() => dispatch(changingStatusDiscountProgram({ id: item._id, status: item.status === 'disable' ? 'active' : 'disable' }))}
+						loading={discountProgram.isChangingStatus}
+					>
+						{item.status === 'disable' ? <FontAwesomeIcon icon={faUnlock} /> : <FontAwesomeIcon icon={faLock} />}
+					</MButton>
+					{item.status !== 'active' && (
+						<MButton
+							type='primary'
+							link={`discount-program/edit/${item._id}`}
+						>
+							<FontAwesomeIcon icon={faEdit} />
+						</MButton>
+					)}
+					{item.status !== 'active' && (
+						<MButtonDelete
+							title={`Delete discount program ${item.name}? `}
+							onConfirm={() => dispatch(deletingDiscountProgram(item._id || ''))}
+						></MButtonDelete>
+					)}
 				</MSpace>
 			),
 		},

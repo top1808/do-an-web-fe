@@ -1,5 +1,13 @@
 import { ProductSKUOption } from './productModels';
 
+export interface DiscountProgramStatusModel {
+	status?: 'incoming' | 'active' | 'disable' | 'expired';
+}
+
+export interface PayloadChangeStatusDiscountProgram extends DiscountProgramStatusModel {
+	id?: string;
+}
+
 export interface DiscountProgramProduct {
 	index?: number | null;
 	productCode?: string;
