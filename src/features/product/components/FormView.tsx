@@ -66,7 +66,7 @@ const FormViewProduct: React.FC<ProductFormProps> = (props) => {
 
 		if (productEdit?.productSKUList) {
 			const productSKU = productEdit?.productSKUList?.reduce((acc, item) => {
-				const key = { option1: item.option1, option2: item.option2 };
+				const key = { [item?.options?.[0]?.groupName || 'option1']: item?.options?.[0]?.option, [item?.options?.[1]?.groupName || 'option1']: item?.options?.[1]?.option };
 				if (!key.option2) delete key.option2;
 				acc = { ...acc, [JSON.stringify(key)]: item.price };
 				return acc;
