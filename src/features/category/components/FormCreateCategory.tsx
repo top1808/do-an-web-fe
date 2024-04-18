@@ -62,7 +62,7 @@ const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
 					</MCol>
 					<MCol span={21}>
 						<MRow gutter={12}>
-							<MCol span={6}>
+							<MCol span={18}>
 								<Form.Item
 									name='name'
 									label='Name'

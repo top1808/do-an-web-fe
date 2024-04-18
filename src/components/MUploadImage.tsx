@@ -52,12 +52,12 @@ const MUploadImage: React.FC<MUploadImageProps> = ({ image, formName, disableTit
 				listType='picture-card'
 				className='avatar-uploader'
 				showUploadList={false}
-				action={`${process.env.API_UPLOAD_URL}image/upload`}
+				action={`${process.env.API_UPLOAD_URL}cloudinary-upload`}
 				onChange={handleChange}
 				accept='image/*'
 				{...rest}
 			>
-				{imageLocal ? (
+				{!loading && imageLocal ? (
 					<Image
 						src={imageLocal}
 						alt='avatar'
