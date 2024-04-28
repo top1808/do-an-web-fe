@@ -2,12 +2,12 @@
 import React, { useEffect } from 'react';
 import TableProductsAdmin from './components/TableProductsAdmin';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingProduct } from '@/redux/reducers/productReducer';
+import { getProductState, gettingProduct } from '@/redux/reducers/productReducer';
 import MSkeleton from '@/components/MSkeleton';
 import { useSearchParams } from 'next/navigation';
 
 const AdminProductComponent = () => {
-	const { product } = useAppSelector((state) => state);
+	const product = useAppSelector(getProductState);
 	const dispatch = useAppDispatch();
 
 	const params = useSearchParams();

@@ -12,12 +12,20 @@ import { Inter } from 'next/font/google';
 import { Providers } from '@/redux/provider';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='en'>
+			<Head>
+				<link
+					rel='preload'
+					href='/app/layout.css'
+					as='style'
+				/>
+			</Head>
 			<body className={inter.className}>
 				<StyledComponentsRegistry>
 					<Providers>

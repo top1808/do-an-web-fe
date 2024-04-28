@@ -1,7 +1,8 @@
 import { useAppSelector } from '@/redux/hooks';
+import { getAuthState } from '@/redux/reducers/authReducer';
 
 const useUser = () => {
-	const { auth } = useAppSelector((state) => state);
+	const auth = useAppSelector(getAuthState);
 	return auth;
 };
 

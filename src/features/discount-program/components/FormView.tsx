@@ -14,6 +14,7 @@ import React, { useEffect } from 'react';
 import FormAddProductDiscount from './FormAddProductDiscount';
 import dayjs from 'dayjs';
 import TableProductDiscount from './TableProductDiscount';
+import { getDiscountProgramState } from '@/redux/reducers/discountProgramReducer';
 
 type DiscountProgramFormViewProps = {
 	onSubmit?: (data: DiscountProgram) => void;
@@ -29,7 +30,8 @@ const INITIAL_VALUE: DiscountProgram = {
 };
 
 const DiscountProgramFormView: React.FC<DiscountProgramFormViewProps> = (props) => {
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
+
 	const { discountProgramEdit } = discountProgram;
 
 	const { onSubmit } = props;

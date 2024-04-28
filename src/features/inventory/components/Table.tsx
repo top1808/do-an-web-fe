@@ -1,25 +1,23 @@
+import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
-import MButtonDelete from '@/components/MButtonDelete';
-import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
-import { User } from '@/models/userModel';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingUser, getUserState } from '@/redux/reducers/userReducer';
-import { formatDateTimeToRender } from '@/utils/FuntionHelpers';
-import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { Review } from '@/models/reviewModel';
+import { useAppSelector } from '@/redux/hooks';
+import { getReviewState } from '@/redux/reducers/reviewReducer';
+import { formatDate } from '@/utils/FuntionHelpers';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Rate } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
 import React from 'react';
 
-type DataIndex = keyof User;
+type DataIndex = keyof Review;
 
-const UserTable = () => {
-	const user = useAppSelector(getUserState);
-
-	const dispatch = useAppDispatch();
+const InventoryTable = () => {
+	const review = useAppSelector(getReviewState);
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
@@ -85,87 +83,78 @@ const UserTable = () => {
 			</div>
 		),
 		filterIcon: () => <FontAwesomeIcon icon={faMagnifyingGlass} />,
-		onFilter: (value: string, record: User) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
+		onFilter: (value: string, record: Review) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
 		render: (text: string) => text,
 	});
 
-	const columns: ColumnsType<User> = [
+	const columns: ColumnsType<Review> = [
 		{
 			title: '#',
 			dataIndex: 'index',
 			key: 'index',
-			width: '2%',
+			width: 50,
 		},
 		{
-			title: 'Avatar',
-			dataIndex: 'image',
-			key: 'image',
-			width: 60,
-			render: (item) => (
-				<MImage
-					src={item}
-					alt='avatar'
-					style={{ height: 50 }}
+			title: 'Customer Name',
+			key: 'operation',
+			width: 120,
+			render: (item: Review) => item?.customer?.name,
+		},
+		{
+			title: 'Product Name',
+			key: 'operation',
+			width: 200,
+			render: (item: Review) => item?.product?.name,
+		},
+		{
+			title: 'Option 1',
+			key: 'operation',
+			width: 80,
+			render: (item: Review) => (item?.productSKU?.options[0] ? `${item?.productSKU?.options[0]?.groupName}: ${item?.productSKU?.options[0]?.option}` : ''),
+		},
+		{
+			title: 'Option 2',
+			key: 'operation',
+			width: 100,
+			render: (item: Review) => (item?.productSKU?.options[1] ? `${item?.productSKU?.options[1]?.groupName}: ${item?.productSKU?.options[1]?.option}` : ''),
+		},
+		{
+			title: 'Content',
+			dataIndex: 'content',
+			key: 'content',
+			width: 140,
+		},
+		{
+			title: 'Rate',
+			dataIndex: 'rate',
+			key: 'rate',
+			width: 140,
+			render: (item: number) => (
+				<Rate
+					value={item}
+					disabled
+					style={{ fontSize: '1rem' }}
 				/>
 			),
 		},
 		{
-			title: 'Name',
-			dataIndex: 'name',
-			key: 'name',
-			width: 200,
-			...getColumnSearchProps('name'),
+			title: 'Date Time',
+			dataIndex: 'createdAt',
+			key: 'createdAt',
+			width: 120,
+			render: (item: string) => formatDate(item, 'DD/MM/YYYY HH:mm'),
 		},
-		{
-			title: 'email',
-			dataIndex: 'email',
-			key: 'email',
-			width: 100,
-			...getColumnSearchProps('email'),
-		},
-		{
-			title: 'Username',
-			dataIndex: 'username',
-			key: 'username',
-			width: 100,
-			...getColumnSearchProps('username'),
-		},
-		{
-			title: 'Last login',
-			dataIndex: 'lastLogin',
-			key: 'lastLogin',
-			width: 100,
-			render: formatDateTimeToRender,
-		},
-		{
-			title: 'Action',
-			key: 'operation',
-			fixed: 'right',
-			width: 100,
-			render: (item) => (
-				<MSpace split={''}>
-					<MButton
-						type='primary'
-						link={`user/edit/${item._id}`}
-					>
-						<FontAwesomeIcon icon={faEdit} />
-					</MButton>
-					<MButtonDelete
-						title={`Delete user ${item.name}? `}
-						onConfirm={() => dispatch(deletingUser(item._id))}
-					></MButtonDelete>
-				</MSpace>
-			),
-		},
-	] as ColumnsType<User>;
+	] as ColumnsType<Review>;
 
 	return (
 		<MTable
 			columns={columns}
-			dataSource={user?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
+			dataSource={review?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			scroll={{ x: 1700, y: '55vh' }}
+			className='w-full'
 		/>
 	);
 };
 
-export default UserTable;
+export default InventoryTable;

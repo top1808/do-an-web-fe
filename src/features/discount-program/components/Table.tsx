@@ -6,7 +6,7 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { DiscountProgram } from '@/models/discountProgramModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { changingStatusDiscountProgram, deletingDiscountProgram } from '@/redux/reducers/discountProgramReducer';
+import { changingStatusDiscountProgram, deletingDiscountProgram, getDiscountProgramState } from '@/redux/reducers/discountProgramReducer';
 import { formatDate } from '@/utils/FuntionHelpers';
 import { faEdit, faEye, faLock, faMagnifyingGlass, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,7 @@ import React from 'react';
 type DataIndex = keyof DiscountProgram;
 
 const DiscountProgramTable = () => {
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
 
 	const dispatch = useAppDispatch();
 

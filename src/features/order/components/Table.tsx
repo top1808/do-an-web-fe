@@ -13,11 +13,12 @@ import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
 import React from 'react';
 import OrderActionButtonWrapper from './tableComponents/OrderActionButtonWrapper';
+import { getOrderState } from '@/redux/reducers/orderReducer';
 
 type DataIndex = keyof Order;
 
 const OrderTable = () => {
-	const { order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();

@@ -6,6 +6,7 @@ import MSkeleton from '@/components/MSkeleton';
 import MUploadImage from '@/components/MUploadImage';
 import { Customer } from '@/models/customerModel';
 import { useAppSelector } from '@/redux/hooks';
+import { getCustomerState } from '@/redux/reducers/customerReducer';
 import { changeDateStringToDayjs, checkPhoneNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
@@ -29,7 +30,8 @@ const INITIAL_VALUE: Customer = {
 const CustomerForm: React.FC<CustomerFormProps> = (props) => {
 	const { onSubmit } = props;
 
-	const { customer } = useAppSelector((state) => state);
+	const customer = useAppSelector(getCustomerState);
+
 	const { customerEdit } = customer;
 
 	const router = useRouter();

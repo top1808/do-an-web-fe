@@ -6,10 +6,11 @@ import dayjs from 'dayjs';
 
 import { DiscountProgram } from '@/models/discountProgramModel';
 import DiscountProgramForm from '../components/Form';
-import { creatingDiscountProgram } from '@/redux/reducers/discountProgramReducer';
+import { creatingDiscountProgram, getDiscountProgramState } from '@/redux/reducers/discountProgramReducer';
 
 const AdminCreateDiscountProgramComponent = () => {
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
+
 	const { discountProgramPost } = discountProgram;
 	const dispatch = useAppDispatch();
 

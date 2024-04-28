@@ -4,8 +4,7 @@ import MText from '@/components/MText';
 import MRow from '@/components/MRow';
 import MCol from '@/components/MCol';
 import MCard from '@/components/MCard';
-import { Form, FormInstance, InputNumber } from 'antd';
-import { checkInputMoney, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
+import { Form, FormInstance } from 'antd';
 import MInput from '@/components/MInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -65,21 +64,23 @@ const ProductGroupOptions = (props: ProductGroupOptionsProps) => {
 															/>
 														</Form.Item>
 													</MCol>
-													<MCol
-														span={2}
-														offset={14}
-														className='text-end'
-													>
-														<MButton
-															type='text'
-															onClick={() => remove(name)}
+													{fields?.length > 1 && (
+														<MCol
+															span={2}
+															offset={14}
+															className='text-end'
 														>
-															<FontAwesomeIcon
-																icon={faXmark}
-																className='text-lg'
-															/>
-														</MButton>
-													</MCol>
+															<MButton
+																type='text'
+																onClick={() => remove(name)}
+															>
+																<FontAwesomeIcon
+																	icon={faXmark}
+																	className='text-lg'
+																/>
+															</MButton>
+														</MCol>
+													)}
 													<MCol span={24}>
 														<MRow gutter={12}>
 															<MCol span={2}>Options</MCol>
@@ -182,7 +183,7 @@ const ProductGroupOptions = (props: ProductGroupOptionsProps) => {
 					</MCol>
 				) : (
 					<MCol span={6}>
-						<Form.Item
+						{/* <Form.Item
 							name='price'
 							label='Price'
 							rules={[{ required: true, validator: (_, value) => checkInputMoney(value) }]}
@@ -195,7 +196,7 @@ const ProductGroupOptions = (props: ProductGroupOptionsProps) => {
 								parser={handleParserInputNumber}
 								step={1000}
 							/>
-						</Form.Item>
+						</Form.Item> */}
 					</MCol>
 				)}
 			</MRow>

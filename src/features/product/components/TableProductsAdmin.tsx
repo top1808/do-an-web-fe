@@ -2,14 +2,13 @@
 import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
 import MButtonDelete from '@/components/MButtonDelete';
-import MImage from '@/components/MImage';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { Category } from '@/models/categoryModels';
 import { Product } from '@/models/productModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingProduct } from '@/redux/reducers/productReducer';
+import { deletingProduct, getProductState } from '@/redux/reducers/productReducer';
 import { customMoney, objectToQueryString } from '@/utils/FuntionHelpers';
 import { faEdit, faEye, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,7 +20,7 @@ import React from 'react';
 type DataIndex = keyof Product;
 
 const TableProductsAdmin = () => {
-	const { product } = useAppSelector((state) => state);
+	const product = useAppSelector(getProductState);
 	const dispatch = useAppDispatch();
 
 	const router = useRouter();

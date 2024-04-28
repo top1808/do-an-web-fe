@@ -8,7 +8,7 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { Category } from '@/models/categoryModels';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingCategory } from '@/redux/reducers/categoryReducer';
+import { deletingCategory, getCategoryState } from '@/redux/reducers/categoryReducer';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
@@ -18,7 +18,7 @@ import React from 'react';
 type DataIndex = keyof Category;
 
 const TableCategories = () => {
-	const { category } = useAppSelector((state) => state);
+	const category = useAppSelector(getCategoryState);
 
 	const dispatch = useAppDispatch();
 

@@ -5,12 +5,12 @@ import MSkeleton from '@/components/MSkeleton';
 import MSwitch from '@/components/MSwitch';
 import { Permission, PermissionGroup, Role } from '@/models/roleModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingPermission, gettingRole, settingPermissionForRole } from '@/redux/reducers/roleReducer';
+import { getRoleState, gettingPermission, gettingRole, settingPermissionForRole } from '@/redux/reducers/roleReducer';
 import React, { useEffect, useState } from 'react';
 
 const PermissionPageComponent = () => {
 	const dispatch = useAppDispatch();
-	const { role: roleState } = useAppSelector((state) => state);
+	const roleState = useAppSelector(getRoleState);
 
 	const [permissionGroups, setPermisisonGroups] = useState<PermissionGroup[] | undefined>([]);
 

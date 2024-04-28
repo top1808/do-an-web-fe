@@ -4,12 +4,13 @@ import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import DiscountProgramForm from '../components/Form';
-import { edittingDiscountProgram, gettingDiscountProgramInfo } from '@/redux/reducers/discountProgramReducer';
+import { edittingDiscountProgram, getDiscountProgramState, gettingDiscountProgramInfo } from '@/redux/reducers/discountProgramReducer';
 import { DiscountProgram } from '@/models/discountProgramModel';
 
 const AdminEditDiscountProgramComponent = () => {
 	const { id } = useParams();
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
+
 	const { discountProgramPost } = discountProgram;
 	const dispatch = useAppDispatch();
 

@@ -3,11 +3,11 @@ import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import UserForm from '../components/Form';
-import { creatingUser } from '@/redux/reducers/userReducer';
+import { creatingUser, getUserState } from '@/redux/reducers/userReducer';
 import { useRouter } from 'next-nprogress-bar';
 
 const AdminCreateUserComponent = () => {
-	const { user } = useAppSelector((state) => state);
+	const user = useAppSelector(getUserState);
 
 	const dispatch = useAppDispatch();
 	const router = useRouter();
