@@ -1,4 +1,4 @@
-import { faBox, faBoxesStacked, faDolly, faHatCowboy, faPercent, faRobot, faServer, faTicket, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faBoxesStacked, faDolly, faHatCowboy, faPercent, faServer, faStar, faTicket, faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -30,6 +30,7 @@ export const routes: MenuItem[] = [
 	getItem('Order', '/order', <FontAwesomeIcon icon={faDolly} />),
 	getItem('Voucher', '/voucher', <FontAwesomeIcon icon={faTicket} />),
 	getItem('Discount Program', '/discount-program', <FontAwesomeIcon icon={faPercent} />),
+	getItem('Review', '/review', <FontAwesomeIcon icon={faStar} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
 	// getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [getItem('Intents', '/chatbot/intents'), getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')]),
 ];

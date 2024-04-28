@@ -13,6 +13,7 @@ import discountProgramReducer from './discountProgramReducer';
 import modalReducer from './modalReducer';
 import notificationReducer from './notificationReducer';
 import chatbotReducer from './chatbotReducer';
+import reviewReducer from './reviewReducer';
 
 const rootReducer = combineReducers({
 	sideBar: sideBarReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
 	modal: modalReducer,
 	statistic: statisticReducer,
 	notification: notificationReducer,
+	review: reviewReducer,
 	chatbot: chatbotReducer,
 });
 

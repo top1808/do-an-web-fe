@@ -6,7 +6,7 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { Voucher } from '@/models/voucherModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingVoucher } from '@/redux/reducers/voucherReducer';
+import { deletingVoucher, getVoucherState } from '@/redux/reducers/voucherReducer';
 import { customMoney, customNumber, formatDate } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,7 @@ import React from 'react';
 type DataIndex = keyof Voucher;
 
 const VoucherTable = () => {
-	const { voucher } = useAppSelector((state) => state);
+	const voucher = useAppSelector(getVoucherState);
 
 	const dispatch = useAppDispatch();
 

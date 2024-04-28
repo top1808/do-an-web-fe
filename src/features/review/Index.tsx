@@ -3,28 +3,28 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import MSkeleton from '@/components/MSkeleton';
-import { VoucherParams } from '@/models/voucherModel';
-import { getVoucherState, gettingVouchers } from '@/redux/reducers/voucherReducer';
-import VoucherTable from './components/Table';
+import { getReviewState, gettingReviews } from '@/redux/reducers/reviewReducer';
+import { ReviewParams } from '@/models/reviewModel';
+import ReviewTable from './components/Table';
 
-const AdminVoucherComponent = () => {
-	const voucher = useAppSelector(getVoucherState);
+const AdminReviewComponent = () => {
+	const review = useAppSelector(getReviewState);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 
 	useEffect(() => {
-		const params: VoucherParams = {
+		const params: ReviewParams = {
 			offset: myParams?.offset as string,
 			limit: myParams?.limit as string,
 		};
-		dispatch(gettingVouchers(params));
+		dispatch(gettingReviews(params));
 	}, [dispatch, myParams?.limit, myParams?.offset]);
 
 	return (
-		<MSkeleton loading={voucher.loading}>
-			<VoucherTable />
+		<MSkeleton loading={review.loading}>
+			<ReviewTable />
 		</MSkeleton>
 	);
 };
 
-export default AdminVoucherComponent;
+export default AdminReviewComponent;
