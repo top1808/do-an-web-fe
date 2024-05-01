@@ -14,6 +14,7 @@ import modalReducer from './modalReducer';
 import notificationReducer from './notificationReducer';
 import chatbotReducer from './chatbotReducer';
 import reviewReducer from './reviewReducer';
+import inventoryReducer from './inventoryReducer';
 
 const rootReducer = combineReducers({
 	sideBar: sideBarReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
 	statistic: statisticReducer,
 	notification: notificationReducer,
 	review: reviewReducer,
+	inventory: inventoryReducer,
 	chatbot: chatbotReducer,
 });
 

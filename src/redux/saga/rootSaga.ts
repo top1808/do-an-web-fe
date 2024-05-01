@@ -12,6 +12,7 @@ import { DiscountProgramSaga } from './discountProgramSaga';
 import { NotificationSaga } from './notificationSaga';
 import { chatbotSaga } from './chatbotSaga';
 import { reviewSaga } from './reviewSaga';
+import { inventorySaga } from './inventorySaga';
 
 export function* rootSaga() {
 	yield all([
@@ -28,5 +29,6 @@ export function* rootSaga() {
 		NotificationSaga(),
 		chatbotSaga(),
 		reviewSaga(),
+		inventorySaga(),
 	]);
 }

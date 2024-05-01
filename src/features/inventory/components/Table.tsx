@@ -3,11 +3,13 @@ import MButton from '@/components/MButton';
 import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
+import { Inventory } from '@/models/inventoryModel';
 import { Review } from '@/models/reviewModel';
-import { useAppSelector } from '@/redux/hooks';
-import { getReviewState } from '@/redux/reducers/reviewReducer';
-import { formatDate } from '@/utils/FuntionHelpers';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { getInventoryState } from '@/redux/reducers/inventoryReducer';
+import { toggleModalHistoryImportInventory, toggleModalImportInventory } from '@/redux/reducers/modalReducer';
+import { customNumber, formatDate } from '@/utils/FuntionHelpers';
+import { faArrowUpFromBracket, faEye, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Rate } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -17,7 +19,8 @@ import React from 'react';
 type DataIndex = keyof Review;
 
 const InventoryTable = () => {
-	const review = useAppSelector(getReviewState);
+	const inventory = useAppSelector(getInventoryState);
+	const dispatch = useAppDispatch();
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
@@ -95,12 +98,6 @@ const InventoryTable = () => {
 			width: 50,
 		},
 		{
-			title: 'Customer Name',
-			key: 'operation',
-			width: 120,
-			render: (item: Review) => item?.customer?.name,
-		},
-		{
 			title: 'Product Name',
 			key: 'operation',
 			width: 200,
@@ -110,46 +107,69 @@ const InventoryTable = () => {
 			title: 'Option 1',
 			key: 'operation',
 			width: 80,
-			render: (item: Review) => (item?.productSKU?.options[0] ? `${item?.productSKU?.options[0]?.groupName}: ${item?.productSKU?.options[0]?.option}` : ''),
+			render: (item: Review) => (item?.productSKU?.options?.[0] ? `${item?.productSKU?.options?.[0]?.groupName}: ${item?.productSKU?.options?.[0]?.option}` : ''),
 		},
 		{
 			title: 'Option 2',
 			key: 'operation',
 			width: 100,
-			render: (item: Review) => (item?.productSKU?.options[1] ? `${item?.productSKU?.options[1]?.groupName}: ${item?.productSKU?.options[1]?.option}` : ''),
+			render: (item: Review) => (item?.productSKU?.options?.[1] ? `${item?.productSKU?.options?.[1]?.groupName}: ${item?.productSKU?.options?.[1]?.option}` : ''),
 		},
 		{
-			title: 'Content',
-			dataIndex: 'content',
-			key: 'content',
+			title: 'Original Quantity',
+			dataIndex: 'originalQuantity',
+			key: 'originalQuantity',
 			width: 140,
+			render: customNumber,
 		},
 		{
-			title: 'Rate',
-			dataIndex: 'rate',
-			key: 'rate',
+			title: 'Sold Quantity',
+			dataIndex: 'soldQuantity',
+			key: 'soldQuantity',
 			width: 140,
-			render: (item: number) => (
-				<Rate
-					value={item}
-					disabled
-					style={{ fontSize: '1rem' }}
-				/>
-			),
+			render: customNumber,
 		},
 		{
-			title: 'Date Time',
-			dataIndex: 'createdAt',
-			key: 'createdAt',
-			width: 120,
-			render: (item: string) => formatDate(item, 'DD/MM/YYYY HH:mm'),
+			title: 'Current Quantity',
+			dataIndex: 'currentQuantity',
+			key: 'currentQuantity',
+			width: 140,
+			render: customNumber,
+		},
+		{
+			title: 'Action',
+			key: 'operation',
+			fixed: 'right',
+			align: 'center',
+			width: 100,
+			render: (item: Inventory) => {
+				return (
+					<MSpace split={''}>
+						<MButton
+							type='primary'
+							tooltip='Import'
+							onClick={() => dispatch(toggleModalImportInventory(item))}
+						>
+							<FontAwesomeIcon icon={faArrowUpFromBracket} />
+						</MButton>
+						<MButton
+							type='primary'
+							className='text-white bg-purple-600 hover:bg-purple-300'
+							tooltip='View History Import'
+							onClick={() => dispatch(toggleModalHistoryImportInventory(item))}
+						>
+							<FontAwesomeIcon icon={faEye} />
+						</MButton>
+					</MSpace>
+				);
+			},
 		},
 	] as ColumnsType<Review>;
 
 	return (
 		<MTable
 			columns={columns}
-			dataSource={review?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
+			dataSource={inventory?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
 			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
 			scroll={{ x: 1700, y: '55vh' }}
 			className='w-full'

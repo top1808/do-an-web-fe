@@ -20,7 +20,9 @@ const AdminOrderComponent = () => {
 			offset: offset as string,
 			limit: limit as string,
 		};
-		dispatch(gettingOrders(params));
+		if (!order.isChangingStatus) {
+			dispatch(gettingOrders(params));
+		}
 	}, [dispatch, limit, offset, order.isChangingStatus]);
 
 	return (

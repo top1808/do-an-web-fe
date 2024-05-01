@@ -7,10 +7,11 @@ import MPopconfirm from './MPopconfirm';
 
 interface MButtonDeleteProps extends PopconfirmProps {
 	onClick?: React.MouseEventHandler<HTMLElement>;
+	loading?: boolean;
 }
 
 const MButtonDelete: React.FC<MButtonDeleteProps> = (props) => {
-	const { onConfirm, ...rest } = props;
+	const { onConfirm, loading, ...rest } = props;
 	return (
 		<MPopconfirm
 			description='Are you sure to delete?'
@@ -24,6 +25,7 @@ const MButtonDelete: React.FC<MButtonDeleteProps> = (props) => {
 				tooltip='Delete'
 				type='primary'
 				style={{ backgroundColor: 'red' }}
+				loading={loading}
 			>
 				<FontAwesomeIcon icon={faTrash} />
 			</MButton>

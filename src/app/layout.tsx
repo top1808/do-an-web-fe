@@ -25,6 +25,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					href='/app/layout.css'
 					as='style'
 				/>
+				<link
+					rel='preload'
+					href='/app/(route)/layout.css'
+					as='style'
+				/>
 			</Head>
 			<body className={inter.className}>
 				<StyledComponentsRegistry>

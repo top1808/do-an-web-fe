@@ -3,12 +3,16 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import MSkeleton from '@/components/MSkeleton';
-import { getReviewState, gettingReviews } from '@/redux/reducers/reviewReducer';
 import { ReviewParams } from '@/models/reviewModel';
-import ReviewTable from './components/Table';
+import InventoryTable from './components/Table';
+import { getInventoryState, gettingInventories } from '@/redux/reducers/inventoryReducer';
+import ModalImport from './components/ModalImport';
+import ModalHistoryImport from './components/ModalHistoryImport';
+import { getModalState } from '@/redux/reducers/modalReducer';
 
 const AdminInventoryComponent = () => {
-	const review = useAppSelector(getReviewState);
+	const inventory = useAppSelector(getInventoryState);
+	const modal = useAppSelector(getModalState);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 
@@ -17,12 +21,16 @@ const AdminInventoryComponent = () => {
 			offset: myParams?.offset as string,
 			limit: myParams?.limit as string,
 		};
-		dispatch(gettingReviews(params));
-	}, [dispatch, myParams?.limit, myParams?.offset]);
+		if (!modal.isOpenModalHistoryImport && !inventory.isImporting) {
+			dispatch(gettingInventories(params));
+		}
+	}, [dispatch, myParams?.limit, myParams?.offset, inventory.isImporting, modal.isOpenModalHistoryImport]);
 
 	return (
-		<MSkeleton loading={review.loading}>
-			<ReviewTable />
+		<MSkeleton loading={inventory.loading}>
+			<ModalImport />
+			<ModalHistoryImport />
+			<InventoryTable />
 		</MSkeleton>
 	);
 };
