@@ -2,14 +2,14 @@
 import MSkeleton from '@/components/MSkeleton';
 import MText from '@/components/MText';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingMoreNotifications, gettingNotifications, readingNotifications } from '@/redux/reducers/notificationReducer';
-import { Badge, Button, Col, Image, Row } from 'antd';
+import { getNotificationState, gettingMoreNotifications, gettingNotifications, readingNotifications } from '@/redux/reducers/notificationReducer';
+import { Badge, Button, Col, Row } from 'antd';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const NotificationPageComponent = () => {
 	const dispatch = useAppDispatch();
-	const { notification } = useAppSelector((state) => state);
+	const notification = useAppSelector(getNotificationState);
 
 	const onViewMore = () => {
 		dispatch(gettingMoreNotifications({ offset: ((notification.pagination?.limit || 0) + (notification.pagination?.offset || 0)).toString(), limit: '10' }));

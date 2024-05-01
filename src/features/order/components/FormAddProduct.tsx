@@ -5,8 +5,8 @@ import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import { OrderProduct } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { addOrderProduct, editOrderProductEdit, setOrderProductEdit, toggleAddOrderProductPage, toggleAddShipmentDetailPage } from '@/redux/reducers/orderReducer';
-import { gettingAllProduct } from '@/redux/reducers/productReducer';
+import { addOrderProduct, editOrderProductEdit, getOrderState, setOrderProductEdit, toggleAddOrderProductPage, toggleAddShipmentDetailPage } from '@/redux/reducers/orderReducer';
+import { getProductState, gettingAllProduct } from '@/redux/reducers/productReducer';
 import { handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, InputNumber } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -18,7 +18,8 @@ import { Product } from '@/models/productModels';
 interface FormAddProductProps {}
 
 const FormAddProduct: React.FC<FormAddProductProps> = (props) => {
-	const { product, order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
+	const product = useAppSelector(getProductState);
 
 	const { orderProductEdit } = order;
 

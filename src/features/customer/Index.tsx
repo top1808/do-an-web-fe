@@ -3,12 +3,12 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import CustomerTable from './components/Table';
 import { useParams } from 'next/navigation';
-import { gettingCustomers } from '@/redux/reducers/customerReducer';
+import { getCustomerState, gettingCustomers } from '@/redux/reducers/customerReducer';
 import MSkeleton from '@/components/MSkeleton';
 import { CustomerParams } from '@/models/customerModel';
 
 const AdminCustomerComponent = () => {
-	const { customer } = useAppSelector((state) => state);
+	const customer = useAppSelector(getCustomerState);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 

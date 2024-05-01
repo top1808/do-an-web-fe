@@ -9,8 +9,8 @@ import MText from '@/components/MText';
 import { PAYMENT_METHOD } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { applyVoucher, creatingOrder, edittingOrder, setPaidAmount, toggleAddOrderProductPage, clearVoucher } from '@/redux/reducers/orderReducer';
-import { gettingVouchers } from '@/redux/reducers/voucherReducer';
+import { applyVoucher, creatingOrder, edittingOrder, setPaidAmount, toggleAddOrderProductPage, clearVoucher, getOrderState } from '@/redux/reducers/orderReducer';
+import { getVoucherState, gettingVouchers } from '@/redux/reducers/voucherReducer';
 import { customMoney, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { Form, InputNumber } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
@@ -20,7 +20,9 @@ import React, { useEffect } from 'react';
 interface FormShipmentDetailProps {}
 
 const FormShipmentDetail: React.FC<FormShipmentDetailProps> = (props) => {
-	const { order, voucher } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
+	const voucher = useAppSelector(getVoucherState);
+
 	const { orderPost, orderEdit } = order;
 
 	const router = useRouter();

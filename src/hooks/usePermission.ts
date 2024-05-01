@@ -1,10 +1,10 @@
 import { routes } from '@/layout/SideBar';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { checkingPermission } from '@/redux/reducers/roleReducer';
+import { checkingPermission, getRoleState } from '@/redux/reducers/roleReducer';
 import { useEffect } from 'react';
 
 const usePermission = () => {
-	const { role } = useAppSelector((state) => state);
+	const role = useAppSelector(getRoleState);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {

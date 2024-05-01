@@ -2,13 +2,13 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import UserTable from './components/Table';
-import { gettingUsers } from '@/redux/reducers/userReducer';
+import { getUserState, gettingUsers } from '@/redux/reducers/userReducer';
 import { useParams } from 'next/navigation';
 import { UserParams } from '@/models/userModel';
 import MSkeleton from '@/components/MSkeleton';
 
 const AdminUserComponent = () => {
-	const { user } = useAppSelector((state) => state);
+	const user = useAppSelector(getUserState);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 

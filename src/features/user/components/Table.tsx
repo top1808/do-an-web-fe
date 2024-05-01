@@ -6,9 +6,9 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingUser } from '@/redux/reducers/userReducer';
+import { deletingUser, getUserState } from '@/redux/reducers/userReducer';
 import { formatDateTimeToRender } from '@/utils/FuntionHelpers';
-import { faEdit, faMagnifyingGlass, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
 import { FilterConfirmProps } from 'antd/es/table/interface';
@@ -17,7 +17,7 @@ import React from 'react';
 type DataIndex = keyof User;
 
 const UserTable = () => {
-	const { user } = useAppSelector((state) => state);
+	const user = useAppSelector(getUserState);
 
 	const dispatch = useAppDispatch();
 

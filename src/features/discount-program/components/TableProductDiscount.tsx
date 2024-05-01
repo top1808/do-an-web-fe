@@ -4,7 +4,7 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { DiscountProgramProduct } from '@/models/discountProgramModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deleteDiscountProgramProduct, setDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
+import { deleteDiscountProgramProduct, getDiscountProgramState, setDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
 import { customMoney, customNumber } from '@/utils/FuntionHelpers';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import React from 'react';
 interface TableProductDiscountProps {}
 
 const TableProductDiscount: React.FC<TableProductDiscountProps> = (props) => {
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
 	const dispatch = useAppDispatch();
 	const { discountProgramPost } = discountProgram;
 	const pathname = usePathname();

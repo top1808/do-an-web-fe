@@ -6,7 +6,7 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { login, loginFailed } from '@/redux/reducers/authReducer';
+import { getAuthState, login, loginFailed } from '@/redux/reducers/authReducer';
 
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
@@ -20,7 +20,7 @@ const AdminLogin = () => {
 
 	const dispatch = useAppDispatch();
 
-	const { auth } = useAppSelector((state) => state);
+	const auth = useAppSelector(getAuthState);
 
 	const handleClickLogin = (data: FormLogin) => {
 		dispatch(login(data));

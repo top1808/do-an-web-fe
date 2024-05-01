@@ -4,7 +4,7 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { OrderProduct } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deleteOrderProduct, setOrderProductEdit } from '@/redux/reducers/orderReducer';
+import { deleteOrderProduct, getOrderState, setOrderProductEdit } from '@/redux/reducers/orderReducer';
 import { customMoney, customNumber, parseOptionToJson } from '@/utils/FuntionHelpers';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import React from 'react';
 interface TableOrderProductProps {}
 
 const TableOrderProduct: React.FC<TableOrderProductProps> = (props) => {
-	const { order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
 

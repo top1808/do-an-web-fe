@@ -11,11 +11,12 @@ import MSkeleton from '@/components/MSkeleton';
 import { usePathname } from 'next/navigation';
 import TableOrderProduct from './TableOrderProduct';
 import MText from '@/components/MText';
+import { getOrderState } from '@/redux/reducers/orderReducer';
 
 interface OrderFormViewProps {}
 
 const OrderFormView: React.FC<OrderFormViewProps> = () => {
-	const { order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
 	const { orderPost } = order;
 
 	const pathname = usePathname();

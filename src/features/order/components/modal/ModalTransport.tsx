@@ -3,15 +3,17 @@ import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { toggleModalTransport } from '@/redux/reducers/modalReducer';
-import { changingStatusOrder } from '@/redux/reducers/orderReducer';
+import { getModalState, toggleModalTransport } from '@/redux/reducers/modalReducer';
+import { changingStatusOrder, getOrderState } from '@/redux/reducers/orderReducer';
 import { formatDate, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, InputNumber, Modal } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef } from 'react';
 
 const ModalTransport = () => {
-	const { modal, order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
+	const modal = useAppSelector(getModalState);
+
 	const dispatch = useAppDispatch();
 
 	const { itemOrder } = modal;

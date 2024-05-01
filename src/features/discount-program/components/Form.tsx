@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 import FormAddProductDiscount from './FormAddProductDiscount';
 import dayjs from 'dayjs';
+import { getDiscountProgramState } from '@/redux/reducers/discountProgramReducer';
 
 type DiscountProgramFormProps = {
 	onSubmit?: (data: DiscountProgram) => void;
@@ -29,7 +30,8 @@ const INITIAL_VALUE: DiscountProgram = {
 };
 
 const DiscountProgramForm: React.FC<DiscountProgramFormProps> = (props) => {
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
+
 	const { discountProgramEdit } = discountProgram;
 
 	const router = useRouter();

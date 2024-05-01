@@ -33,7 +33,7 @@ const inititalValue: Product = {
 	description: '',
 	descriptionDraft: htmlToEditor(''),
 	status: 'active',
-	groupOptions: [],
+	groupOptions: [{ options: [''], groupName: '' }],
 };
 
 const FormCreateProduct: React.FC<ProductFormProps> = (props) => {

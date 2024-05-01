@@ -7,6 +7,7 @@ import MSkeleton from '@/components/MSkeleton';
 import { STATUS_VOUCHER, TYPE_VOUCHER } from '@/constants';
 import { Voucher } from '@/models/voucherModel';
 import { useAppSelector } from '@/redux/hooks';
+import { getVoucherState } from '@/redux/reducers/voucherReducer';
 import { changeDateStringToDayjs, generateVoucherCode, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input, InputNumber } from 'antd';
 import dayjs from 'dayjs';
@@ -33,7 +34,7 @@ const INITIAL_VALUE: Voucher = {
 };
 
 const VoucherForm: React.FC<VoucherFormProps> = (props) => {
-	const { voucher } = useAppSelector((state) => state);
+	const voucher = useAppSelector(getVoucherState);
 	const { voucherEdit } = voucher;
 	const router = useRouter();
 

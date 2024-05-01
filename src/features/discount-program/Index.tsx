@@ -3,12 +3,12 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import MSkeleton from '@/components/MSkeleton';
-import { gettingDiscountPrograms } from '@/redux/reducers/discountProgramReducer';
+import { getDiscountProgramState, gettingDiscountPrograms } from '@/redux/reducers/discountProgramReducer';
 import { DiscountProgramParams } from '@/models/discountProgramModel';
 import DiscountProgramTable from './components/Table';
 
 const AdminDiscountProgramComponent = () => {
-	const { discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
 	const dispatch = useAppDispatch();
 	const myParams = useSearchParams();
 	const limit = myParams.get('limit');

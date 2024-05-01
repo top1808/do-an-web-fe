@@ -1,14 +1,14 @@
 import MButton from '@/components/MButton';
 import MCol from '@/components/MCol';
-import MForm from '@/components/MForm';
 import MInput from '@/components/MInput';
 import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
 import MUploadImage from '@/components/MUploadImage';
-import { CATEGORY_TYPE, STATUS_PRODUCT } from '@/constants';
+import { STATUS_PRODUCT } from '@/constants';
 import { Category } from '@/models/categoryModels';
 import { useAppSelector } from '@/redux/hooks';
+import { getCategoryState } from '@/redux/reducers/categoryReducer';
 import { Form, Input } from 'antd';
 import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
@@ -26,7 +26,7 @@ const inititalValue: Category = {
 };
 
 const FormCreateCategory: React.FC<CategoryFormProps> = (props) => {
-	const { category } = useAppSelector((state) => state);
+	const category = useAppSelector(getCategoryState);
 	const { categoryEdit } = category;
 
 	const router = useRouter();

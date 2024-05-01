@@ -3,7 +3,7 @@ import MCol from '@/components/MCol';
 import MRow from '@/components/MRow';
 import { ChangePasswordModel } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { changingPasswordUser } from '@/redux/reducers/userReducer';
+import { changingPasswordUser, getUserState } from '@/redux/reducers/userReducer';
 import { Form, Input } from 'antd';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -11,7 +11,7 @@ import React from 'react';
 interface FormChangePasswordProps {}
 
 const FormChangePassword = (props: FormChangePasswordProps) => {
-	const { user } = useAppSelector((state) => state);
+	const user = useAppSelector(getUserState);
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 

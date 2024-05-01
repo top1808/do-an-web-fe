@@ -4,11 +4,11 @@ import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import MSkeleton from '@/components/MSkeleton';
 import { VoucherParams } from '@/models/voucherModel';
-import { gettingVouchers } from '@/redux/reducers/voucherReducer';
+import { getVoucherState, gettingVouchers } from '@/redux/reducers/voucherReducer';
 import VoucherTable from './components/Table';
 
 const AdminVoucherComponent = () => {
-	const { voucher } = useAppSelector((state) => state);
+	const voucher = useAppSelector(getVoucherState);
 	const dispatch = useAppDispatch();
 	const myParams = useParams();
 

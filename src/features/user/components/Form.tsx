@@ -7,7 +7,8 @@ import MSkeleton from '@/components/MSkeleton';
 import MUploadImage from '@/components/MUploadImage';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingRole } from '@/redux/reducers/roleReducer';
+import { getRoleState, gettingRole } from '@/redux/reducers/roleReducer';
+import { getUserState } from '@/redux/reducers/userReducer';
 import { Form, Input } from 'antd';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -25,7 +26,9 @@ const INITIAL_VALUE: User = {
 };
 
 const UserForm: React.FC<UserFormProps> = (props) => {
-	const { role, user } = useAppSelector((state) => state);
+	const user = useAppSelector(getUserState);
+	const role = useAppSelector(getRoleState);
+
 	const { userEdit } = user;
 	const dispatch = useAppDispatch();
 	const { onSubmit } = props;

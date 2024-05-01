@@ -6,19 +6,21 @@ import MSelect from '@/components/MSelect';
 import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { gettingCustomers } from '@/redux/reducers/customerReducer';
+import { getCustomerState, gettingCustomers } from '@/redux/reducers/customerReducer';
 import { changeDateStringToDayjs } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, Input } from 'antd';
 import React, { useEffect } from 'react';
 import FormAddProduct from './FormAddProduct';
-import { addOrderCustomerInfo, toggleAddOrderProductPage } from '@/redux/reducers/orderReducer';
+import { addOrderCustomerInfo, getOrderState, toggleAddOrderProductPage } from '@/redux/reducers/orderReducer';
 import FormShipmentDetail from './FormShipmentDetail';
 import MSkeleton from '@/components/MSkeleton';
 
 interface OrderFormProps {}
 
 const OrderForm: React.FC<OrderFormProps> = (props) => {
-	const { customer, order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
+	const customer = useAppSelector(getCustomerState);
+
 	const { orderPost } = order;
 
 	const dispatch = useAppDispatch();

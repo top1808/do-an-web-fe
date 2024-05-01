@@ -6,7 +6,7 @@ import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { Customer } from '@/models/customerModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deletingCustomer } from '@/redux/reducers/customerReducer';
+import { deletingCustomer, getCustomerState } from '@/redux/reducers/customerReducer';
 import { formatDateToRender, formatPhonenumber } from '@/utils/FuntionHelpers';
 import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,7 @@ import React from 'react';
 type DataIndex = keyof Customer;
 
 const CustomerTable = () => {
-	const { customer } = useAppSelector((state) => state);
+	const customer = useAppSelector(getCustomerState);
 
 	const dispatch = useAppDispatch();
 

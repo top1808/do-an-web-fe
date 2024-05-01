@@ -9,16 +9,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import TableProductDiscount from './TableProductDiscount';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { DiscountProgramProduct } from '@/models/discountProgramModel';
-import { gettingAllProduct } from '@/redux/reducers/productReducer';
+import { getProductState, gettingAllProduct } from '@/redux/reducers/productReducer';
 import { TYPE_VOUCHER } from '@/constants';
-import { addDiscountProgramProduct, editDiscountProgramProductEdit, setDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
+import { addDiscountProgramProduct, editDiscountProgramProductEdit, getDiscountProgramState, setDiscountProgramProductEdit } from '@/redux/reducers/discountProgramReducer';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/productModels';
 
 interface FormAddProductDiscountProps {}
 
 const FormAddProductDiscount = (props: FormAddProductDiscountProps) => {
-	const { product, discountProgram } = useAppSelector((state) => state);
+	const discountProgram = useAppSelector(getDiscountProgramState);
+	const product = useAppSelector(getProductState);
 
 	const { discountProgramProductEdit } = discountProgram;
 

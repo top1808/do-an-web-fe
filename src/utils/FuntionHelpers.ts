@@ -50,17 +50,17 @@ export const compareAlphabet = <T>(array: T[], key: keyof T, direction: 'asc' | 
 };
 
 export const handleFormatterInputNumber = (value: number | undefined) => {
-	if (value !== undefined) {
+	if (value) {
 		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 	}
-	return '1';
+	return '0';
 };
 
 export const handleParserInputNumber = (value: string | undefined) => {
-	if (value !== undefined) {
+	if (value) {
 		return Number(value.replace(/\./g, ''));
 	}
-	return 1;
+	return 0;
 };
 
 export const checkInputMoney = (value: number) => {

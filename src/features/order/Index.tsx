@@ -4,12 +4,12 @@ import React, { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { UserParams } from '@/models/userModel';
 import OrderTable from './components/Table';
-import { gettingOrders } from '@/redux/reducers/orderReducer';
+import { getOrderState, gettingOrders } from '@/redux/reducers/orderReducer';
 import MSkeleton from '@/components/MSkeleton';
 import ModalTransport from './components/modal/ModalTransport';
 
 const AdminOrderComponent = () => {
-	const { order } = useAppSelector((state) => state);
+	const order = useAppSelector(getOrderState);
 	const dispatch = useAppDispatch();
 	const myParams = useSearchParams();
 	const limit = myParams.get('limit');
@@ -20,7 +20,9 @@ const AdminOrderComponent = () => {
 			offset: offset as string,
 			limit: limit as string,
 		};
-		dispatch(gettingOrders(params));
+		if (!order.isChangingStatus) {
+			dispatch(gettingOrders(params));
+		}
 	}, [dispatch, limit, offset, order.isChangingStatus]);
 
 	return (
