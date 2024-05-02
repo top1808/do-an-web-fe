@@ -5,6 +5,8 @@ export interface Voucher {
 	type?: string;
 	value?: number | null;
 	quantity?: number | null;
+	quantityUsed?: number | null;
+	quantityLeft?: number | null;
 	minOrderValue?: number | null;
 	maxDiscountValue?: number | null;
 	description?: string;

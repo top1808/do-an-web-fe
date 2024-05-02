@@ -107,12 +107,12 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
 				))}
-			{item?.status === 'canceled' && (
+			{/* {item?.status === 'canceled' && (
 				<MButtonDelete
 					title={`Delete order ${item?.orderCode}? `}
 					onConfirm={() => dispatch(deletingOrder(item?._id || ''))}
 				></MButtonDelete>
-			)}
+			)} */}
 		</MSpace>
 	);
 };
