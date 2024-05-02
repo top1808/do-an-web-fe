@@ -55,11 +55,11 @@ const ModalHistoryImport = () => {
 								</div>
 							</div>
 							<div>
-								<MButtonDelete
+								{/* <MButtonDelete
 									title={`Delete history import at ${formatDateTimeToRender(item.createdAt)}`}
 									onConfirm={() => dispatch(deletingHistoryImportInventory({ _id: item._id, inventoryId: inventory?.inventory?._id }))}
 									loading={inventory.isDeleting}
-								/>
+								/> */}
 							</div>
 						</div>
 					))
