@@ -41,6 +41,7 @@ const ModalTransport = () => {
 		} else {
 			form.setFieldsValue({
 				...itemOrder,
+				deliveryAddress: itemOrder?.deliveryAddress + ', ' + itemOrder?.customerWard?.label + ', ' + itemOrder?.customerDistrict?.label + ', ' + itemOrder?.customerProvince?.label,
 			});
 		}
 	}, [form, itemOrder, modal.isOpen]);
@@ -65,12 +66,12 @@ const ModalTransport = () => {
 						<Form.Item
 							name='deliveryAddress'
 							label='Delivery Address'
-							rules={[{ required: true }]}
 						>
 							<MInput
 								placeholder='Enter Delivery Address...'
 								size='large'
-								onChange={() => form.setFieldValue('deliveryFee', 30000)}
+								onKeyDown={(e) => e.preventDefault()}
+								maxLength={500}
 							/>
 						</Form.Item>
 					</MCol>

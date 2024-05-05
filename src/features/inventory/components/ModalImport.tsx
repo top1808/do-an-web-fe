@@ -29,7 +29,6 @@ const ModalImport = () => {
 			inventoryId: productImport?._id,
 		};
 		dispatch(importingInventory(body));
-		dispatch(toggleModalImportInventory(null));
 	};
 
 	useEffect(() => {
@@ -45,6 +44,12 @@ const ModalImport = () => {
 			});
 		}
 	}, [form, modal.isOpen, productImport]);
+
+	useEffect(() => {
+		if (inventory.status === 'completed') {
+			dispatch(toggleModalImportInventory(null));
+		}
+	}, [dispatch, inventory.isImporting, inventory.status]);
 
 	return (
 		<Modal
@@ -81,7 +86,7 @@ const ModalImport = () => {
 					<MCol span={24}>
 						<Form.Item
 							name='priceImport'
-							label='Price Import'
+							label='Price Import / Quantity'
 							rules={[{ required: true, type: 'number', min: 1000, message: 'Please enter price > 1000' }]}
 						>
 							<MInputNumber

@@ -16,7 +16,7 @@ const ModalHistoryImport = () => {
 	const { productImport } = modal;
 
 	useEffect(() => {
-		if (modal.isOpenModalHistoryImport) {
+		if (modal.isOpenModalHistoryImport && !inventory.isDeleting) {
 			dispatch(gettingInventory(productImport?._id as string));
 		}
 	}, [dispatch, modal.isOpenModalHistoryImport, productImport?._id, inventory.isDeleting]);
@@ -38,7 +38,7 @@ const ModalHistoryImport = () => {
 					{inventory?.inventory?.productSKU?.options?.[1] ? `, ${inventory?.inventory?.productSKU?.options?.[1]?.groupName}: ${inventory?.inventory?.productSKU?.options?.[1]?.option}` : ''}
 				</div>
 				{(inventory?.inventory?.historyImport?.length || 0) > 0 ? (
-					inventory?.inventory?.historyImport?.map((item) => (
+					inventory?.inventory?.historyImport?.map((item, index) => (
 						<div
 							key={item._id}
 							className='p-2 border border-solid border-gray-400 rounded mt-2 flex justify-between items-center'
@@ -55,11 +55,13 @@ const ModalHistoryImport = () => {
 								</div>
 							</div>
 							<div>
-								{/* <MButtonDelete
-									title={`Delete history import at ${formatDateTimeToRender(item.createdAt)}`}
-									onConfirm={() => dispatch(deletingHistoryImportInventory({ _id: item._id, inventoryId: inventory?.inventory?._id }))}
-									loading={inventory.isDeleting}
-								/> */}
+								{index === 0 && (
+									<MButtonDelete
+										title={`Delete history import at ${formatDateTimeToRender(item.createdAt)}`}
+										onConfirm={() => dispatch(deletingHistoryImportInventory({ _id: item._id, inventoryId: inventory?.inventory?._id }))}
+										loading={inventory.isDeleting}
+									/>
+								)}
 							</div>
 						</div>
 					))

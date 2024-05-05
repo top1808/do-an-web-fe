@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { RootState } from '../store';
 import { HistoryImport, Inventory, InventoryParams } from '@/models/inventoryModel';
+import { PaginationModel } from '@/models/reponseModel';
 
 interface InventoryState {
 	loading: boolean;
@@ -11,6 +12,7 @@ interface InventoryState {
 	status: 'pending' | 'completed' | 'failed';
 	data?: Inventory[];
 	inventory?: Inventory | null;
+	pagination?: PaginationModel;
 }
 
 const initialState: InventoryState = {
@@ -21,6 +23,7 @@ const initialState: InventoryState = {
 	status: 'pending',
 	data: [],
 	inventory: null,
+	pagination: {},
 };
 
 const inventorySlice = createSlice({
@@ -56,13 +59,16 @@ const inventorySlice = createSlice({
 
 		importingInventory: (state, action: PayloadAction<HistoryImport>) => {
 			state.isImporting = true;
+			state.status = 'pending';
 		},
 		importInventorySuccess: (state, action: PayloadAction<string>) => {
 			state.isImporting = false;
+			state.status = 'completed';
 			toast.success(action.payload);
 		},
 		importInventoryFailed: (state, action: PayloadAction<string>) => {
 			state.isImporting = false;
+			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
 
