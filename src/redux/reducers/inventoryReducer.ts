@@ -13,6 +13,7 @@ interface InventoryState {
 	data?: Inventory[];
 	inventory?: Inventory | null;
 	pagination?: PaginationModel;
+	filterByCurrentQuantity?: string;
 }
 
 const initialState: InventoryState = {
@@ -24,6 +25,7 @@ const initialState: InventoryState = {
 	data: [],
 	inventory: null,
 	pagination: {},
+	filterByCurrentQuantity: 'all',
 };
 
 const inventorySlice = createSlice({
@@ -34,9 +36,10 @@ const inventorySlice = createSlice({
 			state.loading = true;
 			state.status = 'pending';
 		},
-		getInventoriesSuccess: (state, action: PayloadAction<Inventory[]>) => {
+		getInventoriesSuccess: (state, action: PayloadAction<{ inventories: Inventory[]; params: InventoryParams }>) => {
 			state.loading = false;
-			state.data = action.payload;
+			state.data = action.payload.inventories;
+			state.filterByCurrentQuantity = action.payload.params?.currentQuantity || 'all';
 		},
 		getInventoriesFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;

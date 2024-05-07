@@ -3,12 +3,13 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import MSkeleton from '@/components/MSkeleton';
-import { ReviewParams } from '@/models/reviewModel';
 import InventoryTable from './components/Table';
 import { getInventoryState, gettingInventories } from '@/redux/reducers/inventoryReducer';
 import ModalImport from './components/ModalImport';
 import ModalHistoryImport from './components/ModalHistoryImport';
 import { getModalState } from '@/redux/reducers/modalReducer';
+import InventoryFilterComponent from './components/InventoryFilterComponent';
+import { InventoryParams } from '@/models/inventoryModel';
 
 const AdminInventoryComponent = () => {
 	const inventory = useAppSelector(getInventoryState);
@@ -17,7 +18,7 @@ const AdminInventoryComponent = () => {
 	const myParams = useParams();
 
 	useEffect(() => {
-		const params: ReviewParams = {
+		const params: InventoryParams = {
 			offset: myParams?.offset as string,
 			limit: myParams?.limit as string,
 		};
@@ -30,6 +31,7 @@ const AdminInventoryComponent = () => {
 		<MSkeleton loading={inventory.loading}>
 			<ModalImport />
 			<ModalHistoryImport />
+			<InventoryFilterComponent />
 			<InventoryTable />
 		</MSkeleton>
 	);
