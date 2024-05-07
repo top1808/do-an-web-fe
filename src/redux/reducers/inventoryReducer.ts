@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { RootState } from '../store';
 import { HistoryImport, Inventory, InventoryParams } from '@/models/inventoryModel';
+import { PaginationModel } from '@/models/reponseModel';
 
 interface InventoryState {
 	loading: boolean;
@@ -11,6 +12,8 @@ interface InventoryState {
 	status: 'pending' | 'completed' | 'failed';
 	data?: Inventory[];
 	inventory?: Inventory | null;
+	pagination?: PaginationModel;
+	filterByCurrentQuantity?: string;
 }
 
 const initialState: InventoryState = {
@@ -21,6 +24,8 @@ const initialState: InventoryState = {
 	status: 'pending',
 	data: [],
 	inventory: null,
+	pagination: {},
+	filterByCurrentQuantity: 'all',
 };
 
 const inventorySlice = createSlice({
@@ -31,9 +36,10 @@ const inventorySlice = createSlice({
 			state.loading = true;
 			state.status = 'pending';
 		},
-		getInventoriesSuccess: (state, action: PayloadAction<Inventory[]>) => {
+		getInventoriesSuccess: (state, action: PayloadAction<{ inventories: Inventory[]; params: InventoryParams }>) => {
 			state.loading = false;
-			state.data = action.payload;
+			state.data = action.payload.inventories;
+			state.filterByCurrentQuantity = action.payload.params?.currentQuantity || 'all';
 		},
 		getInventoriesFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
@@ -56,13 +62,16 @@ const inventorySlice = createSlice({
 
 		importingInventory: (state, action: PayloadAction<HistoryImport>) => {
 			state.isImporting = true;
+			state.status = 'pending';
 		},
 		importInventorySuccess: (state, action: PayloadAction<string>) => {
 			state.isImporting = false;
+			state.status = 'completed';
 			toast.success(action.payload);
 		},
 		importInventoryFailed: (state, action: PayloadAction<string>) => {
 			state.isImporting = false;
+			state.status = 'failed';
 			action.payload && toast.error(action.payload);
 		},
 

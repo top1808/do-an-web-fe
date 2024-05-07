@@ -156,7 +156,7 @@ const VoucherTable = () => {
 			render: customNumber,
 		},
 		{
-			title: 'QuantityUsed',
+			title: 'Quantity Used',
 			dataIndex: 'quantityUsed',
 			key: 'quantityUsed',
 			width: 100,
@@ -165,7 +165,7 @@ const VoucherTable = () => {
 			render: customNumber,
 		},
 		{
-			title: 'QuantityLeft',
+			title: 'Quantity Left',
 			dataIndex: 'quantityLeft',
 			key: 'quantityLeft',
 			width: 100,

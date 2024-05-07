@@ -25,4 +25,5 @@ export interface HistoryImport {
 export interface InventoryParams {
 	offset?: string;
 	limit?: string;
+	currentQuantity?: string;
 }

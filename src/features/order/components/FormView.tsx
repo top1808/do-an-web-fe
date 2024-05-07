@@ -168,14 +168,7 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							/>
 						</Form.Item>
 					</MCol>
-					<MCol span={6}>
-						<Form.Item
-							name='deliveryAddress'
-							label='Delivery Address'
-						>
-							<MInput size='large' />
-						</Form.Item>
-					</MCol>
+
 					<MCol span={6}>
 						<Form.Item
 							name='deliveryFee'
@@ -233,6 +226,14 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							</MCol>
 						</>
 					)}
+					<MCol span={24}>
+						<Form.Item
+							name='deliveryAddress'
+							label='Delivery Address'
+						>
+							<MInput size='large' />
+						</Form.Item>
+					</MCol>
 					{orderPost?.status === 'canceled' && (
 						<MCol span={24}>
 							<Form.Item
@@ -281,17 +282,6 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							</MText>
 						</MCol>
 					)}
-					{!!orderPost?.totalPaid && (
-						<MCol
-							offset={18}
-							span={6}
-							className='text-end'
-						>
-							<MText className='font-bold text-base'>
-								Paid Amount: <MText className='text-red-500'>{customMoney(orderPost?.totalPaid as number)}</MText>
-							</MText>
-						</MCol>
-					)}
 					<MCol
 						offset={18}
 						span={6}
@@ -301,6 +291,28 @@ const OrderFormView: React.FC<OrderFormViewProps> = () => {
 							Total: <MText className='text-red-500'>{customMoney(orderPost?.totalPrice as number)}</MText>
 						</MText>
 					</MCol>
+					{!!orderPost?.totalPaid && (
+						<>
+							<MCol
+								offset={18}
+								span={6}
+								className='text-end'
+							>
+								<MText className='font-bold text-base'>
+									Paid Amount: <MText className='text-red-500'>{customMoney(orderPost?.totalPaid as number)}</MText>
+								</MText>
+							</MCol>
+							<MCol
+								offset={18}
+								span={6}
+								className='text-end'
+							>
+								<MText className='font-bold text-base'>
+									Remaining Amount: <MText className='text-red-500'>{customMoney((orderPost?.totalPrice || 0) - (orderPost?.totalPaid || 0))}</MText>
+								</MText>
+							</MCol>
+						</>
+					)}
 				</MRow>
 			</Form>
 			<MRow

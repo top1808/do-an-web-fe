@@ -86,6 +86,21 @@ const ORDER_STATUS = [
 	},
 ];
 
+const FILTER_INVENTORY = [
+	{
+		label: 'All',
+		value: 'all',
+	},
+	{
+		label: 'Out Of Stock',
+		value: 'out_of_stock',
+	},
+	{
+		label: 'Low on Stock',
+		value: 'low_on_stock',
+	},
+];
+
 const firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
 	authDomain: 'do-an-web-7e477.firebaseapp.com',
@@ -97,4 +112,4 @@ const firebaseConfig = {
 	measurementId: 'G-D2RCS7H75K',
 };
 
-export { CATEGORY_TYPE, STATUS_PRODUCT, STATUS_VOUCHER, PAYMENT_METHOD, TYPE_VOUCHER, ORDER_STATUS, firebaseConfig };
+export { CATEGORY_TYPE, STATUS_PRODUCT, STATUS_VOUCHER, PAYMENT_METHOD, TYPE_VOUCHER, ORDER_STATUS, FILTER_INVENTORY, firebaseConfig };

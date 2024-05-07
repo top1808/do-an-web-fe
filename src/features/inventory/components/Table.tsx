@@ -98,6 +98,12 @@ const InventoryTable = () => {
 			width: 50,
 		},
 		{
+			title: 'Product SKU Barcode',
+			key: 'operation',
+			width: 200,
+			render: (item: Review) => item?.productSKU?.barcode,
+		},
+		{
 			title: 'Product Name',
 			key: 'operation',
 			width: 200,
