@@ -33,13 +33,13 @@ const OrderPage = () => {
 						gutter={4}
 						justify='end'
 					>
-						<MButton
+						{/* <MButton
 							type='primary'
 							icon={<FontAwesomeIcon icon={faPlus} />}
 							link='order/create'
 						>
 							Add New
-						</MButton>
+						</MButton> */}
 					</MRow>
 				}
 			>

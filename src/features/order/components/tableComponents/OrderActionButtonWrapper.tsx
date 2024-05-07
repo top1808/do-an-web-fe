@@ -3,9 +3,9 @@ import MButtonDelete from '@/components/MButtonDelete';
 import MPopconfirm from '@/components/MPopconfirm';
 import MSpace from '@/components/MSpace';
 import { Order } from '@/models/orderModel';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { toggleModalTransport } from '@/redux/reducers/modalReducer';
-import { changingStatusOrder, deletingOrder } from '@/redux/reducers/orderReducer';
+import { changingStatusOrder, deletingOrder, getOrderState } from '@/redux/reducers/orderReducer';
 import { faBan, faCheck, faCheckToSlot, faEdit, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -18,6 +18,7 @@ interface OrderActionButtonWrapperProps {
 const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 	const { item } = props;
 	const dispatch = useAppDispatch();
+	const order = useAppSelector(getOrderState);
 
 	const onCancelOrder = () => {
 		Swal.fire({
@@ -42,6 +43,7 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 				tooltip='View order'
 				link={`order/view/${item?._id}`}
 				className='text-white bg-purple-600 hover:bg-purple-300'
+				loading={order.isChangingStatus}
 			>
 				<FontAwesomeIcon icon={faEye} />
 			</MButton>
@@ -57,6 +59,7 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 					<MButton
 						tooltip='Confirm delivered order'
 						className='text-white bg-orange-500 hover:bg-orange-300'
+						loading={order.isChangingStatus}
 					>
 						<FontAwesomeIcon icon={faCheckToSlot} />
 					</MButton>
@@ -67,6 +70,7 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 					tooltip='Transport order'
 					className='text-white bg-yellow-500 hover:bg-yellow-300'
 					onClick={() => dispatch(toggleModalTransport(item))}
+					loading={order.isChangingStatus}
 				>
 					<FontAwesomeIcon icon={faTruck} />
 				</MButton>
@@ -83,6 +87,7 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 					<MButton
 						tooltip='Confirm order'
 						className='text-white bg-green-600 hover:bg-green-300'
+						loading={order.isChangingStatus}
 					>
 						<FontAwesomeIcon icon={faCheck} />
 					</MButton>
@@ -93,20 +98,22 @@ const OrderActionButtonWrapper = (props: OrderActionButtonWrapperProps) => {
 					tooltip='Cancel order'
 					className='text-white bg-red-600 hover:bg-red-400'
 					onClick={onCancelOrder}
+					loading={order.isChangingStatus}
 				>
 					<FontAwesomeIcon icon={faBan} />
 				</MButton>
 			)}
-			{item?.status === 'processing' ||
+			{/* {item?.status === 'processing' ||
 				(item?.status === 'confirmed' && (
 					<MButton
 						tooltip='Edit order'
 						type='primary'
 						link={`order/edit/${item?._id}`}
+						loading={order.isChangingStatus}
 					>
 						<FontAwesomeIcon icon={faEdit} />
 					</MButton>
-				))}
+				))} */}
 			{/* {item?.status === 'canceled' && (
 				<MButtonDelete
 					title={`Delete order ${item?.orderCode}? `}

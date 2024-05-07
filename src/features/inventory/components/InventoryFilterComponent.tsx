@@ -30,6 +30,7 @@ const InventoryFilterComponent = (props: Props) => {
 					onChange={handleChange}
 					value={inventory.filterByCurrentQuantity}
 					options={FILTER_INVENTORY}
+					size='large'
 				/>
 			</MCol>
 		</MRow>
