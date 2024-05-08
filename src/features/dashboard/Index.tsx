@@ -8,6 +8,7 @@ import { faBox, faBoxesStacked, faDolly, faUser } from '@fortawesome/free-solid-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import SaleChart from './components/SaleChart';
 
 interface DashboardComponentProps {}
 
@@ -55,7 +56,7 @@ const DashboardComponent = (props: DashboardComponentProps) => {
 						key={item.title}
 					>
 						<Link href={item.link}>
-							<div className='shadow-md'>
+							<div className='shadow-md bg-white'>
 								<div className='flex items-center w-full'>
 									<div className='font-bold text-5xl bg-blue-400 text-white p-6 px-8'>{item.icon}</div>
 									<div className='text-center p-2 w-full'>
@@ -67,6 +68,9 @@ const DashboardComponent = (props: DashboardComponentProps) => {
 						</Link>
 					</MCol>
 				))}
+				<MCol span={24}>
+					<SaleChart />
+				</MCol>
 			</MRow>
 		</div>
 	);

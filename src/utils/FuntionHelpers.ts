@@ -76,7 +76,7 @@ export const objectToQueryString = <T>(object: T): string => {
 	return '?' + new URLSearchParams(object as any).toString();
 };
 
-export const formatDate = (date?: Date | string, format?: string) => {
+export const formatDate = (date?: Date | string | dayjs.Dayjs | null, format?: string) => {
 	return dayjs(date || new Date()).format(format || 'YYYY-MM-DD');
 };
 
@@ -149,4 +149,30 @@ export const parseOptionToJson = (item?: ProductSKUOption) => {
 		return JSON.stringify(transformedObj);
 	}
 	return '';
+};
+
+export const shortenCurrency = (money: number) => {
+	const units = ['', 'k', 'm', 'b'];
+	let unitIndex = 0;
+	while (Math.abs(money) >= 1000 && unitIndex < units.length - 1) {
+		money /= 1000;
+		unitIndex++;
+	}
+	return `${Math.sign(money) * Math.floor(Math.abs(money))}${units[unitIndex]}`;
+};
+
+export const getListDateFromNumberToNow = (number: number) => {
+	const today = dayjs();
+	const listDate = [];
+	for (let i = number; i >= 0; i--) {
+		const date = today.subtract(i, 'day');
+		listDate.push(formatDate(date));
+	}
+	return listDate;
+};
+
+export const getDateFromNumberPastByNow = (number: number) => {
+	const today = dayjs();
+	const date = today.subtract(number, 'day');
+	return formatDate(date);
 };

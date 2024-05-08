@@ -18,6 +18,8 @@
     "*.{js,jsx,ts,tsx}": "yarn run lint:fix"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.1.1",
+    "@ant-design/plots": "^2.2.2",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.4.2",

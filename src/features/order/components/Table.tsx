@@ -7,18 +7,20 @@ import { ORDER_STATUS } from '@/constants';
 import { Order } from '@/models/orderModel';
 import { useAppSelector } from '@/redux/hooks';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { customMoney, formatDate, formatPhonenumber } from '@/utils/FuntionHelpers';
+import { customMoney, formatDate, formatPhonenumber, objectToQueryString } from '@/utils/FuntionHelpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
-import { FilterConfirmProps } from 'antd/es/table/interface';
+import { FilterConfirmProps, TablePaginationConfig } from 'antd/es/table/interface';
 import React from 'react';
 import OrderActionButtonWrapper from './tableComponents/OrderActionButtonWrapper';
 import { getOrderState } from '@/redux/reducers/orderReducer';
+import { useRouter } from 'next/navigation';
 
 type DataIndex = keyof Order;
 
 const OrderTable = () => {
 	const order = useAppSelector(getOrderState);
+	const router = useRouter();
 
 	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		confirm();
@@ -27,6 +29,15 @@ const OrderTable = () => {
 	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
 		clearFilters();
 		handleSearch(selectedKeys as string[], confirm, dataIndex);
+	};
+
+	const onChangeTable = (pagination: TablePaginationConfig) => {
+		let offset = ((pagination?.current || 1) - 1) * (pagination.pageSize || 0);
+		const limit = pagination.pageSize;
+		if (limit !== order.pagination?.limit) offset = 0;
+		const query = objectToQueryString({ offset, limit });
+
+		router.replace('/order' + query);
 	};
 
 	const getColumnSearchProps = (dataIndex: DataIndex) => ({
@@ -174,8 +185,16 @@ const OrderTable = () => {
 	return (
 		<MTable
 			columns={columns}
-			dataSource={order?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
-			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			dataSource={order?.data?.map((item, index) => ({ ...item, index: (order.pagination?.offset || 0) + index + 1, key: item._id })) || []}
+			pagination={{
+				defaultPageSize: 2,
+				showSizeChanger: true,
+				pageSizeOptions: ['2', '4', '10'],
+				total: order.pagination?.total,
+				pageSize: order.pagination?.limit,
+				current: order.pagination?.page,
+			}}
+			onChange={onChangeTable}
 			scroll={{ x: 1600, y: '55vh' }}
 		/>
 	);

@@ -5,6 +5,7 @@ import MRow from '@/components/MRow';
 import MSelect from '@/components/MSelect';
 import MSkeleton from '@/components/MSkeleton';
 import MUploadImage from '@/components/MUploadImage';
+import { Role } from '@/models/roleModel';
 import { User } from '@/models/userModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getRoleState, gettingRole } from '@/redux/reducers/roleReducer';
@@ -118,7 +119,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 								>
 									<MSelect
 										placeholder='Select a role'
-										options={role.roles?.map((r) => ({
+										options={role.roles?.map((r: Role) => ({
 											value: r._id,
 											label: r.name,
 										}))}
