@@ -21,7 +21,7 @@ import inventoryApi from '@/api/inventoryApi';
 function* onGetInventories(action: PayloadAction<InventoryParams>) {
 	try {
 		const response: AxiosResponse = yield call(inventoryApi.getData, action.payload);
-		yield put(getInventoriesSuccess({ inventories: response.data.inventories, params: response.data.query }));
+		yield put(getInventoriesSuccess(response.data));
 	} catch (error: any) {
 		if (error?.response?.status === 403) return;
 		yield put(getInventoriesFailed(error.response.data.message));
