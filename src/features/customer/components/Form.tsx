@@ -121,7 +121,7 @@ const CustomerForm: React.FC<CustomerFormProps> = (props) => {
 								<Form.Item
 									name='phoneNumber'
 									label='Phone Number'
-									// rules={[{ required: true, validator: (_, value) => checkPhoneNumber(value) }]}
+									rules={[{ required: true, validator: (_, value) => checkPhoneNumber(value) }]}
 								>
 									<MInput
 										placeholder='Enter phone number...'

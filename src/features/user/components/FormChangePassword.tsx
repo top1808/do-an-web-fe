@@ -100,7 +100,7 @@ const FormChangePassword = (props: FormChangePasswordProps) => {
 						type='primary'
 						loading={user.loading}
 					>
-						Thay đổi mật khẩu
+						Change Password
 					</MButton>
 				</MCol>
 			</MRow>
