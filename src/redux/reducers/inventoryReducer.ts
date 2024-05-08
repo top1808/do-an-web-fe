@@ -36,10 +36,11 @@ const inventorySlice = createSlice({
 			state.loading = true;
 			state.status = 'pending';
 		},
-		getInventoriesSuccess: (state, action: PayloadAction<{ inventories: Inventory[]; params: InventoryParams }>) => {
+		getInventoriesSuccess: (state, action: PayloadAction<{ inventories: Inventory[]; params: InventoryParams; pagination: PaginationModel }>) => {
 			state.loading = false;
 			state.data = action.payload.inventories;
 			state.filterByCurrentQuantity = action.payload.params?.currentQuantity || 'all';
+			state.pagination = action.payload.pagination;
 		},
 		getInventoriesFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;

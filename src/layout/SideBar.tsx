@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../redux/hooks';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
-import usePermission from '@/hooks/usePermission';
 import Link from 'next/link';
 import { getSideBarState } from '@/redux/reducers/sideBarReducer';
 

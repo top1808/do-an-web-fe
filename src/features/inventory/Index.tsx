@@ -1,7 +1,7 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import MSkeleton from '@/components/MSkeleton';
 import InventoryTable from './components/Table';
 import { getInventoryState, gettingInventories } from '@/redux/reducers/inventoryReducer';
@@ -15,17 +15,21 @@ const AdminInventoryComponent = () => {
 	const inventory = useAppSelector(getInventoryState);
 	const modal = useAppSelector(getModalState);
 	const dispatch = useAppDispatch();
-	const myParams = useParams();
+	const myParams = useSearchParams();
+	const limit = myParams.get('limit');
+	const offset = myParams.get('offset');
+	const currentQuantity = myParams.get('currentQuantity');
 
 	useEffect(() => {
 		const params: InventoryParams = {
-			offset: myParams?.offset as string,
-			limit: myParams?.limit as string,
+			offset: offset || '',
+			limit: limit || '20',
+			currentQuantity: currentQuantity as string,
 		};
 		if (!modal.isOpenModalHistoryImport && !inventory.isImporting) {
 			dispatch(gettingInventories(params));
 		}
-	}, [dispatch, myParams?.limit, myParams?.offset, inventory.isImporting, modal.isOpenModalHistoryImport]);
+	}, [dispatch, limit, offset, inventory.isImporting, modal.isOpenModalHistoryImport, inventory.filterByCurrentQuantity, currentQuantity]);
 
 	return (
 		<MSkeleton loading={inventory.loading}>

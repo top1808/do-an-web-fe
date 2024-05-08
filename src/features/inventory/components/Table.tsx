@@ -1,6 +1,4 @@
-import MBadge from '@/components/MBadge';
 import MButton from '@/components/MButton';
-import MInput from '@/components/MInput';
 import MSpace from '@/components/MSpace';
 import MTable from '@/components/MTable';
 import { Inventory } from '@/models/inventoryModel';
@@ -8,87 +6,29 @@ import { Review } from '@/models/reviewModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getInventoryState } from '@/redux/reducers/inventoryReducer';
 import { toggleModalHistoryImportInventory, toggleModalImportInventory } from '@/redux/reducers/modalReducer';
-import { customNumber, formatDate } from '@/utils/FuntionHelpers';
-import { faArrowUpFromBracket, faEye, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { customNumber, objectToQueryString } from '@/utils/FuntionHelpers';
+import { faArrowUpFromBracket, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Rate } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { FilterConfirmProps } from 'antd/es/table/interface';
+import { TablePaginationConfig } from 'antd/es/table/interface';
+import { useRouter } from 'next-nprogress-bar';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
-
-type DataIndex = keyof Review;
 
 const InventoryTable = () => {
 	const inventory = useAppSelector(getInventoryState);
 	const dispatch = useAppDispatch();
+	const router = useRouter();
+	const myParams = useSearchParams();
 
-	const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
-		confirm();
+	const onChangeTable = (pagination: TablePaginationConfig) => {
+		let offset = ((pagination?.current || 1) - 1) * (pagination.pageSize || 0);
+		const limit = pagination.pageSize;
+		if (limit !== inventory.pagination?.limit) offset = 0;
+		const query = objectToQueryString({ offset, limit, currentQuantity: myParams.get('currentQuantity') || 'all' });
+
+		router.replace('/inventory' + query);
 	};
-
-	const handleReset = (clearFilters: () => void, selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void, dataIndex: DataIndex) => {
-		clearFilters();
-		handleSearch(selectedKeys as string[], confirm, dataIndex);
-	};
-
-	const getColumnSearchProps = (dataIndex: DataIndex) => ({
-		filterDropdown: ({
-			setSelectedKeys,
-			selectedKeys,
-			confirm,
-			clearFilters,
-			close,
-		}: {
-			setSelectedKeys: React.Dispatch<React.SetStateAction<string[]>>;
-			selectedKeys: string[];
-			confirm: (param?: FilterConfirmProps) => void;
-			clearFilters: () => void;
-			close: () => void;
-		}) => (
-			<div
-				style={{ padding: 8 }}
-				onKeyDown={(e) => e.stopPropagation()}
-			>
-				<MInput
-					placeholder={`Search ${dataIndex}`}
-					value={selectedKeys[0]}
-					onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-					onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-					style={{ marginBottom: 8, display: 'block' }}
-				/>
-				<MSpace>
-					<MButton
-						type='primary'
-						onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-						icon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
-						size='small'
-						style={{ width: 90 }}
-					>
-						Search
-					</MButton>
-					<MButton
-						onClick={() => clearFilters && handleReset(clearFilters, selectedKeys as string[], confirm, dataIndex)}
-						size='small'
-						style={{ width: 90 }}
-					>
-						Reset
-					</MButton>
-					<MButton
-						type='link'
-						size='small'
-						onClick={() => {
-							close();
-						}}
-					>
-						close
-					</MButton>
-				</MSpace>
-			</div>
-		),
-		filterIcon: () => <FontAwesomeIcon icon={faMagnifyingGlass} />,
-		onFilter: (value: string, record: Review) => (record[dataIndex] || '').toString().toLowerCase().includes(value.toLowerCase()),
-		render: (text: string) => text,
-	});
 
 	const columns: ColumnsType<Review> = [
 		{
@@ -175,8 +115,16 @@ const InventoryTable = () => {
 	return (
 		<MTable
 			columns={columns}
-			dataSource={inventory?.data?.map((item, index) => ({ ...item, index: index + 1, key: item._id })) || []}
-			pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+			dataSource={inventory?.data?.map((item, index) => ({ ...item, index: (inventory.pagination?.offset || 0) + index + 1, key: item._id })) || []}
+			pagination={{
+				defaultPageSize: 10,
+				showSizeChanger: true,
+				pageSizeOptions: ['20', '50', '100'],
+				total: inventory.pagination?.total,
+				pageSize: inventory.pagination?.limit,
+				current: inventory.pagination?.page,
+			}}
+			onChange={onChangeTable}
 			scroll={{ x: 1700, y: '55vh' }}
 			className='w-full'
 		/>
