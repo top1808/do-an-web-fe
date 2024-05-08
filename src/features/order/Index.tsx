@@ -20,10 +20,10 @@ const AdminOrderComponent = () => {
 			offset: offset as string,
 			limit: limit as string,
 		};
-		if (!order.isChangingStatus) {
+		if (!order.isChangingStatus && !order.isDeleting) {
 			dispatch(gettingOrders(params));
 		}
-	}, [dispatch, limit, offset, order.isChangingStatus]);
+	}, [dispatch, limit, offset, order.isChangingStatus, order.isDeleting]);
 
 	return (
 		<MSkeleton loading={order.loading}>

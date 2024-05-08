@@ -7,7 +7,7 @@ import MTable from '@/components/MTable';
 import { DiscountProgram } from '@/models/discountProgramModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { changingStatusDiscountProgram, deletingDiscountProgram, getDiscountProgramState } from '@/redux/reducers/discountProgramReducer';
-import { formatDate } from '@/utils/FuntionHelpers';
+import { customNumber, formatDate } from '@/utils/FuntionHelpers';
 import { faEdit, faEye, faLock, faMagnifyingGlass, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnsType } from 'antd/es/table';
@@ -105,13 +105,6 @@ const DiscountProgramTable = () => {
 			...getColumnSearchProps('name'),
 		},
 		{
-			title: 'Description',
-			dataIndex: 'description',
-			key: 'description',
-			width: 200,
-			...getColumnSearchProps('description'),
-		},
-		{
 			title: 'Date Start',
 			dataIndex: 'dateStart',
 			key: 'dateStart',
@@ -124,6 +117,13 @@ const DiscountProgramTable = () => {
 			key: 'dateEnd',
 			width: 120,
 			render: (item: string) => formatDate(item, 'DD/MM/YYYY'),
+		},
+		{
+			title: 'Products',
+			key: 'operation',
+			width: 100,
+			align: 'right',
+			render: (item: DiscountProgram) => customNumber(item.products?.length || 0),
 		},
 		{
 			title: 'Status',

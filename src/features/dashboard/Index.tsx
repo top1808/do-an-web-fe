@@ -8,6 +8,7 @@ import { faBox, faBoxesStacked, faDolly, faUser } from '@fortawesome/free-solid-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import SaleChart from './components/SaleChart';
 
 interface DashboardComponentProps {}
 
@@ -67,6 +68,9 @@ const DashboardComponent = (props: DashboardComponentProps) => {
 						</Link>
 					</MCol>
 				))}
+				<MCol span={24}>
+					<SaleChart />
+				</MCol>
 			</MRow>
 		</div>
 	);

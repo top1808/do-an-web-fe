@@ -1,5 +1,5 @@
 import { Order, OrderParams, OrderProduct, PayloadChangeStatusOrder } from '@/models/orderModel';
-import { ReponseDeleteSuccess } from '@/models/reponseModel';
+import { PaginationModel, ReponseDeleteSuccess } from '@/models/reponseModel';
 import { Voucher } from '@/models/voucherModel';
 import { formatDate, generateCode, parseOptionToJson } from '@/utils/FuntionHelpers';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -28,8 +28,10 @@ const orderInitValue: Order = {
 
 interface OrderState {
 	loading: boolean;
+	isDeleting: boolean;
 	status: 'pending' | 'completed' | 'failed';
 	data?: Order[];
+	pagination?: PaginationModel;
 	orderEdit?: Order | null;
 	orderPost?: Order | null;
 	orderProductEdit?: OrderProduct | null;
@@ -40,8 +42,10 @@ interface OrderState {
 
 const initialState: OrderState = {
 	loading: false,
+	isDeleting: false,
 	status: 'pending',
 	data: [],
+	pagination: {},
 	orderEdit: null,
 	orderPost: orderInitValue,
 	orderProductEdit: null,
@@ -166,9 +170,10 @@ const orderSlice = createSlice({
 			state.isAddOrderProduct = false;
 			state.orderProductEdit = null;
 		},
-		getOrdersSuccess: (state, action: PayloadAction<Order[]>) => {
+		getOrdersSuccess: (state, action: PayloadAction<{ orders?: Order[]; pagination?: PaginationModel }>) => {
 			state.loading = false;
-			state.data = action.payload;
+			state.data = action.payload.orders;
+			state.pagination = action.payload.pagination;
 		},
 		getOrdersFailed: (state, action: PayloadAction<string>) => {
 			state.loading = false;
@@ -192,15 +197,15 @@ const orderSlice = createSlice({
 		},
 
 		deletingOrder: (state, action: PayloadAction<string>) => {
-			state.loading = true;
+			state.isDeleting = true;
 		},
 		deleteOrderSuccess: (state, action: PayloadAction<ReponseDeleteSuccess>) => {
-			state.loading = false;
+			state.isDeleting = false;
 			state.data = state.data?.filter((item) => item._id !== action.payload.id);
 			action.payload && toast.success(action.payload.message);
 		},
 		deleteOrderFailed: (state, action: PayloadAction<string>) => {
-			state.loading = false;
+			state.isDeleting = false;
 			action.payload && toast.error(action.payload);
 		},
 

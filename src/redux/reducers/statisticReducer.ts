@@ -1,22 +1,28 @@
-import { StatisticModel } from '@/models/statisticModel';
+import { SaleChartData, SaleChartParams, StatisticModel } from '@/models/statisticModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { RootState } from '../store';
 
 interface StatisticState {
 	loading?: boolean;
+	isGetDataChart?: boolean;
 	productQuantity?: number;
 	categoryQuantity?: number;
 	orderQuantity?: number;
 	customerQuantity?: number;
+	salesChartData?: SaleChartData[];
+	salesChartParams?: SaleChartParams;
 }
 
 const initialState: StatisticState = {
 	loading: false,
+	isGetDataChart: false,
 	productQuantity: 0,
 	categoryQuantity: 0,
 	orderQuantity: 0,
 	customerQuantity: 0,
+	salesChartData: [],
+	salesChartParams: {},
 };
 
 const statisticSlice = createSlice({
@@ -37,9 +43,22 @@ const statisticSlice = createSlice({
 			state.loading = false;
 			action.payload && toast.error(action.payload);
 		},
+
+		gettingSale: (state, action: PayloadAction<SaleChartParams>) => {
+			state.isGetDataChart = true;
+		},
+		getSaleSuccess: (state, action: PayloadAction<{ data: SaleChartData[]; params: SaleChartParams }>) => {
+			state.isGetDataChart = false;
+			state.salesChartData = action.payload.data;
+			state.salesChartParams = action.payload.params;
+		},
+		getSaleFailed: (state, action: PayloadAction<string>) => {
+			state.isGetDataChart = false;
+			action.payload && toast.error(action.payload);
+		},
 	},
 });
 
-export const { getStatisticFailed, getStatisticSuccess, gettingStatistic } = statisticSlice.actions;
+export const { getStatisticFailed, getStatisticSuccess, gettingStatistic, getSaleFailed, getSaleSuccess, gettingSale } = statisticSlice.actions;
 export const getStatisticState = (state: RootState) => state.statistic;
 export default statisticSlice.reducer;

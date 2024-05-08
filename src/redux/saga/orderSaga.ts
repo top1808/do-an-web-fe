@@ -54,7 +54,7 @@ function* onGetOrders(action: CreateAction<OrderParams>) {
 	try {
 		const params: OrderParams = action.payload as OrderParams;
 		const response: AxiosResponse = yield call(orderApi.getAll, params);
-		yield put(getOrdersSuccess(response.data.orders));
+		yield put(getOrdersSuccess(response.data));
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		if (error?.response?.status === 403) return;
