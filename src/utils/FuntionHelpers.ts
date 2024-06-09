@@ -80,6 +80,10 @@ export const formatDate = (date?: Date | string | dayjs.Dayjs | null, format?: s
 	return dayjs(date || new Date()).format(format || 'YYYY-MM-DD');
 };
 
+export const formatDateTime = (date?: Date | string | dayjs.Dayjs | null, format?: string) => {
+	return dayjs(date || new Date()).format(format || 'YYYY-MM-DD HH:mm');
+};
+
 export const formatDateToRender = (date?: Date | string) => {
 	if (!date) return '';
 	return formatDate(date, 'DD/MM/YYYY');

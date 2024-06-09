@@ -5,7 +5,7 @@ import { Order } from '@/models/orderModel';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getModalState, toggleModalTransport } from '@/redux/reducers/modalReducer';
 import { changingStatusOrder, getOrderState } from '@/redux/reducers/orderReducer';
-import { formatDate, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
+import { formatDateTime, handleFormatterInputNumber, handleParserInputNumber } from '@/utils/FuntionHelpers';
 import { DatePicker, Form, InputNumber, Modal } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef } from 'react';
@@ -26,8 +26,8 @@ const ModalTransport = () => {
 		const date = form.getFieldValue('date');
 		const body: Order = {
 			...data,
-			deliveryDate: formatDate(date[0]),
-			receivedDate: formatDate(date[1]),
+			deliveryDate: formatDateTime(date[0]),
+			receivedDate: formatDateTime(date[1]),
 			status: 'delivering',
 		};
 		delete body.date;
