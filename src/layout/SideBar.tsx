@@ -1,4 +1,4 @@
-import { faBox, faBoxesStacked, faDolly, faHatCowboy, faPercent, faServer, faStar, faTicket, faUser, faUserLock, faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faBoxesStacked, faDolly, faHatCowboy, faPercent, faRobot, faServer, faStar, faTicket, faUser, faUserLock, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, type MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ export const routes: MenuItem[] = [
 	getItem('Review', '/review', <FontAwesomeIcon icon={faStar} />),
 	getItem('Inventory', '/inventory', <FontAwesomeIcon icon={faWarehouse} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
-	// getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [getItem('Intents', '/chatbot/intents'), getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')]),
+	getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [getItem('Intents', '/chatbot/intents'), getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')]),
 ];
 
 const SideBarAdmin: React.FC = () => {
