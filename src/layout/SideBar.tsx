@@ -24,7 +24,7 @@ export const routes: MenuItem[] = [
 	getItem('Dashboard', '/', <FontAwesomeIcon icon={faServer} />),
 	getItem('Category', '/category', <FontAwesomeIcon icon={faBoxesStacked} />),
 	getItem('Product', '/product', <FontAwesomeIcon icon={faBox} />),
-	getItem('User', '/user', <FontAwesomeIcon icon={faUser} />),
+	getItem('Staff', '/user', <FontAwesomeIcon icon={faUser} />),
 	getItem('Customer', '/customer', <FontAwesomeIcon icon={faUser} />),
 	getItem('Order', '/order', <FontAwesomeIcon icon={faDolly} />),
 	getItem('Voucher', '/voucher', <FontAwesomeIcon icon={faTicket} />),
@@ -32,7 +32,10 @@ export const routes: MenuItem[] = [
 	getItem('Review', '/review', <FontAwesomeIcon icon={faStar} />),
 	getItem('Inventory', '/inventory', <FontAwesomeIcon icon={faWarehouse} />),
 	getItem('Permission', '/permission', <FontAwesomeIcon icon={faUserLock} />),
-	getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [getItem('Intents', '/chatbot/intents'), getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')]),
+	getItem('Chatbot', '/chatbot', <FontAwesomeIcon icon={faRobot} />, [
+		getItem('Intents', '/chatbot/intents'),
+		// , getItem('Responses', '/chatbot/responses'), getItem('Stories', '/chatbot/stories')
+	]),
 ];
 
 const SideBarAdmin: React.FC = () => {
